@@ -18,7 +18,7 @@ We are using the following technologies in our project,
 2. Python
 3. CUDA C
 4. Google Test
-5. SWIG
+5. Boost.Python
 
 How to contribute?
 ------------------
@@ -49,7 +49,7 @@ We recommend you to introduce yourself on our [gitter channel](https://gitter.im
 Please follow the rules and guidelines given below,
 
 1. For Python we follow the [numpydoc docstring guide](https://numpydoc.readthedocs.io/en/latest/format.html).
-2. For C++ we follow the coding style of OpenCV mentioned [here](https://github.com/opencv/opencv/wiki/Coding_Style_Guide).
+2. For C++ we follow our own coding style mentioned [here](https://github.com/RoboticsClubIITJ/AdaBoost/issues/2#issuecomment-569714848).
 3. Follow the Pull Request policy given [here](https://github.com/RoboticsClubIITJ/AdaBoost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!

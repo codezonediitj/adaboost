@@ -1,0 +1,24 @@
+sudo: required
+
+language: cpp
+
+compiler: g++
+
+before_scirpt:
+  - cd ../
+  - wget https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.tar.gz
+  - tar -zxvf cmake-3.10.2-Linux-x86_64.tar.gz
+  - git clone https://github.com/google/googletest
+  - mkdir googletest-build
+  - cd googletest-build
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../googletest
+  - sudo make -j5
+  - sudo make install
+  - cd ../
+  - mkdir build-adaboost
+  - cd build-adaboost
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake -DBUILD_TESTS=ON -DINSTALL_GOOGLETEST=OFF -DCMAKE_PREFIX_PATH=/usr/local/include ../AdaBoost
+  - sudo make -j5
+
+script:
+  - ./bin/*

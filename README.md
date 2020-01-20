@@ -1,7 +1,7 @@
 AdaBoost
 ========
 
-[![Join the chat at https://gitter.im/Robotics-Club-IITJ/adaboost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Robotics-Club-IITJ/adaboost) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+[![Build Status](https://travis-ci.com/RoboticsClubIITJ/AdaBoost.svg?branch=master)](https://travis-ci.com/RoboticsClubIITJ/AdaBoost) [![Join the chat at https://gitter.im/Robotics-Club-IITJ/adaboost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Robotics-Club-IITJ/adaboost) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 About Us
 --------
@@ -19,6 +19,42 @@ We are using the following technologies in our project,
 3. CUDA C
 4. Google Test
 5. Boost.Python
+
+Note that for building and installing currently only Linux systems are supported.
+
+Building from source
+--------------------
+
+1. git clone https://github.com/RoboticsClubIITJ/AdaBoost
+2. Move to back to parent directory, `cd ../`
+3. Execute, `mkdir build-AdaBoost`
+4. Execute, `cd build-AdaBoost`
+5. Execute, `cmake -D[OPTIONS] ../AdaBoost`
+6. Execute, `make`. Do not execute, `make -j5` if you are using `-DINSTALL_GOOGLETEST=ON` otherwise `make` will try to link tests with `gtest gtest_main` before `GoogleTest` is installed into your system.
+7. To test, run, `./bin/*`. Ensure that you have used the option `-DBUILD_TESTS=ON` in step 5 above.
+
+We provide the following options for `cmake`,
+
+1. `BUILD_TESTS`
+
+By default `OFF`, set it to `ON` if you wish to run the tests. Tests are stored in the `bin` under your build directory.
+
+2. `INSTALL_GOOGLETEST`
+
+By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses the `master` branch of https://github.com/google/googletest.
+
+3. `CMAKE_PREFIX_PATH`
+
+Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
+
+Installing
+----------
+
+Follow the steps for building from source. After that run the following,
+
+```
+sudo make install
+```
 
 How to contribute?
 ------------------
@@ -50,6 +86,7 @@ Please follow the rules and guidelines given below,
 
 1. For Python we follow the [numpydoc docstring guide](https://numpydoc.readthedocs.io/en/latest/format.html).
 2. For C++ we follow our own coding style mentioned [here](https://github.com/RoboticsClubIITJ/AdaBoost/issues/2#issuecomment-569714848).
-3. Follow the Pull Request policy given [here](https://github.com/RoboticsClubIITJ/AdaBoost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
+3. For C++ documentation we follow, Doxygen style guide. Refer to various modules in the existing `master` branch for the pattern.
+4. Follow the Pull Request policy given [here](https://github.com/RoboticsClubIITJ/AdaBoost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!

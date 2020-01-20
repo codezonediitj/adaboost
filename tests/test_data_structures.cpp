@@ -27,7 +27,7 @@ TEST(Core, Vector)
     EXPECT_THROW({
         try
         {
-            product(vec, vec1, result);
+            adaboost::core::product(vec, vec1, result);
         }
         catch(const std::logic_error& e)
         {
@@ -46,7 +46,7 @@ TEST(Core, Matrices)
     mat1.fill(4.0);
     mat2.fill(5.0);
     adaboost::core::Matrix<float> result1(3, 3);
-    adaboost::core::product(mat1, mat2, result1);
+    adaboost::core::multiply(mat1, mat2, result1);
     for(unsigned int i = 0; i < 3; i++)
     {
         for(unsigned int j = 0; j < 3; j++)
@@ -59,7 +59,7 @@ TEST(Core, Matrices)
     EXPECT_THROW({
         try
         {
-            product(mat1, mat3, result1);
+            adaboost::core::multiply(mat1, mat3, result1);
         }
         catch(const std::logic_error& e)
         {
@@ -70,13 +70,13 @@ TEST(Core, Matrices)
     adaboost::core::Vector<float> vec(2);
     vec.fill(2.0);
     adaboost::core::Vector<float> result2(1);
-    adaboost::core::product(vec, mat3, result2);
+    adaboost::core::multiply(vec, mat3, result2);
     EXPECT_EQ(24, result2.at(0));
     adaboost::core::Vector<float> vec_f(1);
     EXPECT_THROW({
         try
         {
-            product(vec_f, mat3, result2);
+            adaboost::core::multiply(vec_f, mat3, result2);
         }
         catch(const std::logic_error& e)
         {

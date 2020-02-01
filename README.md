@@ -1,13 +1,12 @@
-AdaBoost
+adaboost
 ========
 
-[![Build Status](https://travis-ci.com/RoboticsClubIITJ/AdaBoost.svg?branch=master)](https://travis-ci.com/RoboticsClubIITJ/AdaBoost) [![Join the chat at https://gitter.im/Robotics-Club-IITJ/adaboost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Robotics-Club-IITJ/adaboost) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+[![Build Status](https://travis-ci.com/codezonediitj/adaboost.svg?branch=master)](https://travis-ci.com/codezonediitj/adaboost) [![Join the chat at https://gitter.im/codezoned2017/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Robotics-Club-IITJ/adaboost) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 About Us
 --------
 
-We are a group of students at the Robotics Club of Indian Institute of Technology Jodhpur
-aiming to implement the AdaBoost algorithm from scratch.
+We are some machine learning enthusiasts who aim to implement the adaboost algorithm from scratch.
 
 Technologies
 ------------
@@ -25,11 +24,11 @@ Note that for building and installing currently only Linux systems are supported
 Building from source
 --------------------
 
-1. git clone https://github.com/RoboticsClubIITJ/AdaBoost
+1. git clone https://github.com/codezonediitj/adaboost
 2. Move to back to parent directory, `cd ../`
-3. Execute, `mkdir build-AdaBoost`
-4. Execute, `cd build-AdaBoost`
-5. Execute, `cmake -D[OPTIONS] ../AdaBoost`
+3. Execute, `mkdir build-adaboost`
+4. Execute, `cd build-adaboost`
+5. Execute, `cmake -D[OPTIONS] ../adaboost`
 6. Execute, `make`. Do not execute, `make -j5` if you are using `-DINSTALL_GOOGLETEST=ON` otherwise `make` will try to link tests with `gtest gtest_main` before `GoogleTest` is installed into your system.
 7. To test, run, `./bin/*`. Ensure that you have used the option `-DBUILD_TESTS=ON` in step 5 above.
 
@@ -61,10 +60,10 @@ How to contribute?
 
 Follow the steps given below,
 
-1. Fork, https://github.com/RoboticsClubIITJ/AdaBoost
-2. Execute, `git clone https://github.com/<your-github-username>/AdaBoost/`
-3. Change your working directory to `../AdaBoost`.
-4. Execute, `git remote add origin_user https://github.com/<your-github-username>/AdaBoost/`
+1. Fork, https://github.com/codezonediitj/adaboost
+2. Execute, `git clone https://github.com/<your-github-username>/adaboost/`
+3. Change your working directory to `../adaboost`.
+4. Execute, `git remote add origin_user https://github.com/<your-github-username>/adaboost/`
 5. Execute, `git checkout -b <your-new-branch-for-working>`.
 6. Make changes to the code.
 7. Add your name and email to the AUTHORS, if you wish to.
@@ -80,13 +79,13 @@ See you soon with your first PR.
 Guidelines
 ----------
 
-We recommend you to introduce yourself on our [gitter channel](https://gitter.im/Robotics-Club-IITJ/adaboost). You can include the literature you have studied relevant to AdaBoost, some projects, prior experience with the technologies mentioned above, in your introduction.
+We recommend you to introduce yourself on our [gitter channel](https://gitter.im/codezoned2017/Lobby). You can include the literature you have studied relevant to adaboost, some projects, prior experience with the technologies mentioned above, in your introduction.
 
 Please follow the rules and guidelines given below,
 
 1. For Python we follow the [numpydoc docstring guide](https://numpydoc.readthedocs.io/en/latest/format.html).
-2. For C++ we follow our own coding style mentioned [here](https://github.com/RoboticsClubIITJ/AdaBoost/issues/2#issuecomment-569714848).
+2. For C++ we follow our own coding style mentioned [here](https://github.com/codezonediitj/adaboost/issues/3#issuecomment-581055358).
 3. For C++ documentation we follow, Doxygen style guide. Refer to various modules in the existing `master` branch for the pattern.
-4. Follow the Pull Request policy given [here](https://github.com/RoboticsClubIITJ/AdaBoost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
+4. Follow the Pull Request policy given [here](https://github.com/codezonediitj/adaboost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!

@@ -17,7 +17,7 @@ before_scirpt:
   - cd ../
   - mkdir build-adaboost
   - cd build-adaboost
-  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake -DBUILD_TESTS=ON -DINSTALL_GOOGLETEST=OFF -DCMAKE_PREFIX_PATH=/usr/local/include ../AdaBoost
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake -DBUILD_TESTS=ON -DINSTALL_GOOGLETEST=OFF -DCMAKE_PREFIX_PATH=/usr/local/include ../adaboost
   - sudo make -j5
 
 script:

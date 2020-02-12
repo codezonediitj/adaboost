@@ -219,6 +219,4 @@ namespace adaboost
     } // namespace core
 } // namespace adaboost
 
-#include "data_structures_impl.hpp"
-
 #endif

@@ -1,6 +1,7 @@
-#ifndef ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
-#define ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
+#ifndef ADABOOST_CORE_DATA_STRUCTURES_CPP
+#define ADABOOST_CORE_DATA_STRUCTURES_CPP
 
+#include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>
 
 namespace adaboost
@@ -222,6 +223,8 @@ namespace adaboost
                 }
             }
         }
+
+        #include "instantiated_templates_data_structures.hpp"
 
     } // namespace core
 } // namespace adaboost

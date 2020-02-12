@@ -2,8 +2,6 @@
 #define CUDA_ADABOOST_CORE_DATA_STRUCTURES_HPP
 
 #include<adaboost/core/data_structures.hpp>
-#include<cuda.h>
-#include<cuda_runtime.h>
 
 namespace adaboost
 {

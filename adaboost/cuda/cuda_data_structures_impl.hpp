@@ -2,6 +2,7 @@
 #define CUDA_ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
 
 #include<adaboost/utils/utils.hpp>
+#include<adaboost/utils/cuda_wrappers.hpp>
 #include<adaboost/cuda/cuda_data_structures.hpp>
 #include<cmath>
 
@@ -22,7 +23,7 @@ namespace adaboost
                 "The size of the vector should be positive.");
                 unsigned bytes = _size_gpu*sizeof(data_type_vector);
                 data_type_vector* new_pointer;
-                cudaMalloc((void**)&new_pointer, bytes);
+                adaboost::utils::cuda::cuda_malloc((void**)&new_pointer, bytes);
                 return new_pointer;
             }
 
@@ -81,20 +82,22 @@ namespace adaboost
             void
             VectorGPU<data_type_vector>::copy_to_host()
             {
-                cudaMemcpy(this->get_data_pointer(false),
-                           this->data_gpu,
-                           this->size_gpu*sizeof(data_type_vector),
-                           cudaMemcpyDeviceToHost);
+                adaboost::utils::cuda::cuda_memcpy(
+                this->get_data_pointer(false),
+                this->data_gpu,
+                this->size_gpu*sizeof(data_type_vector),
+                adaboost::utils::cuda::DeviceToHost);
             }
 
             template <class data_type_vector>
             void
             VectorGPU<data_type_vector>::copy_to_device()
             {
-                cudaMemcpy(this->data_gpu,
-                           this->get_data_pointer(false),
-                           this->size_gpu*sizeof(data_type_vector),
-                           cudaMemcpyHostToDevice);
+                adaboost::utils::cuda::cuda_memcpy(
+                this->data_gpu,
+                this->get_data_pointer(false),
+                this->size_gpu*sizeof(data_type_vector),
+                adaboost::utils::cuda::HostToDevice);
             }
 
             template <class data_type_vector>
@@ -190,6 +193,8 @@ namespace adaboost
                     }
                 }
             }
+
+            #include "instantiated_templates_cuda_data_structures.hpp"
 
         } // namespace core
     } // namespace cuda

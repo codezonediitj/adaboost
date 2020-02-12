@@ -79,6 +79,8 @@ namespace adaboost
                 */
                 unsigned int get_size() const;
 
+                data_type_vector* get_data_pointer() const;
+
                 /*
                 * Used for freeing memory.
                 */

@@ -67,6 +67,12 @@ namespace adaboost
         }
 
         template <class data_type_vector>
+        data_type_vector* Vector<data_type_vector>::get_data_pointer() const
+        {
+            return this->data;
+        }
+
+        template <class data_type_vector>
         Vector<data_type_vector>::
         ~Vector()
         {

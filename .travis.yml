@@ -21,4 +21,4 @@ before_scirpt:
   - sudo make -j5
 
 script:
-  - ./bin/*
+  - ./bin/test_core

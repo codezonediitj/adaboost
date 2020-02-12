@@ -85,9 +85,3 @@ TEST(Core, Matrices)
         }
     }, std::logic_error);
 }
-
-int main(int ac, char* av[])
-{
-  testing::InitGoogleTest(&ac, av);
-  return RUN_ALL_TESTS();
-}

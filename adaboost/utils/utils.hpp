@@ -8,11 +8,7 @@ namespace adaboost
 {
     namespace utils
     {
-        void check(bool exp, std::string msg)
-        {
-            if(!exp)
-                throw std::logic_error(msg);
-        }
+        void check(bool exp, std::string msg);
     } // namespace utils
 } // namspace adaboost
 

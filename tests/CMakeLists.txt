@@ -1,2 +1,0 @@
-add_executable(test_data_structures test_data_structures.cpp)
-target_link_libraries(test_data_structures gtest gtest_main pthread)

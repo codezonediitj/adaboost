@@ -3,7 +3,7 @@ project(adaboost CXX)
 
 # First, define all the compilation options.
 option(BUILD_TESTS "Build tests." OFF)
-option(INSTALL_GOOGLETEST "For installing GoogleTest on your system along with the build." ON)
+option(INSTALL_GOOGLETEST "For installing GoogleTest on your system along with the build." OFF)
 
 
 # Set required standard to C++11.
@@ -25,14 +25,16 @@ endif()
 include_directories(.)
 
 # Recurse into rest of the project
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/libs)
+link_directories(${CMAKE_BINARY_DIR}/libs)
 add_subdirectory(adaboost)
 
-# Build tests
-if(BUILD_TESTS)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-    add_subdirectory(tests)
-endif()
-
-install(DIRECTORY adaboost DESTINATION ${CMAKE_PREFIX_PATH}
+install(DIRECTORY adaboost DESTINATION ${CMAKE_INSTALL_PREFIX}/include
         PATTERN "CMakeLists.txt" EXCLUDE
+        PATTERN "*.cpp" EXCLUDE
+        PATTERN "tests" EXCLUDE
         )
+install(DIRECTORY
+        ${CMAKE_BINARY_DIR}/libs/libadaboost_core.so
+        ${CMAKE_BINARY_DIR}/libs/libadaboost_utils.so
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

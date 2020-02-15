@@ -68,8 +68,6 @@ namespace adaboost
                 }
                 else
                 {
-                    adaboost::utils::check(block_size > 0,
-                    "Number of threads in a block should be a positive.");
                     fill_vector_kernel<data_type_vector>
                     <<<
                     (this->size_gpu + block_size - 1)/block_size,
@@ -192,6 +190,17 @@ namespace adaboost
                         result += temp_result.at(i);
                     }
                 }
+            }
+
+            template <class data_type_matrix>
+            data_type_matrix** _reserve_space_gpu
+            (unsigned _rows_gpu, unsigned _cols_gpu)
+            {
+                adaboost::utils::check(_rows_gpu > 0,
+                "The number of rows in matrix should be positive.");
+                adaboost::utils::check(_cols_gpu > 0,
+                "The number of cols in matrix should be positive.");
+
             }
 
             #include "instantiated_templates_cuda_data_structures.hpp"

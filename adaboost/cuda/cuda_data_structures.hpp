@@ -45,6 +45,38 @@ namespace adaboost
                              data_type_vector& result,
                              unsigned block_size=0);
 
+            template <class data_type_matrix>
+            class MatrixGPU
+            {
+                private:
+
+                    data_type_matrix** data_gpu;
+
+                    unsigned rows_gpu, cols_gpu;
+
+                    static data_type_matrix* _reserve_space_gpu
+                    (unsigned _rows_gpu, unsigned _cols_gpu);
+
+                public:
+
+                    MatrixGPU();
+
+                    MatrixGPU(unsigned _rows, unsigned _cols);
+
+                    void fill(data_type_matrix value,
+                              unsigned block_size=0);
+
+                    void copy_to_host();
+
+                    void copy_to_device();
+
+                    unsigned get_rows(bool gpu=true) const;
+
+                    unsigned get_cols(bool gpu=true) const;
+
+                    data_type_matrix** get_data_pointer(bool gpu=true) const;
+            };
+
         } // namespace core
     } // namespace cuda
 } // namespace adaboost

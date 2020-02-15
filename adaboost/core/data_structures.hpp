@@ -216,6 +216,7 @@ namespace adaboost
         void multiply(const Matrix<data_type_matrix>& mat1,
                       const Matrix<data_type_matrix>& mat2,
                       Matrix<data_type_matrix>& result);
+
     } // namespace core
 } // namespace adaboost
 

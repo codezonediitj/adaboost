@@ -34,7 +34,7 @@ install(DIRECTORY adaboost DESTINATION ${CMAKE_INSTALL_PREFIX}/include
         PATTERN "*.cpp" EXCLUDE
         PATTERN "tests" EXCLUDE
         )
-install(DIRECTORY
+install(FILES
         ${CMAKE_BINARY_DIR}/libs/libadaboost_core.so
         ${CMAKE_BINARY_DIR}/libs/libadaboost_utils.so
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

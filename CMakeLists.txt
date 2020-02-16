@@ -1,10 +1,18 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(adaboost CXX CUDA)
+project(adaboost CXX)
 
 # First, define all the compilation options.
 option(BUILD_TESTS "Build tests." OFF)
 option(INSTALL_GOOGLETEST "For installing GoogleTest on your system along with the build." OFF)
 option(BUILD_CUDA "Build with CUDA support." OFF)
+
+include(CheckLanguage)
+check_language(CUDA)
+if(CMAKE_CUDA_COMPILER)
+  enable_language(CUDA)
+else()
+  message(STATUS "Building without CUDA support as no CUDA compiler is found on this system.")
+endif()
 
 
 # Set required standard to C++11.

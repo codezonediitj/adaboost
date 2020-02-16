@@ -13,7 +13,7 @@ before_scirpt:
   - ls -a
   - mkdir googletest-build
   - cd googletest-build
-  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../release-1.10.0/googletest-release-1.10.0
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../googletest-release-1.10.0
   - sudo make -j5
   - sudo make install
   - cd ../

@@ -8,10 +8,12 @@ before_scirpt:
   - cd ../
   - wget https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.tar.gz
   - tar -zxvf cmake-3.10.2-Linux-x86_64.tar.gz
-  - git clone https://github.com/google/googletest
+  - wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz
+  - tar -zxvf release-1.10.0.tar.gz
+  - ls -a
   - mkdir googletest-build
   - cd googletest-build
-  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../googletest
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../googletest-release-1.10.0
   - sudo make -j5
   - sudo make install
   - cd ../
@@ -21,4 +23,4 @@ before_scirpt:
   - sudo make -j5
 
 script:
-  - ./bin/*
+  - ./bin/test_core

@@ -1,5 +1,5 @@
-#ifndef ADABOOST_CORE_DATA_STRUCTURES_CPP
-#define ADABOOST_CORE_DATA_STRUCTURES_CPP
+#ifndef ADABOOST_CORE_DATA_STRUCTURES_IMPL_CPP
+#define ADABOOST_CORE_DATA_STRUCTURES_IMPL_CPP
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>

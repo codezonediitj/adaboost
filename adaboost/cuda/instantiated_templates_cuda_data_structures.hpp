@@ -34,3 +34,15 @@ template void product_gpu<double>(
 const VectorGPU<double>&, const VectorGPU<double>&, double& result, unsigned);
 template void product_gpu<long double>(
 const VectorGPU<long double>&, const VectorGPU<long double>&, long double& result, unsigned);
+template class MatrixGPU<bool>;
+template class MatrixGPU<short>;
+template class MatrixGPU<unsigned short>;
+template class MatrixGPU<int>;
+template class MatrixGPU<unsigned int>;
+template class MatrixGPU<long>;
+template class MatrixGPU<unsigned long>;
+template class MatrixGPU<long long>;
+template class MatrixGPU<unsigned long long>;
+template class MatrixGPU<float>;
+template class MatrixGPU<double>;
+template class MatrixGPU<long double>;

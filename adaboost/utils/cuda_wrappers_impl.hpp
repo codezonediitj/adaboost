@@ -14,9 +14,8 @@ namespace adaboost
                 cudaMalloc(ptr, num_bytes);
             }
 
-            template <class data_type>
             void cuda_memcpy
-            (data_type* ptr_1, data_type* ptr_2, unsigned num_bytes, direction d)
+            (void* ptr_1, void* ptr_2, unsigned num_bytes, direction d)
             {
                 if(d == HostToDevice)
                 {
@@ -43,7 +42,10 @@ namespace adaboost
                 cudaEventSynchronize(event);
             }
 
-            #include "instantiated_templates_cuda_wrappers.hpp"
+            void cuda_free(void* ptr)
+            {
+                cudaFree(ptr);
+            }
 
         } // namespace cuda
     } // namespace utils

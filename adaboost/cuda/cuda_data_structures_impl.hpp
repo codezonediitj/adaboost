@@ -5,8 +5,10 @@
 #include<adaboost/utils/cuda_wrappers.hpp>
 #include<adaboost/cuda/cuda_data_structures.hpp>
 #include<cmath>
+#include<iostream>
 
 #define MAX_BLOCK_SIZE 1024
+#define BLOCK_SIZE 16
 
 namespace adaboost
 {
@@ -127,6 +129,13 @@ namespace adaboost
             }
 
             template <class data_type_vector>
+            VectorGPU<data_type_vector>::
+            ~VectorGPU()
+            {
+                adaboost::utils::cuda::cuda_free(this->data_gpu);
+            }
+
+            template <class data_type_vector>
             __global__
             void product_kernel
             (data_type_vector* v1, data_type_vector* v2, data_type_vector* v3,
@@ -193,15 +202,212 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
-            data_type_matrix** _reserve_space_gpu
+            data_type_matrix*
+            MatrixGPU<data_type_matrix>::
+            _reserve_space_gpu
             (unsigned _rows_gpu, unsigned _cols_gpu)
             {
                 adaboost::utils::check(_rows_gpu > 0,
                 "The number of rows in matrix should be positive.");
                 adaboost::utils::check(_cols_gpu > 0,
                 "The number of cols in matrix should be positive.");
-
+                unsigned bytes = _rows_gpu*_cols_gpu*sizeof(data_type_matrix);
+                data_type_matrix* new_pointer;
+                adaboost::utils::cuda::cuda_malloc((void**)&new_pointer, bytes);
+                return new_pointer;
             }
+
+            template <class data_type_matrix>
+            MatrixGPU<data_type_matrix>::
+            MatrixGPU():
+            adaboost::core::Matrix<data_type_matrix>()
+            {
+            }
+
+            template <class data_type_matrix>
+            MatrixGPU<data_type_matrix>::
+            MatrixGPU(unsigned _rows, unsigned _cols):
+            adaboost::core::Matrix<data_type_matrix>(_rows, _cols),
+            data_gpu(_reserve_space_gpu(_rows, _cols)),
+            rows_gpu(_rows),
+            cols_gpu(_cols)
+            {
+            }
+
+            template <class data_type_matrix>
+            __global__
+            void fill_matrix_kernel
+            (data_type_matrix* data,
+             unsigned cols,
+             data_type_matrix value)
+            {
+                unsigned row = blockDim.y*blockIdx.y + threadIdx.y;
+                unsigned col = blockDim.x*blockIdx.x + threadIdx.x;
+                data[row*cols + col] = value;
+            }
+
+            template <class data_type_matrix>
+            void MatrixGPU<data_type_matrix>::
+            fill(data_type_matrix value,
+                 unsigned block_size_x,
+                 unsigned block_size_y)
+            {
+                if(block_size_x == 0 || block_size_y == 0)
+                {
+                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
+                }
+                else
+                {
+                    dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
+                                  (this->rows_gpu + block_size_y - 1)/block_size_y);
+                    dim3 blockDim(block_size_x, block_size_y);
+                    fill_matrix_kernel<data_type_matrix>
+                    <<<gridDim, blockDim>>>
+                    (this->data_gpu,
+                     this->cols_gpu,
+                     value);
+                }
+            }
+
+            template <class data_type_matrix>
+            void MatrixGPU<data_type_matrix>::
+            copy_to_host()
+            {
+                adaboost::utils::cuda::cuda_memcpy(
+                this->get_data_pointer(false),
+                this->data_gpu,
+                this->rows_gpu*this->cols_gpu*sizeof(data_type_matrix),
+                adaboost::utils::cuda::DeviceToHost);
+            }
+
+            template <class data_type_matrix>
+            void MatrixGPU<data_type_matrix>::
+            copy_to_device()
+            {
+                adaboost::utils::cuda::cuda_memcpy(
+                    this->data_gpu,
+                this->get_data_pointer(false),
+                this->rows_gpu*this->cols_gpu*sizeof(data_type_matrix),
+                adaboost::utils::cuda::HostToDevice);
+            }
+
+            template <class data_type_matrix>
+            unsigned MatrixGPU<data_type_matrix>::
+            get_rows(bool gpu) const
+            {
+                if(gpu)
+                {
+                    return this->rows_gpu;
+                }
+                else
+                {
+                    return this->adaboost::core::
+                           Matrix<data_type_matrix>::get_rows();
+                }
+            }
+
+            template <class data_type_matrix>
+            unsigned MatrixGPU<data_type_matrix>::
+            get_cols(bool gpu) const
+            {
+                if(gpu)
+                {
+                    return this->cols_gpu;
+                }
+                else
+                {
+                    return this->adaboost::core::
+                           Matrix<data_type_matrix>::get_cols();
+                }
+            }
+
+            template <class data_type_matrix>
+            data_type_matrix* MatrixGPU<data_type_matrix>::
+            get_data_pointer(bool gpu) const
+            {
+                if(gpu)
+                {
+                    return this->data_gpu;
+                }
+                else
+                {
+                    return this->adaboost::core::Matrix<data_type_matrix>::get_data_pointer();
+                }
+            }
+
+            template <class data_type_matrix>
+            MatrixGPU<data_type_matrix>::
+            ~MatrixGPU()
+            {
+                adaboost::utils::cuda::cuda_free(this->data_gpu);
+            }
+
+            template <class data_type_matrix>
+            __global__
+            void multiply_kernel(
+            data_type_matrix* mat1,
+            data_type_matrix* mat2,
+            data_type_matrix* result,
+            unsigned mat1_cols,
+            unsigned mat2_cols,
+            unsigned result_cols)
+            {
+                unsigned block_row = blockIdx.y;
+                unsigned block_cols = blockIdx.x;
+                data_type_matrix* result_sub = get_sub_matrix(result, block_row,
+                                                              block_col, result_cols);
+
+                data_type_matrix cvalue = 0;
+
+                unsigned row = threadIdx.y;
+                unsigned col = threadIdx.x;
+
+                for(unsigned m = 0; m < (mat1_cols + block_size - 1)/block_size; m++)
+                {
+                    data_type_matrix* mat1_sub = get_sub_matrix(mat1, block_row,
+                                                                m, mat1_cols);
+                    data_type_matrix* mat2_sub = get_sub_matrix(mat2, m,
+                                                                block_col, mat2_cols);
+
+                    __shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
+                    __shared__ data_type_matrix mat2_shared[BLOCK_SIZE][BLOCK_SIZE];
+
+                    mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
+                    mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
+
+                    __syncthreads();
+
+                    for(unsigned e = 0; e < BLOCK_SIZE; e++)
+                    {
+                        cvalue += mat1_shared[row][e] * mat2_shared[e][col];
+                    }
+
+                    __syncthreads();
+
+                    set_element(result_sub, row, col, cvalue, result_cols);
+                }
+            }
+
+            template <class data_type_matrix>
+            void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
+                              const MatrixGPU<data_type_matrix>& mat2,
+                              MatrixGPU<data_type_matrix>& result,
+                              unsigned block_size_x=0,
+                              unsigned block_size_y=0)
+            {
+                dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
+                             (this->rows_gpu + block_size_y - 1)/block_size_y);
+                dim3 blockDim(block_size_x, block_size_y);
+                multiply_kernel
+                <<<gridDim, blockDim>>>
+                (mat1.get_data_pointer(),
+                 mat2.get_data_pointer(),
+                 result.get_data_pointer(),
+                 mat1.get_cols(),
+                 mat2.get_cols(),
+                 result.get_cols());
+            }
+
 
             #include "instantiated_templates_cuda_data_structures.hpp"
 

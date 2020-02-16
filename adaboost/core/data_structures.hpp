@@ -104,7 +104,7 @@ namespace adaboost
                 unsigned int rows, cols;
 
                 //! Array for storing data internally in matrices.
-                data_type_matrix **data;
+                data_type_matrix* data;
 
                 /*
                 * For reserving space in memory accoring to a given rows and columns.
@@ -114,7 +114,7 @@ namespace adaboost
                 * @param _rows Number of rows for which the space is to be reserved.
                 * @param _cols Number of columns for which the space is to be reserved.
                 */
-                static data_type_matrix**
+                static data_type_matrix*
                 _reserve_space(unsigned int _rows,
                                unsigned int _cols);
 
@@ -175,6 +175,8 @@ namespace adaboost
                 * Used for obtaining number of columns in the vector.
                 */
                 unsigned int get_cols() const;
+
+                data_type_matrix* get_data_pointer() const;
 
                 /*
                 * Used for freeing memory.

@@ -34,3 +34,15 @@ TEST(Cuda, VectorGPU)
     product_gpu(vec1, vec2, result);
     EXPECT_EQ(result, 1000.0)<<"Result from product on CPU should be 1000.0";
 }
+
+TEST(Cuda, MatrixGPU)
+{
+    adaboost::utils::cuda::cuda_event_t has_happened;
+    adaboost::utils::cuda::cuda_event_create(&has_happened);
+    adaboost::cuda::core::MatrixGPU<float> mat1(100, 100), mat2(100, 100);
+    unsigned block_size_x = 32,block_size_y = 16;
+    mat1.fill(1.0, block_size_x, block_size_y);
+    mat2.fill(1.0, block_size_x, block_size_y);
+    adaboost::utils::cuda::cuda_event_record(has_happened);
+    adaboost::utils::cuda::cuda_event_synchronize(has_happened);
+}

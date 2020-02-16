@@ -15,15 +15,16 @@ namespace adaboost
 
             void cuda_malloc(void** ptr, unsigned num_bytes);
 
-            template <class data_type>
             void cuda_memcpy
-            (data_type* ptr_1, data_type* ptr_2, unsigned num_bytes, direction d);
+            (void* ptr_1, void* ptr_2, unsigned num_bytes, direction d);
 
             void cuda_event_create(cuda_event_t* event_ptr);
 
             void cuda_event_record(cuda_event_t event);
 
             void cuda_event_synchronize(cuda_event_t event);
+
+            void cuda_free(void* ptr);
 
         } // namspace cuda
     } // namespace utils

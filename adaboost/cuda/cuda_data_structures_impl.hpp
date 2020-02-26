@@ -343,6 +343,43 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
+            __device__
+            data_type_matrix get_element(
+            data_type_matrix* mat,
+            unsigned row,
+            unsigned col,
+            unsigned stride)
+            {
+                return mat[row*stride+col];
+            }
+
+            template <class data_type_matrix>
+            __device__
+            void set_element(
+            data_type_matrix* mat,
+            unsigned row,
+            unsigned col,
+            data_type_matrix value,
+            unsigned stride)
+            {
+                mat[row*stride+col] = value;
+            }
+
+            template <class data_type_matrix>
+            __device__
+            data_type_matrix* get_sub_matrix(
+            data_type_matrix* mat,
+            unsigned block_row,
+            unsigned block_col,
+            unsigned stride)
+            {
+                data_type_matrix* mat_sub =
+                new data_type_matrix[BLOCK_SIZE*BLOCK_SIZE];
+                mat_sub = &mat[stride*BLOCK_SIZE*block_row+BLOCK_SIZE*block_col];
+                return mat_sub;
+            }
+
+            template <class data_type_matrix>
             __global__
             void multiply_kernel(
             data_type_matrix* mat1,
@@ -353,7 +390,7 @@ namespace adaboost
             unsigned result_cols)
             {
                 unsigned block_row = blockIdx.y;
-                unsigned block_cols = blockIdx.x;
+                unsigned block_col = blockIdx.x;
                 data_type_matrix* result_sub = get_sub_matrix(result, block_row,
                                                               block_col, result_cols);
 
@@ -362,7 +399,7 @@ namespace adaboost
                 unsigned row = threadIdx.y;
                 unsigned col = threadIdx.x;
 
-                for(unsigned m = 0; m < (mat1_cols + block_size - 1)/block_size; m++)
+                for(unsigned m = 0; m < (mat1_cols + BLOCK_SIZE - 1)/BLOCK_SIZE; m++)
                 {
                     data_type_matrix* mat1_sub = get_sub_matrix(mat1, block_row,
                                                                 m, mat1_cols);
@@ -391,13 +428,13 @@ namespace adaboost
             template <class data_type_matrix>
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
                               const MatrixGPU<data_type_matrix>& mat2,
-                              MatrixGPU<data_type_matrix>& result,
-                              unsigned block_size_x=0,
-                              unsigned block_size_y=0)
+                              MatrixGPU<data_type_matrix>& result)
             {
-                dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
-                             (this->rows_gpu + block_size_y - 1)/block_size_y);
-                dim3 blockDim(block_size_x, block_size_y);
+                adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),
+                                       "Order of matrices don't match.");
+                dim3 gridDim((mat2.get_cols() + BLOCK_SIZE - 1)/BLOCK_SIZE,
+                             (mat1.get_rows() + BLOCK_SIZE - 1)/BLOCK_SIZE);
+                dim3 blockDim(BLOCK_SIZE, BLOCK_SIZE);
                 multiply_kernel
                 <<<gridDim, blockDim>>>
                 (mat1.get_data_pointer(),

@@ -46,3 +46,51 @@ template class MatrixGPU<unsigned long long>;
 template class MatrixGPU<float>;
 template class MatrixGPU<double>;
 template class MatrixGPU<long double>;
+template void multiply_gpu
+(const MatrixGPU<bool>& mat1,
+const MatrixGPU<bool>& mat2,
+MatrixGPU<bool>& result);
+template void multiply_gpu
+(const MatrixGPU<short>& mat1,
+const MatrixGPU<short>& mat2,
+MatrixGPU<short>& result);
+template void multiply_gpu
+(const MatrixGPU<unsigned short>& mat1,
+const MatrixGPU<unsigned short>& mat2,
+MatrixGPU<unsigned short>& result);
+template void multiply_gpu
+(const MatrixGPU<int>& mat1,
+const MatrixGPU<int>& mat2,
+MatrixGPU<int>& result);
+template void multiply_gpu
+(const MatrixGPU<unsigned int>& mat1,
+const MatrixGPU<unsigned int>& mat2,
+MatrixGPU<unsigned int>& result);
+template void multiply_gpu
+(const MatrixGPU<long>& mat1,
+const MatrixGPU<long>& mat2,
+MatrixGPU<long>& result);
+template void multiply_gpu
+(const MatrixGPU<unsigned long>& mat1,
+const MatrixGPU<unsigned long>& mat2,
+MatrixGPU<unsigned long>& result);
+template void multiply_gpu
+(const MatrixGPU<long long>& mat1,
+const MatrixGPU<long long>& mat2,
+MatrixGPU<long long>& result);
+template void multiply_gpu
+(const MatrixGPU<unsigned long long>& mat1,
+const MatrixGPU<unsigned long long>& mat2,
+MatrixGPU<unsigned long long>& result);
+template void multiply_gpu
+(const MatrixGPU<float>& mat1,
+const MatrixGPU<float>& mat2,
+MatrixGPU<float>& result);
+template void multiply_gpu
+(const MatrixGPU<double>& mat1,
+const MatrixGPU<double>& mat2,
+MatrixGPU<double>& result);
+template void multiply_gpu
+(const MatrixGPU<long double>& mat1,
+const MatrixGPU<long double>& mat2,
+MatrixGPU<long double>& result);

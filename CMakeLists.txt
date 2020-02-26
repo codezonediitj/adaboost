@@ -46,4 +46,6 @@ install(DIRECTORY adaboost DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 install(FILES
         ${CMAKE_BINARY_DIR}/libs/libadaboost_core.so
         ${CMAKE_BINARY_DIR}/libs/libadaboost_utils.so
+        ${CMAKE_BINARY_DIR}/libs/libadaboost_cuda.so
+        ${CMAKE_BINARY_DIR}/libs/libadaboost_cuda_wrappers.so
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

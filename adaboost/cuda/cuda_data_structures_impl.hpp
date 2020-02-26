@@ -32,7 +32,8 @@ namespace adaboost
             template <class data_type_vector>
             VectorGPU<data_type_vector>::
             VectorGPU():
-            adaboost::core::Vector<data_type_vector>()
+            adaboost::core::Vector<data_type_vector>(),
+            size_gpu(0)
             {
             }
 
@@ -220,7 +221,9 @@ namespace adaboost
             template <class data_type_matrix>
             MatrixGPU<data_type_matrix>::
             MatrixGPU():
-            adaboost::core::Matrix<data_type_matrix>()
+            adaboost::core::Matrix<data_type_matrix>(),
+            rows_gpu(0),
+            cols_gpu(0)
             {
             }
 

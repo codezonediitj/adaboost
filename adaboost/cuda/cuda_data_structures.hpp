@@ -85,16 +85,7 @@ namespace adaboost
             template <class data_type_matrix>
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
                               const MatrixGPU<data_type_matrix>& mat2,
-                              data_type_matrix& result,
-                              unsigned block_size_x=0,
-                              unsigned block_size_y=0);
-
-            template <class data_type>
-            void multiply_gpu(const VectorGPU<data_type>& mat1,
-                              const MatrixGPU<data_type>& mat2,
-                              data_type& result,
-                              unsigned block_size_x=0,
-                              unsigned block_size_y=0);
+                              MatrixGPU<data_type_matrix>& result);
 
         } // namespace core
     } // namespace cuda

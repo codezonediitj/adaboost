@@ -3,6 +3,7 @@
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>
+#include<iostream>
 
 namespace adaboost
 {

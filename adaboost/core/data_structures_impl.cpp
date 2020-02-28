@@ -3,6 +3,7 @@
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>
+#include<iostream>
 
 namespace adaboost
 {
@@ -67,6 +68,12 @@ namespace adaboost
         }
 
         template <class data_type_vector>
+        data_type_vector* Vector<data_type_vector>::get_data_pointer() const
+        {
+            return this->data;
+        }
+
+        template <class data_type_vector>
         Vector<data_type_vector>::
         ~Vector()
         {
@@ -84,16 +91,12 @@ namespace adaboost
         }
 
         template <class data_type_matrix>
-        data_type_matrix**  Matrix<data_type_matrix>::
+        data_type_matrix*  Matrix<data_type_matrix>::
         _reserve_space(unsigned int _rows, unsigned int _cols)
         {
             adaboost::utils::check(_rows > 0, "Number of rows should be positive.");
             adaboost::utils::check(_cols > 0, "Number of cols should be positive.");
-            data_type_matrix** new_data = new data_type_matrix*[_rows];
-            for(unsigned int i = 0; i < _rows; i++)
-            {
-                new_data[i] = new data_type_matrix[_cols];
-            }
+            data_type_matrix* new_data = new data_type_matrix[_rows*_cols];
             return new_data;
         }
 
@@ -114,7 +117,7 @@ namespace adaboost
                                   "Row index out of range.");
             adaboost::utils::check(y >= 0 && y < this->get_cols(),
                                  "Column index out of range.");
-            return this->data[x][y];
+            return this->data[x*this->cols + y];
         }
 
         template <class data_type_matrix>
@@ -127,7 +130,7 @@ namespace adaboost
                                   "Row index out of range.");
             adaboost::utils::check(y >= 0 && y < this->get_cols(),
                                   "Column index out of range.");
-            this->data[x][y] = value;
+            this->data[x*this->cols + y] = value;
         }
 
         template <class data_type_matrix>
@@ -138,7 +141,7 @@ namespace adaboost
             {
                 for(unsigned int j = 0; j < this->cols; j++)
                 {
-                    this->data[i][j] = value;
+                    this->data[i*this->cols + j] = value;
                 }
             }
         }
@@ -158,15 +161,18 @@ namespace adaboost
         }
 
         template <class data_type_matrix>
+        data_type_matrix* Matrix<data_type_matrix>::get_data_pointer() const
+        {
+            return this->data;
+        }
+
+        template <class data_type_matrix>
         Matrix<data_type_matrix>::
         ~Matrix()
         {
             if(this->data != NULL)
             {
-                for(unsigned int i = 0; i < this->rows; i++)
-                {
-                    delete [] this->data[i];
-                }
+                delete [] this->data;
             }
         }
 

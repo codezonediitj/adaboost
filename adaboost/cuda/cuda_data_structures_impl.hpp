@@ -33,7 +33,8 @@ namespace adaboost
             VectorGPU<data_type_vector>::
             VectorGPU():
             adaboost::core::Vector<data_type_vector>(),
-            size_gpu(0)
+            size_gpu(0),
+            data_gpu(NULL)
             {
             }
 

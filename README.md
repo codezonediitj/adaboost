@@ -24,7 +24,7 @@ Note that for building and installing currently only Linux systems are supported
 Building from source
 --------------------
 
-1. git clone https://github.com/codezonediitj/adaboost
+1. Clone Repository to local machine `git clone https://github.com/codezonediitj/adaboost`
 2. Move to back to parent directory, `cd ../`
 3. Execute, `mkdir build-adaboost`
 4. Execute, `cd build-adaboost`

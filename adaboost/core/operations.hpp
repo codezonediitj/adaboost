@@ -14,7 +14,7 @@ namespace adaboost
         *    to be populated.
         */
         template <class data_type_vector>
-        void fill(data_type_vector value);
+        void fill(const data_type_vector value);
 
         /*
         * Used for filling the vector with a given value.
@@ -28,7 +28,7 @@ namespace adaboost
         *    launched per block on GPU.
         */
         template <class data_type_vector>
-        void fill(data_type_vector value,
+        void fill(const data_type_vector value,
                   unsigned block_size=0);
 
         /* @overload
@@ -38,7 +38,7 @@ namespace adaboost
         *    to be populated.
         */
         template <class data_type_matrix>
-        void fill(data_type_matrix value);
+        void fill(const data_type_matrix value);
 
         /*
         * Used for filling the matrix with a given value.
@@ -50,7 +50,7 @@ namespace adaboost
         *    to be populated.
         */
         template <class data_type_matrix>
-        void fill(data_type_matrix value,
+        void fill(const data_type_matrix value,
                   unsigned block_size_x=0,
                   unsigned block_size_y=0);
 

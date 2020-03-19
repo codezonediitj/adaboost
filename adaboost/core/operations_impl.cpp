@@ -3,6 +3,7 @@
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/core/operations.hpp>
+#include<adaboost/cuda/cuda_data_structures_impl.hpp>
 #include<iostream>
 
 namespace adaboost
@@ -48,7 +49,7 @@ namespace adaboost
         }
 
         template <class data_type_vector>
-        void fill(data_type_vector value)
+        void fill(const data_type_vector value)
         {
             for(unsigned int i = 0; i < this->size; i++)
             {
@@ -58,7 +59,7 @@ namespace adaboost
 
 
         template <class data_type_matrix>
-        void fill(data_type_matrix value)
+        void fill(const data_type_matrix value)
         {
             for(unsigned int i = 0; i < this->rows; i++)
             {
@@ -70,7 +71,7 @@ namespace adaboost
         }
 
         template <class data_type_matrix>
-        void fill(data_type_matrix value,
+        void fill(const data_type_matrix value,
                               unsigned block_size_x=0,
                               unsigned block_size_y=0);{
                 if(block_size_x == 0 || block_size_y == 0)
@@ -91,7 +92,7 @@ namespace adaboost
             }
 
         template <class data_type_vector>
-        void fill(data_type_vector value,
+        void fill(const data_type_vector value,
                   unsigned block_size=0){
                 if(block_size == 0)
                 {

@@ -48,7 +48,7 @@ namespace adaboost
         }
 
         template <class data_type_vector>
-        void fill(data_type_vector value);
+        void fill(data_type_vector value)
         {
             for(unsigned int i = 0; i < this->size; i++)
             {
@@ -58,7 +58,7 @@ namespace adaboost
 
 
         template <class data_type_matrix>
-        void fill(data_type_matrix value);
+        void fill(data_type_matrix value)
         {
             for(unsigned int i = 0; i < this->rows; i++)
             {
@@ -68,6 +68,44 @@ namespace adaboost
                 }
             }
         }
+
+        template <class data_type_matrix>
+        void fill(data_type_matrix value,
+                              unsigned block_size_x=0,
+                              unsigned block_size_y=0);{
+                if(block_size_x == 0 || block_size_y == 0)
+                {
+                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
+                }
+                else
+                {
+                    dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
+                                  (this->rows_gpu + block_size_y - 1)/block_size_y);
+                    dim3 blockDim(block_size_x, block_size_y);
+                    fill_matrix_kernel<data_type_matrix>
+                    <<<gridDim, blockDim>>>
+                    (this->data_gpu,
+                     this->cols_gpu,
+                     value);
+                }
+            }
+
+        template <class data_type_vector>
+        void fill(data_type_vector value,
+                  unsigned block_size=0){
+                if(block_size == 0)
+                {
+                    this->adaboost::core::Vector<data_type_vector>::fill(value);
+                }
+                else
+                {
+                    fill_vector_kernel<data_type_vector>
+                    <<<
+                    (this->size_gpu + block_size - 1)/block_size,
+                    block_size
+                    >>>(this->data_gpu, this->size_gpu, value);
+                }
+            }
 
 
         template <class data_type_vector, class data_type_matrix>

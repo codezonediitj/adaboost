@@ -16,6 +16,21 @@ namespace adaboost
         template <class data_type_vector>
         void fill(data_type_vector value);
 
+        /*
+        * Used for filling the vector with a given value.
+        * If block size is passed 0 then the values are
+        * filled on the CPU otherwise they are filled on
+        * GPU.
+        *
+        * @param value The value with which the vector is
+        *    to be populated.
+        * @param block_size The number of threads to be
+        *    launched per block on GPU.
+        */
+        template <class data_type_vector>
+        void fill(data_type_vector value,
+                  unsigned block_size=0);
+
         /* @overload
         * Used for filling the matrix with a given value.
         *
@@ -24,6 +39,20 @@ namespace adaboost
         */
         template <class data_type_matrix>
         void fill(data_type_matrix value);
+
+        /*
+        * Used for filling the matrix with a given value.
+        * If block size x and block size y is passed 0 and 0 then the values are
+        * filled on the CPU otherwise they are filled on
+        * GPU.
+        *
+        * @param value The value with which the matrix is
+        *    to be populated.
+        */
+        template <class data_type_matrix>
+        void fill(data_type_matrix value,
+                  unsigned block_size_x=0,
+                  unsigned block_size_y=0);
 
         /*
         * This function computes the sum of

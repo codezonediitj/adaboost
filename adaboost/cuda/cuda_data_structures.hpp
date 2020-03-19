@@ -1,3 +1,5 @@
+
+
 #ifndef CUDA_ADABOOST_CORE_DATA_STRUCTURES_HPP
 #define CUDA_ADABOOST_CORE_DATA_STRUCTURES_HPP
 
@@ -53,20 +55,6 @@ namespace adaboost
                     *    Must be positive.
                     */
                     VectorGPU(unsigned _size);
-
-                    /*
-                    * Used for filling the vector with a given value.
-                    * If block size is passed 0 then the values are
-                    * filled on the CPU otherwise they are filled on
-                    * GPU.
-                    *
-                    * @param value The value with which the vector is
-                    *    to be populated.
-                    * @param block_size The number of threads to be
-                    *    launched per block on GPU.
-                    */
-                    void fill(data_type_vector value,
-                              unsigned block_size=0);
 
                     /*
                     * Copies the data from GPU to CPU.
@@ -128,10 +116,6 @@ namespace adaboost
                     MatrixGPU();
 
                     MatrixGPU(unsigned _rows, unsigned _cols);
-
-                    void fill(data_type_matrix value,
-                              unsigned block_size_x=0,
-                              unsigned block_size_y=0);
 
                     void copy_to_host();
 

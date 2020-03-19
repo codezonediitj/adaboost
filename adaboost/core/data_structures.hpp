@@ -67,14 +67,6 @@ namespace adaboost
                          data_type_vector value);
 
                 /*
-                * Used for filling the vector with a given value.
-                *
-                * @param value The value with which the vector is
-                *    to be populated.
-                */
-                void fill(data_type_vector value);
-
-                /*
                 * Used for obtaining the size of the vector.
                 */
                 unsigned int get_size() const;
@@ -157,14 +149,6 @@ namespace adaboost
                 void set(unsigned int x,
                          unsigned int y,
                          data_type_matrix value);
-
-                /*
-                * Used for filling the matrix with a given value.
-                *
-                * @param value The value with which the matrix is
-                *    to be populated.
-                */
-                void fill(data_type_matrix value);
 
                 /*
                 * Used for obtaining number of rows in the vector.

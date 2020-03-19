@@ -7,6 +7,24 @@ namespace adaboost
 {
     namespace core
     {
+        /* @overload
+        * Used for filling the vector with a given value.
+        *
+        * @param value The value with which the vector is
+        *    to be populated.
+        */
+        template <class data_type_vector>
+        void fill(data_type_vector value);
+
+        /* @overload
+        * Used for filling the matrix with a given value.
+        *
+        * @param value The value with which the matrix is
+        *    to be populated.
+        */
+        template <class data_type_matrix>
+        void fill(data_type_matrix value);
+
         /*
         * This function computes the sum of
         * elements of the given vector and the

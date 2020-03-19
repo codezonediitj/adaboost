@@ -48,8 +48,7 @@ namespace adaboost
         }
 
         template <class data_type_vector>
-        void Vector<data_type_vector>::
-        fill(data_type_vector value)
+        void fill(data_type_vector value);
         {
             for(unsigned int i = 0; i < this->size; i++)
             {
@@ -59,8 +58,7 @@ namespace adaboost
 
 
         template <class data_type_matrix>
-        void Matrix<data_type_matrix>::
-        fill(data_type_matrix value)
+        void fill(data_type_matrix value);
         {
             for(unsigned int i = 0; i < this->rows; i++)
             {

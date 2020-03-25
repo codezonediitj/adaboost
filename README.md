@@ -40,11 +40,11 @@ By default `OFF`, set it to `ON` if you wish to run the tests. Tests are stored 
 
 2. `INSTALL_GOOGLETEST`
 
-By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses the `master` branch of https://github.com/google/googletest.
+By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses [this release](https://github.com/google/googletest/archive/release-1.10.0.tar.gz) of googletest.
 
-3. `CMAKE_PREFIX_PATH`
+3. `CMAKE_INSTALL_PREFIX`
 
-Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
+Required for installing if not installing to `/usr/local/include` on Linux based systems. Defines the path where the library is to be installed.
 
 Installing
 ----------

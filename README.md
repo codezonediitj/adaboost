@@ -56,7 +56,7 @@ Required for installing. Defines the path where the library is to be installed. 
 - In the search bar on task bar type environment variables. Then click on the `Edit the System Variables`.
 - The system properties dialog box will open, click on `Environment Variables`.
 - Click on `Path` under system variables window. Then click `Edit` under the same.
-- The edit enviornment dialog box will open, Click `New` and add the copied address of bin folder. Then Click `ok`.
+- The edit enviornment dialog box will open, Click `New` and add the copied address of bin folder. Then Click `OK`.
 - Similarly add the paths to your compilers (for example - if   it's MinGW add path to its bin folder for instance C:\MinGW\bin)
 Also add path to the IDE used.
 - To check that installation is done properly 

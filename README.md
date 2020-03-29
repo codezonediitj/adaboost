@@ -52,7 +52,6 @@ Required for installing. Defines the path where the library is to be installed. 
 3. Execute, `mkdir build-adaboost`
 4. Execute, `cd build-adaboost`
 5. Install CMake from - https://cmake.org/download/
-
 - After downloading locate the bin folder under CMake directory and copy it's address(Like if the folder is located in C drive's Program files,address can be -C:\Program Files\cmake\bin).
 - In the search bar on task bar type environment variables. Then click on the `Edit the System Variables`.
 - The system properties dialog box will open, click on `Environment Variables`.
@@ -63,10 +62,12 @@ Also add path to the IDE used.
 - To check that installation is done properly 
 run: `cmake --version` on git bash.
 It should give you the version of cmake as the output.
-
 6. Open cmake GUI and put the adaboost directory as source code in the source code field and build-adaboost directory in the build binaries field.
+
 7.By default `BUILD_TESTS`,`BUILD_CUDA` are turned off, you can check these options if you want to perform tests and want CUDA support , then click configure and generate to build the files .
+
 8.Before checking the `BUILD_TESTS` field , install google test from :- https://github.com/google/googletest and build it using CMake.
+
 9. For CUDA support you need to have a CUDA compiler and you should add it's path to environment variables therefore before checking `BUILD_TESTS` field  you should have a CUDA compiler.
 
 Installing

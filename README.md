@@ -19,7 +19,7 @@ We are using the following technologies in our project,
 4. Google Test
 5. Boost.Python
 
-Note that for building and installing for Linux systems following instructions should be followed. For windows  - README - for windows.docx
+Note that for building and installing for Linux systems following instructions should be followed. For windows [click here](https://github.com/bits2zbytes/adaboost/blob/windowsSupportReadME/README%20-%20for%20windows.docx)
 
 Building from source
 --------------------

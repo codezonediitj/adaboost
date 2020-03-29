@@ -37,17 +37,7 @@ Building from source
 2. Move to back to parent directory, `cd ../`
 3. Execute, `mkdir build-adaboost`
 4. Execute, `cd build-adaboost`
-5. Install CMake from - https://cmake.org/download/
-- After downloading locate the bin folder under CMake directory and copy it's path(Like if the folder is located in C drive's Program files,path can be -C:\Program Files\cmake\bin).
-- In the search bar on task bar type environment variables. Then click on the `Edit the System Variables`.
-- The system properties dialog box will open, click on `Environment Variables`.
-- Click on `Path` under system variables window. Then click `Edit` under the same.
-- The edit enviornment dialog box will open, Click `New` and add the copied address of bin folder. Then Click `OK`.
-- Similarly add the paths to your compilers (for example - if   it's MinGW add path to its bin folder for instance C:\MinGW\bin)
-Also add path to the IDE used.
-- To check that installation is done properly 
-run: `cmake --version` on git bash.
-It should give you the version of cmake as the output.
+5. Install CMake from [https://cmake.org/download/](https://cmake.org/download/). You can also follow the steps given at, https://cgold.readthedocs.io/en/latest/first-step/installation.html#windows
 
 6. Open `cmake` GUI and put the `adaboost` directory as source code in the source code field and `build-adaboost` directory in the build binaries field.
 
@@ -78,7 +68,7 @@ sudo make install
 ```
 **Windows**
 ```
-cmake install <path to your build binaries directory>
+cmake install <path to your build directory>
 ```
 
 How to contribute?

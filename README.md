@@ -19,11 +19,10 @@ We are using the following technologies in our project,
 4. Google Test
 5. Boost.Python
 
+Note that for building and installing for Linux systems following instructions should be followed. For windows  - README - for windows.docx
 
 Building from source
 --------------------
-For Linux Systems
-
 1. git clone https://github.com/codezonediitj/adaboost
 2. Move to back to parent directory, `cd ../`
 3. Execute, `mkdir build-adaboost`
@@ -44,21 +43,7 @@ By default `ON`, set it to `OFF` if you do not want to update the already existi
 
 3. `CMAKE_PREFIX_PATH`
 
-Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
-
-
-For Windows Systems
-
-1. git clone https://github.com/codezonediitj/adaboost
-2. Move to back to parent directory, `cd ../`
-3. Execute, `mkdir build-adaboost`
-4. Execute, `cd build-adaboost`
-5. Install CMake from - https://cmake.org/download/
-	- Locate the CMake bin folder and copy it's address
-          
-
-
-
+Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based syst 
 
 Installing
 ----------

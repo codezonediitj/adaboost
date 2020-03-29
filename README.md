@@ -38,7 +38,7 @@ Building from source
 3. Execute, `mkdir build-adaboost`
 4. Execute, `cd build-adaboost`
 5. Install CMake from - https://cmake.org/download/
-- After downloading locate the bin folder under CMake directory and copy it's address(Like if the folder is located in C drive's Program files,address can be -C:\Program Files\cmake\bin).
+- After downloading locate the bin folder under CMake directory and copy it's path(Like if the folder is located in C drive's Program files,path can be -C:\Program Files\cmake\bin).
 - In the search bar on task bar type environment variables. Then click on the `Edit the System Variables`.
 - The system properties dialog box will open, click on `Environment Variables`.
 - Click on `Path` under system variables window. Then click `Edit` under the same.

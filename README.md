@@ -84,7 +84,7 @@ sudo make install
 ```
 **Windows**
 ```
-cmake install
+cmake install <path to your build binaries directory>
 ```
 
 How to contribute?

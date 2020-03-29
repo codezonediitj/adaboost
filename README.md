@@ -40,6 +40,7 @@ Building from source
 5. Install CMake from [https://cmake.org/download/](https://cmake.org/download/). You can also follow the steps given at, https://cgold.readthedocs.io/en/latest/first-step/installation.html#windows
 6. Open `cmake` GUI and put the `adaboost` directory as source code in the source code field and `build-adaboost` directory in the build binaries field.
 7. Select the `cmake` options(see below) which you want to use for building, then click `Configure` and `Generate`, to build the files .
+
 We provide the following options for `cmake`,
 
 1. `BUILD_TESTS`

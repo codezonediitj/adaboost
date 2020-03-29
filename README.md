@@ -54,7 +54,6 @@ By default `ON`, set it to `OFF` if you do not want to update the already existi
 
 Required for installing if not installing to `/usr/local/include` on Linux based systems. Defines the path where the library is to be installed.
 
-
 Installing
 ----------
 

@@ -31,20 +31,6 @@ Building from source
 6. Execute, `make`. Do not execute, `make -j5` if you are using `-DINSTALL_GOOGLETEST=ON` otherwise `make` will try to link tests with `gtest gtest_main` before `GoogleTest` is installed into your system.
 7. To test, run, `./bin/*`. Ensure that you have used the option `-DBUILD_TESTS=ON` in step 5 above.
 
-We provide the following options for `cmake`,
-
-1. `BUILD_TESTS`
-
-By default `OFF`, set it to `ON` if you wish to run the tests. Tests are stored in the `bin` under your build directory.
-
-2. `INSTALL_GOOGLETEST`
-
-By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses the `master` branch of https://github.com/google/googletest.
-
-3. `CMAKE_PREFIX_PATH`
-
-Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
-
 **Windows**
 
 1. git clone https://github.com/codezonediitj/adaboost
@@ -70,6 +56,22 @@ It should give you the version of cmake as the output.
 8. Before checking the `BUILD_TESTS` field , install google test from :- https://github.com/google/googletest and build it using CMake.
 
 9. For CUDA support you need to have a CUDA compiler and you should add it's path to environment variables therefore before checking `BUILD_TESTS` field  you should have a CUDA compiler.
+
+
+We provide the following options for `cmake`,
+
+1. `BUILD_TESTS`
+
+By default `OFF`, set it to `ON` if you wish to run the tests. Tests are stored in the `bin` under your build directory.
+
+2. `INSTALL_GOOGLETEST`
+
+By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses the `master` branch of https://github.com/google/googletest.
+
+3. `CMAKE_PREFIX_PATH`
+
+Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
+
 
 Installing
 ----------

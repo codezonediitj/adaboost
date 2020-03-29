@@ -54,8 +54,8 @@ Required for installing. Defines the path where the library is to be installed. 
 5. Install CMake from - https://cmake.org/download/
 
 - After downloading locate the bin folder under CMake directory and copy it's address(Like if the folder is located in C drive's Program files,address can be -C:\Program Files\cmake\bin).
-- In the search bar on task bar type environment variables. Then click on the edit the system variables.
-- The system properties dialog box will open, click on environment variables.
+- In the search bar on task bar type environment variables. Then click on the `Edit the System Variables`.
+- The system properties dialog box will open, click on `Environment Variables`.
 - Click on `Path` under system variables window. Then click `Edit` under the same.
 - The edit enviornment dialog box will open, Click `New` and add the copied address of bin folder. Then Click `ok`.
 - Similarly add the paths to your compilers (for example - if   it's MinGW add path to its bin folder for instance C:\MinGW\bin)

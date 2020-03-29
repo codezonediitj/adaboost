@@ -61,7 +61,7 @@ How to contribute?
 Follow the steps given below,
 
 1. Fork, https://github.com/codezonediitj/adaboost
-2. Execute, `git clone https://github.com/<your-github-username>/adaboost/`
+2. Execute, `git clone https://github.com/codezonediitj/adaboost/`
 3. Change your working directory to `../adaboost`.
 4. Execute, `git remote add origin_user https://github.com/<your-github-username>/adaboost/`
 5. Execute, `git checkout -b <your-new-branch-for-working>`.

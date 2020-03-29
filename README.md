@@ -19,10 +19,9 @@ We are using the following technologies in our project,
 4. Google Test
 5. Boost.Python
 
-Note that for building and installing currently only Linux systems are supported.
-
 Building from source
 --------------------
+**Linux**
 
 1. Clone Repository to local machine `git clone https://github.com/codezonediitj/adaboost`
 2. Move to back to parent directory, `cd ../`
@@ -31,6 +30,16 @@ Building from source
 5. Execute, `cmake -D[OPTIONS] ../adaboost`
 6. Execute, `make`. Do not execute, `make -j5` if you are using `-DINSTALL_GOOGLETEST=ON` otherwise `make` will try to link tests with `gtest gtest_main` before `GoogleTest` is installed into your system.
 7. To test, run, `./bin/*`. Ensure that you have used the option `-DBUILD_TESTS=ON` in step 5 above.
+
+**Windows**
+
+1. git clone https://github.com/codezonediitj/adaboost
+2. Move to back to parent directory, `cd ../`
+3. Execute, `mkdir build-adaboost`
+4. Execute, `cd build-adaboost`
+5. Install CMake from [https://cmake.org/download/](https://cmake.org/download/). You can also follow the steps given at, https://cgold.readthedocs.io/en/latest/first-step/installation.html#windows
+6. Open `cmake` GUI and put the `adaboost` directory as source code in the source code field and `build-adaboost` directory in the build binaries field.
+7. Select the `cmake` options(see below) which you want to use for building, then click `Configure` and `Generate`, to build the files .
 
 We provide the following options for `cmake`,
 
@@ -51,8 +60,13 @@ Installing
 
 Follow the steps for building from source. After that run the following,
 
+**Linux**
 ```
 sudo make install
+```
+**Windows**
+```
+cmake install <path to your build directory>
 ```
 
 How to contribute?

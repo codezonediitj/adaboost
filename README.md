@@ -43,7 +43,7 @@ By default `ON`, set it to `OFF` if you do not want to update the already existi
 
 3. `CMAKE_PREFIX_PATH`
 
-Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based syst 
+Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
 
 Installing
 ----------

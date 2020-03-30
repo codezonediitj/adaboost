@@ -11,6 +11,13 @@ float square_1(float x)
 
 TEST(Core, Sum)
 {
+
+    /*
+    * This test is used to check that the Sum
+    * function defined in core/operations.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::core::Vector<float> vec_f(5);
     vec_f.fill(2);
     float result;
@@ -25,6 +32,13 @@ float square_2(int x)
 
 TEST(Core, Argmax)
 {
+
+    /*
+    * This test is used to check that the Argmax
+    * function defined in core/operations.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::core::Vector<int> vec_i(5);
     vec_i.set(0, -1.0);
     vec_i.set(1, 0);

@@ -5,6 +5,13 @@
 
 TEST(Core, Vector)
 {
+
+    /*
+    * This test is used to check that the Vector
+    * function defined in core/data_structures.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::core::Vector<float> vec_f;
     EXPECT_EQ(0, vec_f.get_size())<<"Default size should be 0";
     adaboost::core::Vector<float>
@@ -39,6 +46,13 @@ TEST(Core, Vector)
 
 TEST(Core, Matrices)
 {
+
+    /*
+    * This test is used to check that the Matrices
+    * function defined in core/data_structures.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::core::Matrix<float> mat_f;
     EXPECT_EQ(0, mat_f.get_cols())<<"Number of columns should be 0";
     EXPECT_EQ(0, mat_f.get_rows())<<"Number of rows should be 0.";

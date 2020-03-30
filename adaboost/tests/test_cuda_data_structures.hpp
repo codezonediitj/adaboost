@@ -6,6 +6,13 @@
 
 TEST(Cuda, VectorGPU)
 {
+
+    /*
+    * This test is used to check that the VectorGPU
+    * function defined in core/data_structures.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::utils::cuda::cuda_event_t has_happened;
     adaboost::utils::cuda::cuda_event_create(&has_happened);
     adaboost::cuda::core::VectorGPU<float> vec1(1000);
@@ -37,6 +44,13 @@ TEST(Cuda, VectorGPU)
 
 TEST(Cuda, MatrixGPU)
 {
+
+    /*
+    * This test is used to check that the MatrixGPU
+    * function defined in core/data_structures.hpp
+    * is working correctly by using some testcases
+    *  
+    */
     adaboost::utils::cuda::cuda_event_t has_happened;
     adaboost::utils::cuda::cuda_event_create(&has_happened);
     adaboost::cuda::core::MatrixGPU<float> mat_f;

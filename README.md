@@ -1,5 +1,4 @@
-AdaBoost
-========
+
 
 [![Build Status](https://travis-ci.com/codezonediitj/adaboost.svg?branch=master)](https://travis-ci.com/codezonediitj/adaboost) [![Join the chat at https://gitter.im/codezoned2017/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/codezoned2017/Lobby) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
@@ -109,3 +108,5 @@ Please follow the rules and guidelines given below,
 4. Follow the Pull Request policy given [here](https://github.com/codezonediitj/adaboost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!
+=======
+

@@ -1,5 +1,4 @@
-AdaBoost
-========
+
 
 [![Build Status](https://travis-ci.com/codezonediitj/adaboost.svg?branch=master)](https://travis-ci.com/codezonediitj/adaboost) [![Join the chat at https://gitter.im/codezoned2017/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/codezoned2017/Lobby) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
@@ -19,18 +18,33 @@ We are using the following technologies in our project,
 4. Google Test
 5. Boost.Python
 
-Note that for building and installing currently only Linux systems are supported.
 
 Building from source
 --------------------
+**Linux**
+=======
 
-1. git clone https://github.com/codezonediitj/adaboost
+Building from source
+--------------------
+For Linux Systems
+
+1. Clone Repository to local machine `git clone https://github.com/codezonediitj/adaboost`
 2. Move to back to parent directory, `cd ../`
 3. Execute, `mkdir build-adaboost`
 4. Execute, `cd build-adaboost`
 5. Execute, `cmake -D[OPTIONS] ../adaboost`
 6. Execute, `make`. Do not execute, `make -j5` if you are using `-DINSTALL_GOOGLETEST=ON` otherwise `make` will try to link tests with `gtest gtest_main` before `GoogleTest` is installed into your system.
 7. To test, run, `./bin/*`. Ensure that you have used the option `-DBUILD_TESTS=ON` in step 5 above.
+
+**Windows**
+
+1. git clone https://github.com/codezonediitj/adaboost
+2. Move to back to parent directory, `cd ../`
+3. Execute, `mkdir build-adaboost`
+4. Execute, `cd build-adaboost`
+5. Install CMake from [https://cmake.org/download/](https://cmake.org/download/). You can also follow the steps given at, https://cgold.readthedocs.io/en/latest/first-step/installation.html#windows
+6. Open `cmake` GUI and put the `adaboost` directory as source code in the source code field and `build-adaboost` directory in the build binaries field.
+7. Select the `cmake` options(see below) which you want to use for building, then click `Configure` and `Generate`, to build the files .
 
 We provide the following options for `cmake`,
 
@@ -40,19 +54,24 @@ By default `OFF`, set it to `ON` if you wish to run the tests. Tests are stored 
 
 2. `INSTALL_GOOGLETEST`
 
-By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses the `master` branch of https://github.com/google/googletest.
+By default `ON`, set it to `OFF` if you do not want to update the already existing GoogleTest on your system. Note that it uses [this release](https://github.com/google/googletest/archive/release-1.10.0.tar.gz) of googletest.
 
-3. `CMAKE_PREFIX_PATH`
+3. `CMAKE_INSTALL_PREFIX`
 
-Required for installing. Defines the path where the library is to be installed. Set it to, `/usr/local/include` on Linux based systems.
+Required for installing if not installing to `/usr/local/include` on Linux based systems. Defines the path where the library is to be installed.
 
 Installing
 ----------
 
 Follow the steps for building from source. After that run the following,
 
+**Linux**
 ```
 sudo make install
+```
+**Windows**
+```
+cmake install <path to your build directory>
 ```
 
 How to contribute?
@@ -61,7 +80,7 @@ How to contribute?
 Follow the steps given below,
 
 1. Fork, https://github.com/codezonediitj/adaboost
-2. Execute, `git clone https://github.com/<your-github-username>/adaboost/`
+2. Execute, `git clone https://github.com/codezonediitj/adaboost/`
 3. Change your working directory to `../adaboost`.
 4. Execute, `git remote add origin_user https://github.com/<your-github-username>/adaboost/`
 5. Execute, `git checkout -b <your-new-branch-for-working>`.
@@ -89,3 +108,5 @@ Please follow the rules and guidelines given below,
 4. Follow the Pull Request policy given [here](https://github.com/codezonediitj/adaboost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!
+=======
+

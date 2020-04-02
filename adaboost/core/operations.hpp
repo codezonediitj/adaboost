@@ -26,11 +26,13 @@ namespace adaboost
         *
         * @param value The value with which the vector is
         *    to be populated.
+	* @param vec The Vector
         * @param block_size The number of threads to be
         *    launched per block on GPU.
         */
         template <class data_type_vector>
         void fill(const data_type_vector value,
+	          const VectorGPU<data_type_vector>& vec,
                   unsigned block_size=0);
 
         /* @overload
@@ -38,7 +40,7 @@ namespace adaboost
         *
         * @param value The value with which the matrix is
         *    to be populated.
-        * @param vec The Matrix
+        * @param mat The Matrix
         */
         template <class data_type_matrix>
         void fill(const data_type_matrix value,
@@ -52,9 +54,11 @@ namespace adaboost
         *
         * @param value The value with which the matrix is
         *    to be populated.
+	* @param mat The matrix
         */
         template <class data_type_matrix>
         void fill(const data_type_matrix value,
+		  const MatrixGPU<data_type_matrix>& mat,
                   unsigned block_size_x=0,
                   unsigned block_size_y=0);
 

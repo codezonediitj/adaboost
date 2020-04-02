@@ -9,7 +9,71 @@
 namespace adaboost
 {
     namespace core
-    {
+    {	
+	template <class data_type_vector>
+        void fill(const data_type_vector value,
+	          const Vector<data_type_vector>& vec)
+        {
+            for(unsigned int i = 0; i < vec.get_size(); i++)
+            {
+               vec.get_data_pointer()data[i] = value;
+            }
+        }
+
+	template <class data_type_vector>
+        void fill(const data_type_vector value,
+                  unsigned block_size=0,
+		  const VectorGPU<data_type_vector>& vec){
+                if(block_size == 0)
+                {
+                    this->adaboost::core::Vector<data_type_vector>::fill(value);
+                }
+                else
+                {
+                    fill_vector_kernel<data_type_vector>
+                    <<<
+                    ( vec.get_size(gpu) + block_size - 1)/block_size,
+                    block_size
+                    >>>(vec.get_data_pointer(gpu), vec.get_size(gpu), value);
+                }
+            }
+
+	template <class data_type_matrix>
+        void fill(const data_type_matrix value,
+	          const Matrix<data_type_matrix>& mat)
+        {
+            for(unsigned int i = 0; i < mat.get_rows(); i++)
+            {
+                for(unsigned int j = 0; j < mat.get_cols(); j++)
+                {
+                    mat.get_data_pointer()[i*mat.get_cols() + j] = value;
+                }
+            }
+        }
+
+	template <class data_type_matrix>
+        void fill(const data_type_matrix value,
+		  const MatrixGPU<data_type_matrix>& mat,
+                              unsigned block_size_x=0,
+                              unsigned block_size_y=0){
+                if(block_size_x == 0 || block_size_y == 0)
+                {
+                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
+                }
+                else
+                {
+                    dim3 gridDim((mat.get_cols(gpu) + block_size_x - 1)/block_size_x,
+                                  (mat.get_rows(gpu) + block_size_y - 1)/block_size_y);
+                    dim3 blockDim(block_size_x, block_size_y);
+                    fill_matrix_kernel<data_type_matrix>
+                    <<<gridDim, blockDim>>>
+                    (mat.get_data_pointer(gpu),
+                     mat.get_rows(gpu),
+                     value);
+                }
+            }
+	
+
         template <class data_type>
         void Sum(
         data_type (*func_ptr)(data_type),
@@ -47,74 +111,11 @@ namespace adaboost
             }
             result = arg_max;
         }
-
-        template <class data_type_vector>
-        void fill(const data_type_vector value,
-	const Vector<data_type_vector>& vec)
-        {
-            for(unsigned int i = 0; i < vec.get_size(); i++)
-            {
-               vec.get_data_pointer()data[i] = value;
-            }
-        }
-
-
-        template <class data_type_matrix>
-        void fill(const data_type_matrix value,
-	const Matrix<data_type_matrix>& mat)
-        {
-            for(unsigned int i = 0; i < mat.get_rows(); i++)
-            {
-                for(unsigned int j = 0; j < mat.get_cols(); j++)
-                {
-                    mat.get_data_pointer()[i*mat.get_cols() + j] = value;
-                }
-            }
-        }
-
-        template <class data_type_matrix>
-        void fill(const data_type_matrix value,
-                              unsigned block_size_x=0,
-                              unsigned block_size_y=0);{
-                if(block_size_x == 0 || block_size_y == 0)
-                {
-                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
-                }
-                else
-                {
-                    dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
-                                  (this->rows_gpu + block_size_y - 1)/block_size_y);
-                    dim3 blockDim(block_size_x, block_size_y);
-                    fill_matrix_kernel<data_type_matrix>
-                    <<<gridDim, blockDim>>>
-                    (this->data_gpu,
-                     this->cols_gpu,
-                     value);
-                }
-            }
-
-        template <class data_type_vector>
-        void fill(const data_type_vector value,
-                  unsigned block_size=0){
-                if(block_size == 0)
-                {
-                    this->adaboost::core::Vector<data_type_vector>::fill(value);
-                }
-                else
-                {
-                    fill_vector_kernel<data_type_vector>
-                    <<<
-                    (this->size_gpu + block_size - 1)/block_size,
-                    block_size
-                    >>>(this->data_gpu, this->size_gpu, value);
-                }
-            }
-
-
-        template <class data_type_vector, class data_type_matrix>
+	
+	template <class data_type_vector, class data_type_matrix>
         void multiply(const Vector<data_type_vector>& vec,
-                     const Matrix<data_type_matrix>& mat,
-                     Vector<data_type_vector>& result)
+                      const Matrix<data_type_matrix>& mat,
+                      Vector<data_type_vector>& result)
         {
             adaboost::utils::check(vec.get_size() == mat.get_rows(),
                                   "Orders mismatch in the inputs.");
@@ -131,8 +132,8 @@ namespace adaboost
 
         template <class data_type_matrix>
         void multiply(const Matrix<data_type_matrix>& mat1,
-                     const Matrix<data_type_matrix>& mat2,
-                     Matrix<data_type_matrix>& result)
+                      const Matrix<data_type_matrix>& mat2,
+                      Matrix<data_type_matrix>& result)
         {
             adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),
                                     "Order of matrices don't match.");

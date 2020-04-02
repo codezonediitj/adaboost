@@ -49,23 +49,25 @@ namespace adaboost
         }
 
         template <class data_type_vector>
-        void fill(const data_type_vector value)
+        void fill(const data_type_vector value,
+	const Vector<data_type_vector>& vec)
         {
-            for(unsigned int i = 0; i < this->size; i++)
+            for(unsigned int i = 0; i < vec.get_size(); i++)
             {
-                this->data[i] = value;
+               vec.get_data_pointer()data[i] = value;
             }
         }
 
 
         template <class data_type_matrix>
-        void fill(const data_type_matrix value)
+        void fill(const data_type_matrix value,
+	const Matrix<data_type_matrix>& mat)
         {
-            for(unsigned int i = 0; i < this->rows; i++)
+            for(unsigned int i = 0; i < mat.get_rows(); i++)
             {
-                for(unsigned int j = 0; j < this->cols; j++)
+                for(unsigned int j = 0; j < mat.get_cols(); j++)
                 {
-                    this->data[i*this->cols + j] = value;
+                    mat.get_data_pointer()[i*mat.get_cols() + j] = value;
                 }
             }
         }

@@ -12,9 +12,11 @@ namespace adaboost
         *
         * @param value The value with which the vector is
         *    to be populated.
+        * @param vec The Vector    
         */
         template <class data_type_vector>
-        void fill(const data_type_vector value);
+        void fill(const data_type_vector value,
+		  const Vector<data_type_vector>& vec);
 
         /*
         * Used for filling the vector with a given value.
@@ -36,9 +38,11 @@ namespace adaboost
         *
         * @param value The value with which the matrix is
         *    to be populated.
+        * @param vec The Matrix
         */
         template <class data_type_matrix>
-        void fill(const data_type_matrix value);
+        void fill(const data_type_matrix value,
+		  const Matrix<data_type_matrix>& mat);
 
         /*
         * Used for filling the matrix with a given value.

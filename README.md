@@ -22,11 +22,6 @@ We are using the following technologies in our project,
 Building from source
 --------------------
 **Linux**
-=======
-
-Building from source
---------------------
-For Linux Systems
 
 1. Clone Repository to local machine `git clone https://github.com/codezonediitj/adaboost`
 2. Move to back to parent directory, `cd ../`

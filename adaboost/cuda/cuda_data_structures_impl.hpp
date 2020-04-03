@@ -25,10 +25,6 @@ namespace adaboost
             VectorGPU<data_type_vector>::
             _reserve_space_gpu(unsigned _size_gpu)
             {
-                /*
-                * For reserving space in GPU memory accoring to a given size.
-                * A new pointer is retured.
-                */
                 adaboost::utils::check(_size_gpu > 0,
                 "The size of the vector should be positive.");
                 unsigned bytes = _size_gpu*sizeof(data_type_vector);

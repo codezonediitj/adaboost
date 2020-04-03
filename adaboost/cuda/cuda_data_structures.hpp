@@ -117,8 +117,7 @@ namespace adaboost
                              data_type_vector& result,
                              unsigned block_size=0);
             /*
-            * This class represents matrices used for storing data
-            * in two dimensions, implemented using C++ arrays.
+            * This class represents GPU version of adaboost::core::Matrix.
             *
             * @tparam data_type_matrix Data type of the elements
             *     supported by C++.

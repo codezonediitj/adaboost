@@ -169,7 +169,7 @@ namespace adaboost
                     void copy_to_device();
                     
                     /*
-                    * Returns the size of the row
+                    * Returns number of rows
                     * By default returns the size of the
                     * vector row on GPU.
                     */

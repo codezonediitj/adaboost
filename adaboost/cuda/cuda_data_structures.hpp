@@ -106,7 +106,7 @@ namespace adaboost
             };
             
             /*
-            * This class is represented 
+            * This function is represented 
             * for storing data in a vector
             * and taking their dot product.
             */

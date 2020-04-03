@@ -7,7 +7,6 @@ namespace adaboost
 {
     namespace cuda
     {
-        
         namespace core
         {
             /*

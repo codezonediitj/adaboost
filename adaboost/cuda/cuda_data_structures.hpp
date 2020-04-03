@@ -104,13 +104,24 @@ namespace adaboost
                     */
                     ~VectorGPU();
             };
+            
+            /*
+            * This function computes
+            * dot product of two vectors on
+            * GPU.
+            */
 
             template <class data_type_vector>
             void product_gpu(const VectorGPU<data_type_vector>& vec1,
                              const VectorGPU<data_type_vector>& vec2,
                              data_type_vector& result,
                              unsigned block_size=0);
-
+            /*
+            * This class represents GPU version of adaboost::core::Matrix.
+            *
+            * @tparam data_type_matrix Data type of the elements
+            *     supported by C++.
+            */
             template <class data_type_matrix>
             class MatrixGPU: public adaboost::core::Matrix<data_type_matrix>
             {
@@ -124,25 +135,51 @@ namespace adaboost
                     (unsigned _rows_gpu, unsigned _cols_gpu);
 
                 public:
-
+                
+                /*
+                * Default constructor.
+                * Sets Matrix::data to NULL, rows to 0
+                * and cols to 0.
+                * It set size_gpu to 0 and data_gpu to NULL.
+                */
                     MatrixGPU();
-
+                    
+                    /*
+                    *Parameterized constructor.
+                    */
                     MatrixGPU(unsigned _rows, unsigned _cols);
-
+                    
+                    /*
+                    * Used for filling the matrix with a given value.
+                    */
                     void fill(data_type_matrix value,
                               unsigned block_size_x=0,
                               unsigned block_size_y=0);
-
+                              
+                              
+                    /*
+                    * Copies the data from GPU to CPU.
+                    */
                     void copy_to_host();
-
+                    
+                    /*
+                    * Copies the data from CPU to GPU.
+                    */
                     void copy_to_device();
-
+                    
+                    /*
+                    * Returns number of rows
+                    * By default returns number of rows on GPU.
+                    */
                     unsigned get_rows(bool gpu=true) const;
 
                     unsigned get_cols(bool gpu=true) const;
 
                     data_type_matrix* get_data_pointer(bool gpu=true) const;
-
+                    
+                     /*
+                    * Frees the memory from both CPU and GPU.
+                    */
                     ~MatrixGPU();
             };
 

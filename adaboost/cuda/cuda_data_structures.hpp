@@ -106,9 +106,9 @@ namespace adaboost
             };
             
             /*
-            * This function is represented 
-            * for storing data in a vector
-            * and taking their dot product.
+            * This function computes
+            * dot product of two vectors on
+            * GPU.
             */
 
             template <class data_type_vector>

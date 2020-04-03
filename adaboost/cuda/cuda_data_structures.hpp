@@ -170,8 +170,7 @@ namespace adaboost
                     
                     /*
                     * Returns number of rows
-                    * By default returns the size of the
-                    * vector row on GPU.
+                    * By default returns number of rows on GPU.
                     */
                     unsigned get_rows(bool gpu=true) const;
 

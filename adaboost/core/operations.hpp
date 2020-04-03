@@ -17,6 +17,18 @@ namespace adaboost
         template <class data_type_vector>
         void fill(const data_type_vector value,
 		  const Vector<data_type_vector>& vec);
+	
+        /*
+        * Used for taking dot product of two vectors.
+        *
+        * @param vec1 First vector in dot product.
+        * @param vec2 Second vector in dot product.
+        * @param result For storing the result.
+        */
+        template <class data_type_vector>
+        void product(const Vector<data_type_vector>& vec1,
+                     const Vector<data_type_vector>& vec2,
+                     data_type_vector& result);
 
         /*
         * Used for filling the vector with a given value.
@@ -35,6 +47,18 @@ namespace adaboost
 	          const VectorGPU<data_type_vector>& vec,
                   unsigned block_size=0);
 
+	 /*
+	 * This function computes
+	 * dot product of two vectors on
+	 * GPU.
+	 */
+	 template <class data_type_vector>
+	 void product_gpu(const VectorGPU<data_type_vector>& vec1,
+		          const VectorGPU<data_type_vector>& vec2,
+		          data_type_vector& result,
+		          unsigned block_size=0);
+
+
         /* @overload
         * Used for filling the matrix with a given value.
         *
@@ -45,6 +69,31 @@ namespace adaboost
         template <class data_type_matrix>
         void fill(const data_type_matrix value,
 		  const Matrix<data_type_matrix>& mat);
+	
+        /* @overload
+        * Used for multiplyng two matrices.
+        *
+        * @param vec1 First matrix.
+        * @param vec2 Second matrix.
+        * @param result A matrix for storing the result.
+        */
+        template <class data_type_matrix>
+        void multiply(const Matrix<data_type_matrix>& mat1,
+                      const Matrix<data_type_matrix>& mat2,
+                      Matrix<data_type_matrix>& result);
+
+        /* @overload
+        * Used for multiplying a vector
+        * and a matrix.
+        *
+        * @param vec The vector.
+        * @param mat The matrix.
+        * @param result A vector for storing the result.
+        */
+        template <class data_type_vector, class data_type_matrix>
+        void multiply(const Vector<data_type_vector>& vec,
+                      const Matrix<data_type_matrix>& mat,
+                      Vector<data_type_vector>& result);
 
         /*
         * Used for filling the matrix with a given value.
@@ -62,6 +111,16 @@ namespace adaboost
                   unsigned block_size_x=0,
                   unsigned block_size_y=0);
 
+	/*
+	* This function is
+	* used for multiplyng two matrices on
+	* GPU.
+	*/
+	template <class data_type_matrix>
+        void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
+                          const MatrixGPU<data_type_matrix>& mat2,
+                          MatrixGPU<data_type_matrix>& result);
+	
         /*
         * This function computes the sum of
         * elements of the given vector and the
@@ -108,43 +167,7 @@ namespace adaboost
         const Vector<data_type_1>& vec,
         data_type_1& result);
 
-        /*
-        * @overload
-        * Used for taking dot product of two vectors.
-        *
-        * @param vec1 First vector in dot product.
-        * @param vec2 Second vector in dot product.
-        * @param result For storing the result.
-        */
-        template <class data_type_vector>
-        void product(const Vector<data_type_vector>& vec1,
-                     const Vector<data_type_vector>& vec2,
-                     data_type_vector& result);
-
-        /* @overload
-        * Used for multiplyng two matrices.
-        *
-        * @param vec1 First matrix.
-        * @param vec2 Second matrix.
-        * @param result A matrix for storing the result.
-        */
-        template <class data_type_matrix>
-        void multiply(const Matrix<data_type_matrix>& mat1,
-                     const Matrix<data_type_matrix>& mat2,
-                     Matrix<data_type_matrix>& result);
-
-        /* @overload
-        * Used for multiplying a vector
-        * and a matrix.
-        *
-        * @param vec The vector.
-        * @param mat The matrix.
-        * @param result A vector for storing the result.
-        */
-        template <class data_type_vector, class data_type_matrix>
-        void multiply(const Vector<data_type_vector>& vec,
-                     const Matrix<data_type_matrix>& mat,
-                     Vector<data_type_vector>& result);
+	
 
     } // namespace core
 } // namespace adaboost

@@ -91,18 +91,7 @@ namespace adaboost
                     ~VectorGPU();
             };
             
-            /*
-            * This function computes
-            * dot product of two vectors on
-            * GPU.
-            */
-
-            template <class data_type_vector>
-            void product_gpu(const VectorGPU<data_type_vector>& vec1,
-                             const VectorGPU<data_type_vector>& vec2,
-                             data_type_vector& result,
-                             unsigned block_size=0);
-            /*
+      	    /*
             * This class represents GPU version of adaboost::core::Matrix.
             *
             * @tparam data_type_matrix Data type of the elements
@@ -161,11 +150,7 @@ namespace adaboost
                     ~MatrixGPU();
             };
 
-            template <class data_type_matrix>
-            void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
-                              const MatrixGPU<data_type_matrix>& mat2,
-                              MatrixGPU<data_type_matrix>& result);
-
+            
         } // namespace core
     } // namespace cuda
 } // namespace adaboost

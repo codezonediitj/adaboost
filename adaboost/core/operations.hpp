@@ -30,7 +30,7 @@ namespace adaboost
                      const Vector<data_type_vector>& vec2,
                      data_type_vector& result);
 
-        /*
+        /*@overload
         * Used for filling the vector with a given value.
         * If block size is passed 0 then the values are
         * filled on the CPU otherwise they are filled on
@@ -95,7 +95,7 @@ namespace adaboost
                       const Matrix<data_type_matrix>& mat,
                       Vector<data_type_vector>& result);
 
-        /*
+        /*@overload
         * Used for filling the matrix with a given value.
         * If block size x and block size y is passed 0 and 0 then the values are
         * filled on the CPU otherwise they are filled on

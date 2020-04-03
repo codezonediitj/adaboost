@@ -1,4 +1,5 @@
-
+AdaBoost
+========
 
 [![Build Status](https://travis-ci.com/codezonediitj/adaboost.svg?branch=master)](https://travis-ci.com/codezonediitj/adaboost) [![Join the chat at https://gitter.im/codezoned2017/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/codezoned2017/Lobby) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
@@ -109,4 +110,3 @@ Please follow the rules and guidelines given below,
 
 Keep contributing!!
 =======
-

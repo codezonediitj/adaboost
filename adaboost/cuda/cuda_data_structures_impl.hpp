@@ -48,20 +48,6 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            __global__ void fill_vector_kernel
-            (data_type_vector* data,
-             unsigned size,
-             data_type_vector value)
-            {
-                unsigned index = threadIdx.x;
-                unsigned stride = blockDim.x;
-                for(unsigned i = index; i < size; i += stride)
-                {
-                    data[i] = value;
-                }
-            }
-
-            template <class data_type_vector>
             void
             VectorGPU<data_type_vector>::copy_to_host()
             {
@@ -107,7 +93,7 @@ namespace adaboost
                 }
                 else
                 {
-                    return this->adaboost::core::Vector<data_type_vector>::get_data_pointer();
+                    return this>adaboost::core::Vector<data_type_vector>::get_data_pointer();
                 }
             }
 
@@ -217,18 +203,6 @@ namespace adaboost
             rows_gpu(_rows),
             cols_gpu(_cols)
             {
-            }
-
-            template <class data_type_matrix>
-            __global__
-            void fill_matrix_kernel
-            (data_type_matrix* data,
-             unsigned cols,
-             data_type_matrix value)
-            {
-                unsigned row = blockDim.y*blockIdx.y + threadIdx.y;
-                unsigned col = blockDim.x*blockIdx.x + threadIdx.x;
-                data[row*cols + col] = value;
             }
 
             template <class data_type_matrix>

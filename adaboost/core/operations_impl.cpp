@@ -19,6 +19,20 @@ namespace adaboost
                vec.get_data_pointer()data[i] = value;
             }
         }
+	
+	template <class data_type_vector>
+            __global__ void fill_vector_kernel
+            (data_type_vector* data,
+             unsigned size,
+             data_type_vector value)
+            {
+                unsigned index = threadIdx.x;
+                unsigned stride = blockDim.x;
+                for(unsigned i = index; i < size; i += stride)
+                {
+                    data[i] = value;
+                }
+            }
 
 	template <class data_type_vector>
         void fill(const data_type_vector value,
@@ -38,6 +52,8 @@ namespace adaboost
                 }
             }
 
+	
+
 	template <class data_type_matrix>
         void fill(const data_type_matrix value,
 	          const Matrix<data_type_matrix>& mat)
@@ -50,6 +66,18 @@ namespace adaboost
                 }
             }
         }
+	
+	template <class data_type_matrix>
+            __global__
+            void fill_matrix_kernel
+            (data_type_matrix* data,
+             unsigned cols,
+             data_type_matrix value)
+            {
+                unsigned row = blockDim.y*blockIdx.y + threadIdx.y;
+                unsigned col = blockDim.x*blockIdx.x + threadIdx.x;
+                data[row*cols + col] = value;
+            }	
 
 	template <class data_type_matrix>
         void fill(const data_type_matrix value,

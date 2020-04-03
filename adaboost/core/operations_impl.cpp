@@ -54,7 +54,7 @@ namespace adaboost
 		  const VectorGPU<data_type_vector>& vec){
                 if(block_size == 0)
                 {
-                    this->adaboost::core::Vector<data_type_vector>::fill(value);
+                    adaboost::core::fill(value, vec);
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace adaboost
                               unsigned block_size_y=0){
                 if(block_size_x == 0 || block_size_y == 0)
                 {
-                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
+                    adaboost::core::fill(value, mat);
                 }
                 else
                 {

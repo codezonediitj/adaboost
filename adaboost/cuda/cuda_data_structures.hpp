@@ -164,7 +164,7 @@ namespace adaboost
                     void copy_to_host();
                     
                     /*
-                    * Copies the  data from CPU to GPU.
+                    * Copies the data from CPU to GPU.
                     */
                     void copy_to_device();
                     

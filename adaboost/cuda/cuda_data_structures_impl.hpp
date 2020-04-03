@@ -16,10 +16,6 @@ namespace adaboost
     {
         namespace core
         {
-            /*
-            *This class represents the GPU version
-            * of adaboost::core::Vector.
-            */
             template <class data_type_vector>
             data_type_vector*
             VectorGPU<data_type_vector>::

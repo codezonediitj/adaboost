@@ -18,7 +18,6 @@ We are using the following technologies in our project,
 4. Google Test
 5. Boost.Python
 
-
 Building from source
 --------------------
 **Linux**
@@ -103,5 +102,5 @@ Please follow the rules and guidelines given below,
 4. Follow the Pull Request policy given [here](https://github.com/codezonediitj/adaboost/wiki/Pull-Request-Policy). All changes are made through Pull Requests, no direct commits to the master branch.
 
 Keep contributing!!
-=======
+
 

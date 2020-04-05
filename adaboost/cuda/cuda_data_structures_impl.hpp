@@ -178,7 +178,7 @@ namespace adaboost
             {
                 if(block_size == 0)
                 {
-                    return adaboost::core::product(vec1, vec2, result);
+                     adaboost::core::product(vec1, vec2, result);
                 }
                 else
                 {

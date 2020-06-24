@@ -388,7 +388,7 @@ namespace adaboost
                  mat2.get_cols());
             }
 
-            #include "instantiated_templates_cuda_data_structures.hpp"
+            #include "../templates/instantiated_templates_cuda_data_structures.hpp"
 
         } // namespace core
     } // namespace cuda

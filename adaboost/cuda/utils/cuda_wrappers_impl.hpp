@@ -1,7 +1,7 @@
 #ifndef ADABOOST_UTILS_CUDA_WRAPPERS_IMPL_HPP
 #define ADABOOST_UTILS_CUDA_WRAPPERS_IMPL_HPP
 
-#include<adaboost/utils/cuda_wrappers.hpp>
+#include<adaboost/cuda/utils/cuda_wrappers.hpp>
 
 namespace adaboost
 {

@@ -47,7 +47,7 @@ namespace adaboost
             result = arg_max;
         }
 
-        #include "instantiated_templates_operations.hpp"
+        #include "../templates/instantiated_templates_operations.hpp"
 
     } // namespace core
 } // namespace adaboost

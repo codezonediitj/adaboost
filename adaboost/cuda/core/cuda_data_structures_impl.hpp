@@ -2,8 +2,8 @@
 #define CUDA_ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
 
 #include<adaboost/utils/utils.hpp>
-#include<adaboost/utils/cuda_wrappers.hpp>
-#include<adaboost/cuda/cuda_data_structures.hpp>
+#include<adaboost/cuda/utils/cuda_wrappers.hpp>
+#include<adaboost/cuda/core/cuda_data_structures.hpp>
 #include<cmath>
 #include<iostream>
 
@@ -388,7 +388,7 @@ namespace adaboost
                  mat2.get_cols());
             }
 
-            #include "instantiated_templates_cuda_data_structures.hpp"
+            #include "../templates/instantiated_templates_cuda_data_structures.hpp"
 
         } // namespace core
     } // namespace cuda

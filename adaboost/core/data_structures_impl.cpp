@@ -230,7 +230,7 @@ namespace adaboost
             }
         }
 
-        #include "instantiated_templates_data_structures.hpp"
+        #include "../templates/instantiated_templates_data_structures.hpp"
 
     } // namespace core
 } // namespace adaboost

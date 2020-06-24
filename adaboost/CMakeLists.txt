@@ -7,10 +7,10 @@ add_library(adaboost_core SHARED
             utils/utils_impl.cpp)
 if(BUILD_CUDA)
     add_library(adaboost_cuda_wrappers SHARED
-                utils/cuda_wrappers_impl.cu)
+                cuda/utils/cuda_wrappers_impl.cu)
     add_library(adaboost_cuda SHARED
-                cuda/cuda_data_structures_impl.cu
-                utils/cuda_wrappers_impl.cu)
+                cuda/core/cuda_data_structures_impl.cu
+                cuda/utils/cuda_wrappers_impl.cu)
 endif()
 if(BUILD_TESTS)
     set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)

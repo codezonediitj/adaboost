@@ -52,16 +52,6 @@ namespace adaboost
         }
 
         template <class data_type_vector>
-        void Vector<data_type_vector>::
-        fill(data_type_vector value)
-        {
-            for(unsigned int i = 0; i < this->size; i++)
-            {
-                this->data[i] = value;
-            }
-        }
-
-        template <class data_type_vector>
         unsigned int Vector<data_type_vector>::get_size() const
         {
             return this->size;
@@ -131,19 +121,6 @@ namespace adaboost
             adaboost::utils::check(y >= 0 && y < this->get_cols(),
                                   "Column index out of range.");
             this->data[x*this->cols + y] = value;
-        }
-
-        template <class data_type_matrix>
-        void Matrix<data_type_matrix>::
-        fill(data_type_matrix value)
-        {
-            for(unsigned int i = 0; i < this->rows; i++)
-            {
-                for(unsigned int j = 0; j < this->cols; j++)
-                {
-                    this->data[i*this->cols + j] = value;
-                }
-            }
         }
 
         template <class data_type_matrix>

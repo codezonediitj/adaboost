@@ -48,39 +48,6 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            __global__ void fill_vector_kernel
-            (data_type_vector* data,
-             unsigned size,
-             data_type_vector value)
-            {
-                unsigned index = threadIdx.x;
-                unsigned stride = blockDim.x;
-                for(unsigned i = index; i < size; i += stride)
-                {
-                    data[i] = value;
-                }
-            }
-
-            template <class data_type_vector>
-            void VectorGPU<data_type_vector>::
-            fill(data_type_vector value,
-                 unsigned block_size)
-            {
-                if(block_size == 0)
-                {
-                    this->adaboost::core::Vector<data_type_vector>::fill(value);
-                }
-                else
-                {
-                    fill_vector_kernel<data_type_vector>
-                    <<<
-                    (this->size_gpu + block_size - 1)/block_size,
-                    block_size
-                    >>>(this->data_gpu, this->size_gpu, value);
-                }
-            }
-
-            template <class data_type_vector>
             void
             VectorGPU<data_type_vector>::copy_to_host()
             {
@@ -236,41 +203,6 @@ namespace adaboost
             rows_gpu(_rows),
             cols_gpu(_cols)
             {
-            }
-
-            template <class data_type_matrix>
-            __global__
-            void fill_matrix_kernel
-            (data_type_matrix* data,
-             unsigned cols,
-             data_type_matrix value)
-            {
-                unsigned row = blockDim.y*blockIdx.y + threadIdx.y;
-                unsigned col = blockDim.x*blockIdx.x + threadIdx.x;
-                data[row*cols + col] = value;
-            }
-
-            template <class data_type_matrix>
-            void MatrixGPU<data_type_matrix>::
-            fill(data_type_matrix value,
-                 unsigned block_size_x,
-                 unsigned block_size_y)
-            {
-                if(block_size_x == 0 || block_size_y == 0)
-                {
-                    this->adaboost::core::Matrix<data_type_matrix>::fill(value);
-                }
-                else
-                {
-                    dim3 gridDim((this->cols_gpu + block_size_x - 1)/block_size_x,
-                                  (this->rows_gpu + block_size_y - 1)/block_size_y);
-                    dim3 blockDim(block_size_x, block_size_y);
-                    fill_matrix_kernel<data_type_matrix>
-                    <<<gridDim, blockDim>>>
-                    (this->data_gpu,
-                     this->cols_gpu,
-                     value);
-                }
             }
 
             template <class data_type_matrix>

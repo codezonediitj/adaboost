@@ -2,6 +2,7 @@
 #define ADABOOST_CORE_OPERATIONS_HPP
 
 #include<adaboost/core/data_structures.hpp>
+#include<adaboost/cuda/core/cuda_data_structures_impl.hpp>
 
 namespace adaboost
 {
@@ -30,7 +31,7 @@ namespace adaboost
         */
 
         template <class data_type_vector>
-        void fill(const data_type_vector value, const VectorGPU<data_type_vector>&vec, unsigned block_size = 0);
+        void fill(const data_type_vector value, const adaboost::cuda::core::VectorGPU<data_type_vector>&vec, unsigned block_size = 0);
 
         /*
         * This function fills the matrix with a given value.
@@ -53,7 +54,7 @@ namespace adaboost
         */
 
         template <class data_type_matrix>
-        void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>&mat, unsigned block_size_x = 0, unsigned block_size_y = 0);
+        void fill(const data_type_matrix value, const adaboost::cuda::core::MatrixGPU<data_type_matrix>&mat, unsigned block_size_x = 0, unsigned block_size_y = 0);
 
 
         /*

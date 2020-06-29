@@ -3,6 +3,7 @@
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/cuda/core/cuda_data_structures_impl.hpp>
+using namespace adaboost::cuda::core;
 
 namespace adaboost
 {
@@ -31,7 +32,7 @@ namespace adaboost
         */
 
         template <class data_type_vector>
-        void fill(const data_type_vector value, const adaboost::cuda::core::VectorGPU<data_type_vector>&vec, unsigned block_size = 0);
+        void fill(const data_type_vector value, const VectorGPU<data_type_vector>&vec, unsigned block_size);
 
         /*
         * This function fills the matrix with a given value.
@@ -54,7 +55,7 @@ namespace adaboost
         */
 
         template <class data_type_matrix>
-        void fill(const data_type_matrix value, const adaboost::cuda::core::MatrixGPU<data_type_matrix>&mat, unsigned block_size_x = 0, unsigned block_size_y = 0);
+        void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>&mat, unsigned block_size_x, unsigned block_size_y);
 
 
         /*
@@ -102,6 +103,24 @@ namespace adaboost
         data_type_2 (*func_ptr)(data_type_1),
         const Vector<data_type_1>& vec,
         data_type_1& result);
+
+
+        /*
+        * This function computes
+        * dot product of two vectors on
+        * GPU.
+        */
+
+        template <class data_type_vector>
+        void product_gpu(const VectorGPU<data_type_vector>& vec1,
+        const VectorGPU<data_type_vector>& vec2,
+        data_type_vector& result,
+        unsigned block_size=0);
+
+        template <class data_type_matrix>
+        void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
+        const MatrixGPU<data_type_matrix>& mat2,
+        MatrixGPU<data_type_matrix>& result);
 
     } // namespace core
 } // namespace adaboost

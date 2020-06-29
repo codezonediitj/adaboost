@@ -12,14 +12,14 @@ TEST(Core, Vector)
     vec(2), vec1(5), vec2(5);
     std::string msg1 = "The size of vector must be 5";
     EXPECT_EQ(5, vec1.get_size())<<msg1;
-    fill(4.0,vec1);
+    fill(float(4),vec1);
     for(unsigned int i = 0; i < vec1.get_size(); i++)
     {
         std::string msg2 = "The value must be 4.0";
         EXPECT_EQ(4.0, vec1.at(i))<<msg2;
     }
     vec1.set(2, 6.1);
-    fill(3.0,vec2);
+    fill(3.0F,vec2);
     vec2.set(2, 0);
     float result;
     adaboost::core::product(vec1, vec2, result);
@@ -44,8 +44,8 @@ TEST(Core, Matrices)
     EXPECT_EQ(0, mat_f.get_cols())<<"Number of columns should be 0";
     EXPECT_EQ(0, mat_f.get_rows())<<"Number of rows should be 0.";
     adaboost::core::Matrix<float> mat1(3, 3), mat2(3, 3), mat3(2, 1);
-    fill(4.0,mat1);
-    fill(5.0,mat2);
+    fill(4.0F,mat1);
+    fill(5.0F,mat2);
     adaboost::core::Matrix<float> result1(3, 3);
     adaboost::core::multiply(mat1, mat2, result1);
     for(unsigned int i = 0; i < 3; i++)
@@ -69,7 +69,7 @@ TEST(Core, Matrices)
         }
     }, std::logic_error);
     adaboost::core::Vector<float> vec(2);
-    fill(2.0,vec);
+    fill(2.0F,vec);
     adaboost::core::Vector<float> result2(1);
     adaboost::core::multiply(vec, mat3, result2);
     EXPECT_EQ(24, result2.at(0));

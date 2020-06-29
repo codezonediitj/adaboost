@@ -12,7 +12,7 @@ float square_1(float x)
 TEST(Core, Sum)
 {
     adaboost::core::Vector<float> vec_f(5);
-    fill(2,vec_f);
+    fill(float(2),vec_f);
     float result;
     adaboost::core::Sum(&square_1, vec_f, 0, 9, result);
     EXPECT_EQ(20, result)<<"The sum should be 20.";

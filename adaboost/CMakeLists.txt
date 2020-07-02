@@ -3,7 +3,7 @@ add_library(adaboost_utils SHARED
             utils/utils_impl.cpp)
 add_library(adaboost_core SHARED
             core/data_structures_impl.cpp
-            core/operations_impl.cu
+            core/operations_impl.cpp
             utils/utils_impl.cpp)
 if(BUILD_CUDA)
     add_library(adaboost_cuda_wrappers SHARED

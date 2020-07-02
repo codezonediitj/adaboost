@@ -10,6 +10,7 @@ if(BUILD_CUDA)
                 cuda/utils/cuda_wrappers_impl.cu)
     add_library(adaboost_cuda SHARED
                 cuda/core/cuda_data_structures_impl.cu
+                cuda/core/operations_impl.cu
                 cuda/utils/cuda_wrappers_impl.cu)
 endif()
 if(BUILD_TESTS)

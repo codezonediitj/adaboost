@@ -1,7 +1,7 @@
 #include<gtest/gtest.h>
 #include<string>
 #include<adaboost/core/data_structures.hpp>
-#include<operations.hpp>
+#include<adaboost/core/operations.hpp>
 #include<stdexcept>
 
 TEST(Core, Vector)
@@ -12,7 +12,7 @@ TEST(Core, Vector)
     vec(2), vec1(5), vec2(5);
     std::string msg1 = "The size of vector must be 5";
     EXPECT_EQ(5, vec1.get_size())<<msg1;
-    fill(float(4),vec1);
+    adaboost::core::fill(float(4),vec1);
     for(unsigned int i = 0; i < vec1.get_size(); i++)
     {
         std::string msg2 = "The value must be 4.0";

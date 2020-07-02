@@ -2,8 +2,9 @@
 #include<string>
 #include<adaboost/cuda/core/cuda_data_structures.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
-#include<operations.hpp>
-#include<stdexcept>
+#include<adaboost/core/operations.hpp>
+#include<adaboost/cuda/core/operations.hpp>
+#include<stdexcept> 
 
 TEST(Cuda, VectorGPU)
 {
@@ -11,9 +12,9 @@ TEST(Cuda, VectorGPU)
     adaboost::utils::cuda::cuda_event_create(&has_happened);
     adaboost::cuda::core::VectorGPU<float> vec1(1000);
     adaboost::cuda::core::VectorGPU<float> vec2(1000);
-    unsigned block_size = 32;
-    fill(float(1.0),vec1, block_size);
-    fill(float(1.0),vec2, block_size);
+    unsigned int block_size = 32;
+    adaboost::cuda::core::fill(float(1.0),vec1, (unsigned int)32);
+    adaboost::cuda::core::fill(float(1.0),vec2, block_size);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     float result_gpu;
@@ -51,7 +52,7 @@ TEST(Cuda, MatrixGPU)
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     adaboost::cuda::core::MatrixGPU<float> result1(3, 3);
-    adaboost::core::multiply_gpu(mat1, mat2, result1);
+    adaboost::cuda::core::multiply_gpu(mat1, mat2, result1);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     result1.copy_to_host();
@@ -67,7 +68,7 @@ TEST(Cuda, MatrixGPU)
     EXPECT_THROW({
         try
         {
-            adaboost::core::multiply_gpu(mat1, mat3, result1);
+            adaboost::cuda::core::multiply_gpu(mat1, mat3, result1);
         }
         catch(const std::logic_error& e)
         {

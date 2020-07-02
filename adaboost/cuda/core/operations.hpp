@@ -2,12 +2,13 @@
 #define CUDA_ADABOOST_CORE_OPERATIONS_HPP
 
 #include<adaboost/cuda/core/cuda_data_structures.hpp>
+using namespace adaboost::cuda::core;
 
 namespace adaboost
 {
-    namespace core
+    namespace cuda
     {
-        namespace cuda{
+        namespace core{
 
             /*
             * This function fills the vector with a given value.
@@ -52,8 +53,9 @@ namespace adaboost
             const MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
 
-        }// namespace cuda
-    } // namespace core
+
+        }// namespace core
+    } // namespace cuda
 } // namespace adaboost
 
 #endif

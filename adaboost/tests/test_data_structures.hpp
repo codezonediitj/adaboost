@@ -2,6 +2,7 @@
 #include<string>
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/core/operations.hpp>
+#include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
 
 TEST(Core, Vector)

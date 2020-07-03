@@ -1,7 +1,3 @@
-#ifndef CUDA_ADABOOST_CORE_INSTANTIATED_TEMPLATES_OPERATIONS_HPP
-#define CUDA_ADABOOST_CORE_INSTANTIATED_TEMPLATES_OPERATIONS_HPP
-
- 
 template void product_gpu<bool>(
 const VectorGPU<bool>&, const VectorGPU<bool>&, bool& result, unsigned);
 template void product_gpu<short>(
@@ -74,5 +70,4 @@ template void multiply_gpu
 (const MatrixGPU<long double>& mat1,
 const MatrixGPU<long double>& mat2,
 MatrixGPU<long double>& result);
-template void fill<float>(const float value, const VectorGPU<float>&vec, unsigned int block_size);
-#endif
+template void fill<float>(float, adaboost::cuda::core::VectorGPU<float> const&, unsigned int);

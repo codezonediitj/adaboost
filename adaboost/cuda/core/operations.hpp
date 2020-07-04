@@ -8,7 +8,8 @@ namespace adaboost
 {
     namespace cuda
     {
-        namespace core{
+        namespace core
+        {
 
             /*
             * This function fills the vector with a given value.

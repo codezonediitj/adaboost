@@ -11,9 +11,9 @@
 
 namespace adaboost
 {
-    namespace core
+    namespace cuda
     {
-        namespace cuda
+        namespace core
         {
             template <class data_type_vector>
             __global__ void fill_vector_kernel

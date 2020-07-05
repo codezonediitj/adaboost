@@ -22,13 +22,8 @@ namespace adaboost
         template <class data_type_matrix>
         void fill(data_type_matrix value, const Matrix<data_type_matrix>&mat)
         {
-            for(unsigned i = 0; i < mat.get_rows(); i++)
-            {
-                for(unsigned j = 0; j < mat.get_cols(); j++)
-                {
-                    mat.get_data_pointer()[i*mat.get_cols() + j] = value;
-                }
-            }
+            data_type_mat* matPtr = mat.get_data_pointer();
+            std::fill(matPtr, matPtr + mat.get_rows()*mat_get_cols(), value);
         }
 
 

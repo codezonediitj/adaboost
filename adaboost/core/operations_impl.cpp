@@ -14,10 +14,8 @@ namespace adaboost
         template <class data_type_vector>
         void fill(const data_type_vector value, const Vector<data_type_vector>&vec)
         {
-            for(unsigned i = 0; i < vec.get_size(); i++)
-            {
-                vec.get_data_pointer()[i] = value;
-            }
+            data_type_vector* vecPtr = vec.get_data_pointer();
+            std::fill(vecPtr, vecPtr + vec.get_size(), value);
         }
 
 

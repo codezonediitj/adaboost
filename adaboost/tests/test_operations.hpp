@@ -2,6 +2,7 @@
 #include<string>
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/core/operations.hpp>
+#include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
 
 float square_1(float x)
@@ -12,7 +13,7 @@ float square_1(float x)
 TEST(Core, Sum)
 {
     adaboost::core::Vector<float> vec_f(5);
-    vec_f.fill(2);
+    adaboost::core::fill(float(2),vec_f);
     float result;
     adaboost::core::Sum(&square_1, vec_f, 0, 9, result);
     EXPECT_EQ(20, result)<<"The sum should be 20.";

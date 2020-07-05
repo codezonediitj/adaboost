@@ -7,6 +7,29 @@ namespace adaboost
 {
     namespace core
     {
+
+        /*
+        * This function fills the vector with a given value.
+        *
+        * @param value The value with which the vector is to be populated.
+        * @param vec The Vector.
+        */
+
+        template <class data_type_vector>
+        void fill(const data_type_vector value, const Vector<data_type_vector>&vec);
+
+
+        /*
+        * This function fills the matrix with a given value.
+        *
+        * @param value The value with which the matrix is to be populated.
+        * @param vec The Matrix.
+        */
+
+        template <class data_type_matrix>
+        void fill(const data_type_matrix value, const Matrix<data_type_matrix>&mat);
+
+
         /*
         * This function computes the sum of
         * elements of the given vector and the

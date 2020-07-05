@@ -804,6 +804,8 @@ void Argmax(
 long double (*func_ptr)(long double),
 const Vector<long double>& vec,
 long double& result);
-
-
+template 
+void fill(const float value, const Vector<float>&vec);
+template
+void fill(const float value, const Matrix<float>&mat); 
 #endif

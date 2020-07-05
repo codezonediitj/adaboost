@@ -1,15 +1,3 @@
-template class VectorGPU<bool>;
-template class VectorGPU<short>;
-template class VectorGPU<unsigned short>;
-template class VectorGPU<int>;
-template class VectorGPU<unsigned int>;
-template class VectorGPU<long>;
-template class VectorGPU<unsigned long>;
-template class VectorGPU<long long>;
-template class VectorGPU<unsigned long long>;
-template class VectorGPU<float>;
-template class VectorGPU<double>;
-template class VectorGPU<long double>;
 template void product_gpu<bool>(
 const VectorGPU<bool>&, const VectorGPU<bool>&, bool& result, unsigned);
 template void product_gpu<short>(
@@ -34,18 +22,6 @@ template void product_gpu<double>(
 const VectorGPU<double>&, const VectorGPU<double>&, double& result, unsigned);
 template void product_gpu<long double>(
 const VectorGPU<long double>&, const VectorGPU<long double>&, long double& result, unsigned);
-template class MatrixGPU<bool>;
-template class MatrixGPU<short>;
-template class MatrixGPU<unsigned short>;
-template class MatrixGPU<int>;
-template class MatrixGPU<unsigned int>;
-template class MatrixGPU<long>;
-template class MatrixGPU<unsigned long>;
-template class MatrixGPU<long long>;
-template class MatrixGPU<unsigned long long>;
-template class MatrixGPU<float>;
-template class MatrixGPU<double>;
-template class MatrixGPU<long double>;
 template void multiply_gpu
 (const MatrixGPU<bool>& mat1,
 const MatrixGPU<bool>& mat2,
@@ -94,3 +70,5 @@ template void multiply_gpu
 (const MatrixGPU<long double>& mat1,
 const MatrixGPU<long double>& mat2,
 MatrixGPU<long double>& result);
+template void fill<float>(float, adaboost::cuda::core::VectorGPU<float> const&, unsigned int);
+template void fill<float>(float, adaboost::cuda::core::MatrixGPU<float> const&, unsigned int, unsigned int);

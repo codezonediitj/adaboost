@@ -101,7 +101,6 @@ TEST(Cuda, MatricesGPU)
     {
         for(unsigned int j = 0; j < 3; j++)
         {
-            std::cout<<i<<" "<<j<<" "<<result1.at(i, j)<<std::endl;
             EXPECT_EQ(60.0, result1.at(i, j));
         }
     }

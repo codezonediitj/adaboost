@@ -77,3 +77,45 @@ TEST(Cuda, MatrixGPU)
         }
     }, std::logic_error);
 }
+
+TEST(Cuda, MatricesGPU)
+{
+    adaboost::utils::cuda::cuda_event_t has_happened;
+    adaboost::utils::cuda::cuda_event_create(&has_happened);
+    adaboost::cuda::core::MatrixGPU<float> mat_f;
+    EXPECT_EQ(0, mat_f.get_cols())<<"Number of columns should be 0";
+    EXPECT_EQ(0, mat_f.get_rows())<<"Number of rows should be 0.";
+    adaboost::cuda::core::MatrixGPU<float> mat1(3, 3), mat2(3, 3), mat3(2, 1);
+    adaboost::cuda::core::fill(float(4.0),mat1,0,0);
+    adaboost::cuda::core::fill(float(5.0),mat2,0,0);
+    mat1.copy_to_device();
+    mat2.copy_to_device();
+    adaboost::utils::cuda::cuda_event_record(has_happened);
+    adaboost::utils::cuda::cuda_event_synchronize(has_happened);
+    adaboost::cuda::core::MatrixGPU<float> result1(3, 3);
+    adaboost::cuda::core::multiply_gpu(mat1, mat2, result1);
+    adaboost::utils::cuda::cuda_event_record(has_happened);
+    adaboost::utils::cuda::cuda_event_synchronize(has_happened);
+    result1.copy_to_host();
+    for(unsigned int i = 0; i < 3; i++)
+    {
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            std::cout<<i<<" "<<j<<" "<<result1.at(i, j)<<std::endl;
+            EXPECT_EQ(60.0, result1.at(i, j));
+        }
+    }
+    mat3.set(0, 0, 6.0);
+    mat3.set(1, 0, 6.0);
+    EXPECT_THROW({
+        try
+        {
+            adaboost::cuda::core::multiply_gpu(mat1, mat3, result1);
+        }
+        catch(const std::logic_error& e)
+        {
+            EXPECT_STREQ("Order of matrices don't match.", e.what());
+            throw;
+        }
+    }, std::logic_error);
+}

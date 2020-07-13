@@ -139,6 +139,43 @@ namespace adaboost
                     }
                 }
             }
+            
+            template <class data_type_matrix>
+            __device__
+            data_type_matrix get_element(
+            data_type_matrix* mat,
+            unsigned row,
+            unsigned col,
+            unsigned stride)
+            {
+                return mat[row*stride+col];
+            }
+
+            template <class data_type_matrix>
+            __device__
+            void set_element(
+            data_type_matrix* mat,
+            unsigned row,
+            unsigned col,
+            data_type_matrix value,
+            unsigned stride)
+            {
+                mat[row*stride+col] = value;
+            }
+
+            template <class data_type_matrix>
+            __device__
+            data_type_matrix* get_sub_matrix(
+            data_type_matrix* mat,
+            unsigned block_row,
+            unsigned block_col,
+            unsigned stride)
+            {
+                data_type_matrix* mat_sub =
+                new data_type_matrix[BLOCK_SIZE*BLOCK_SIZE];
+                mat_sub = &mat[stride*BLOCK_SIZE*block_row+BLOCK_SIZE*block_col];
+                return mat_sub;
+            }
 
             template <class data_type_matrix>
             __global__
@@ -146,19 +183,56 @@ namespace adaboost
             data_type_matrix* mat1,
             data_type_matrix* mat2,
             data_type_matrix* result,
-            unsigned mat1_rows,
             unsigned mat1_cols,
-            unsigned mat2_rows,
-            unsigned mat2_cols)
+			unsigned mat1_rows,
+            unsigned mat2_cols,
+			unsigned mat2_rows,
+            unsigned result_cols,
+			unsigned result_rows)
             {
+                unsigned block_row = blockIdx.y;
+                unsigned block_col = blockIdx.x;
+                data_type_matrix* result_sub = get_sub_matrix(result, block_row,
+                                                              block_col, result_cols);
+
+                unsigned row = threadIdx.y;
+                unsigned col = threadIdx.x;
+               
+				__shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
+                __shared__ data_type_matrix mat2_shared[BLOCK_SIZE][BLOCK_SIZE];
                 data_type_matrix cvalue = 0.0;
-                unsigned row = blockIdx.y*blockDim.y + threadIdx.y;
-                unsigned col = blockIdx.x*blockDim.x + threadIdx.x;
-                if(row > mat1_rows || col > mat2_cols)
-                    return ;
-                for(unsigned e = 0; e < mat1_cols; e++)
-                    cvalue += mat1[row*mat1_cols+e] * mat2[e*mat2_cols+col];
-                result[row*mat2_cols+col] = cvalue;
+
+                for(unsigned m = 0; m < (mat1_cols + BLOCK_SIZE - 1)/BLOCK_SIZE; m++)
+                {
+                    data_type_matrix* mat1_sub = get_sub_matrix(mat1, block_row,
+                                                                m, mat1_cols);
+                    data_type_matrix* mat2_sub = get_sub_matrix(mat2, m,
+                                                                block_col, mat2_cols);
+
+                    
+					if (m*BLOCK_SIZE + col < mat1_cols && (block_row*BLOCK_SIZE+ row) < mat1_rows)
+	                    mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
+					else
+						mat1_shared[row][col]=0;
+					
+					if (m*BLOCK_SIZE + row < mat2_rows && (block_col*BLOCK_SIZE+col) < mat2_cols)
+    	                mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
+					else
+						mat2_shared[row][col]=0;
+
+                    __syncthreads();
+
+                    for(unsigned e = 0; e < BLOCK_SIZE; e++)
+                    {
+                        cvalue += mat1_shared[row][e] * mat2_shared[e][col];
+                    }
+
+                    __syncthreads();
+
+                }
+				if(block_row*BLOCK_SIZE+ row<result_rows && block_col*BLOCK_SIZE+col<result_cols)
+                    set_element(result_sub, row, col, cvalue, result_cols);
+
             }
 
             template <class data_type_matrix>
@@ -168,18 +242,20 @@ namespace adaboost
             {
                 adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),
                                        "Order of matrices don't match.");
-                dim3 gridDim((mat2.get_cols() + BLOCK_SIZE - 1)/BLOCK_SIZE,
-                             (mat1.get_rows() + BLOCK_SIZE - 1)/BLOCK_SIZE);
+                dim3 gridDim((mat2.get_cols() + BLOCK_SIZE)/BLOCK_SIZE,
+                             (mat1.get_rows() + BLOCK_SIZE)/BLOCK_SIZE);
                 dim3 blockDim(BLOCK_SIZE, BLOCK_SIZE);
                 multiply_kernel
                 <<<gridDim, blockDim>>>
                 (mat1.get_data_pointer(),
                  mat2.get_data_pointer(),
                  result.get_data_pointer(),
-                 mat1.get_rows(),
                  mat1.get_cols(),
-                 mat2.get_rows(),
-                 mat2.get_cols());
+				 mat1.get_rows(),
+                 mat2.get_cols(),
+				 mat2.get_rows(),
+                 result.get_cols(),
+				 result.get_rows());
             }
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 

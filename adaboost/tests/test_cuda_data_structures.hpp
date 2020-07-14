@@ -147,7 +147,7 @@ TEST(Cuda, MatricesGPU)
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     r1.copy_to_host();
     EXPECT_EQ(83.0, r1.at(0, 0));
-	EXPECT_EQ(63.0, r1.at(0, 1));
-	EXPECT_EQ(37.0, r1.at(0, 2));
-	EXPECT_EQ(75.0, r1.at(0, 3));
+    EXPECT_EQ(63.0, r1.at(0, 1));
+    EXPECT_EQ(37.0, r1.at(0, 2));
+    EXPECT_EQ(75.0, r1.at(0, 3));
 }

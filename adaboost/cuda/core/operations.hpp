@@ -53,6 +53,13 @@ namespace adaboost
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
             const MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
+         
+            template <class data_type_1, class data_type_2>
+            void Argmax(
+            data_type_2 (*func_ptr)(data_type_1),
+            const VectorGPU<data_type_1>& vec,
+            data_type_1& result,
+            unsigned int block_size);
 
 
         }// namespace core

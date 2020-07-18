@@ -74,7 +74,7 @@ namespace adaboost
                 }
             }
 
-        template <class data_type_vector>
+            template <class data_type_vector>
             __global__
             void product_kernel
             (data_type_vector* v1, data_type_vector* v2, data_type_vector* v3,
@@ -257,9 +257,83 @@ namespace adaboost
                  result.get_cols(),
 				 result.get_rows());
             }
+
+            template <class data_type_1, class data_type_2>
+            __global__ 
+            void find_maximum_kernel(
+            data_type_2 (*func_ptr)(data_type_1),
+            data_type_1* vec, 
+            data_type_1 *max, 
+            int *mutex, 
+            unsigned int size)
+            {
+                __shared__ float cache[256];
+
+                unsigned index = threadIdx.x;
+                unsigned stride = blockDim.x;
+
+                data_type_1 temp = func_ptr(vec[index]);
+                for(unsigned i = index+stride; i < size; i += stride)
+                {
+                    temp = fmaxf(temp, func_ptr(vec[i]));
+                }
+
+                cache[index] = temp;
+
+                __syncthreads();
+
+
+                // reduction
+                unsigned int i = stride/2;
+                while(i != 0){
+                    if(index < i){
+                        cache[index] = fmaxf(cache[index], cache[index + i]);
+                    }
+
+                    __syncthreads();
+                    i /= 2;
+                }
+
+                if(index == 0){
+                    while(atomicCAS(mutex,0,1) != 0);  //lock
+                    *max = fmaxf(*max, cache[0]);
+                    atomicExch(mutex, 0);  //unlock
+                }
+            }
+
+            template <class data_type_1, class data_type_2>
+            void Argmax(
+                data_type_2 (*func_ptr)(data_type_1),
+                const VectorGPU<data_type_1>& vec,
+                data_type_1& result,
+                unsigned block_size)
+            {
+                bool gpu=true;
+                if (block_size==0){
+                    adaboost::core::Argmax(func_ptr, vec, result);
+                }
+                else{
+                    data_type_1 *d_max;
+                    int *d_mutex;
+                    
+                    cudaMalloc((void**)&d_max, sizeof(data_type_1));
+                    cudaMalloc((void**)&d_mutex, sizeof(int));
+
+                    cudaMemset(d_max, 0, sizeof(data_type_1));
+                    cudaMemset(d_mutex, vec.at(0), sizeof(int));
+                    dim3 grid_dim=vec.get_size(gpu) + block_size - 1;
+                    dim3 block_dim=block_size;
+
+                    find_maximum_kernel<data_type_1,data_type_2>
+                    <<<grid_dim,block_dim>>>
+                    (func_ptr, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));   
+
+                    result=*d_max;
+                }
+            }
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 
-        } //namespace cuda
-    } //namespace core
+        } //namespace core
+    } //namespace cuda
 } //namespace adaboost
 #endif

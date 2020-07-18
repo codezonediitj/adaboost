@@ -29,6 +29,6 @@ TEST(Cuda, Argmax)
     vec_i.set(3, 2);
     vec_i.set(4, 3);
     float result;
-    adaboost::cuda::core::Argmax(&square_2, vec_i, result,2);
-    EXPECT_EQ(0, result)<<"The arg max value is 0.";
+    adaboost::cuda::core::Argmax(&square_1, vec_i, result,0);
+    EXPECT_EQ(3, result)<<"The arg max value is at 3.";
 }

@@ -262,39 +262,42 @@ namespace adaboost
             __global__ 
             void find_maximum_kernel(
             data_type_2 (*func_ptr)(data_type_1),
-            data_type_1* vec, 
+            data_type_1 *vec, 
             data_type_1 *max, 
             int *mutex, 
             unsigned int size)
             {
-                __shared__ float cache[256];
-
-                unsigned index = threadIdx.x;
-                unsigned stride = blockDim.x;
-
-                data_type_1 temp = func_ptr(vec[index]);
-                for(unsigned i = index+stride; i < size; i += stride)
-                {
-                    temp = fmaxf(temp, func_ptr(vec[i]));
+                unsigned int index = threadIdx.x + blockIdx.x*blockDim.x;
+                unsigned int stride = gridDim.x*blockDim.x;
+                unsigned int offset = 0;
+            
+                __shared__ float cache[MAX_BLOCK_SIZE];
+            
+            
+                float temp = func_ptr(vec[index + offset]);
+                while(index + offset < size){
+                    temp = fmaxf(temp, func_ptr(vec[index + offset]));
+            
+                    offset += stride;
                 }
-
-                cache[index] = temp;
-
+            
+                cache[threadIdx.x] = temp;
+            
                 __syncthreads();
-
-
+            
+            
                 // reduction
-                unsigned int i = stride/2;
+                unsigned int i = blockDim.x/2;
                 while(i != 0){
-                    if(index < i){
-                        cache[index] = fmaxf(cache[index], cache[index + i]);
+                    if(threadIdx.x < i){
+                        cache[threadIdx.x] = fmaxf(cache[threadIdx.x], cache[threadIdx.x + i]);
                     }
-
+            
                     __syncthreads();
                     i /= 2;
                 }
-
-                if(index == 0){
+            
+                if(threadIdx.x == 0){
                     while(atomicCAS(mutex,0,1) != 0);  //lock
                     *max = fmaxf(*max, cache[0]);
                     atomicExch(mutex, 0);  //unlock
@@ -313,22 +316,25 @@ namespace adaboost
                     adaboost::core::Argmax(func_ptr, vec, result);
                 }
                 else{
-                    data_type_1 *d_max;
-                    int *d_mutex;
-                    
+                    data_type_1 * d_max;
+                    int * d_mutex;
+
                     cudaMalloc((void**)&d_max, sizeof(data_type_1));
                     cudaMalloc((void**)&d_mutex, sizeof(int));
 
-                    cudaMemset(d_max, 0, sizeof(data_type_1));
-                    cudaMemset(d_mutex, vec.at(0), sizeof(int));
+                    cudaMemset(d_max, func_ptr(vec.at(0)), sizeof(data_type_1));
+                    cudaMemset(d_mutex, 0, sizeof(int));
+
                     dim3 grid_dim=vec.get_size(gpu) + block_size - 1;
                     dim3 block_dim=block_size;
 
                     find_maximum_kernel<data_type_1,data_type_2>
                     <<<grid_dim,block_dim>>>
-                    (func_ptr, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));   
+                    (func_ptr, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));
 
-                    result=*d_max;
+                    data_type_1 * h_result = (data_type_1 *)malloc(sizeof(data_type_1));
+                    cudaMemcpy(h_result, d_max, sizeof(data_type_1), cudaMemcpyDeviceToHost);
+                    result=*h_result;
                 }
             }
             #include "../templates/instantiated_templates_cuda_operations.hpp"

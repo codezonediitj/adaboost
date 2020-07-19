@@ -257,7 +257,7 @@ namespace adaboost
                  result.get_cols(),
 				 result.get_rows());
             }
-
+            
             template <class data_type_1, class data_type_2>
             __global__ 
             void find_maximum_kernel(
@@ -310,7 +310,7 @@ namespace adaboost
                 const VectorGPU<data_type_1>& vec,
                 data_type_1& result,
                 unsigned block_size)
-            {
+            { 
                 bool gpu=true;
                 if (block_size==0){
                     adaboost::core::Argmax(func_ptr, vec, result);
@@ -325,16 +325,20 @@ namespace adaboost
                     cudaMemset(d_max, func_ptr(vec.at(0)), sizeof(data_type_1));
                     cudaMemset(d_mutex, 0, sizeof(int));
 
+                    typedef data_type_2 (*function_ptr)(data_type_1);
+                    function_ptr h_pointFunction;
+                    cudaMemcpyFromSymbol(&h_pointFunction, func_ptr, sizeof(function_ptr));
+
                     dim3 grid_dim=vec.get_size(gpu) + block_size - 1;
                     dim3 block_dim=block_size;
 
                     find_maximum_kernel<data_type_1,data_type_2>
                     <<<grid_dim,block_dim>>>
-                    (func_ptr, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));
-
-                    data_type_1 * h_result = (data_type_1 *)malloc(sizeof(data_type_1));
-                    cudaMemcpy(h_result, d_max, sizeof(data_type_1), cudaMemcpyDeviceToHost);
-                    result=*h_result;
+                    (h_pointFunction, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));
+                    
+                    data_type_1 * h_max= (data_type_1 *)malloc(sizeof(data_type_1));
+                    cudaMemcpy(h_max, d_max, sizeof(data_type_1), cudaMemcpyDeviceToHost);
+                    result= * h_max;
                 }
             }
             #include "../templates/instantiated_templates_cuda_operations.hpp"

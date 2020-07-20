@@ -1,5 +1,5 @@
-#include<adaboost/tests/test_cuda_data_structures.hpp>
-#include<adaboost/tests/test_cuda_operations.hpp>
+// #include<adaboost/tests/test_cuda_data_structures.hpp>
+#include<adaboost/tests/test_cuda_operations.cu>
 
 int main(int ac, char* av[])
 {

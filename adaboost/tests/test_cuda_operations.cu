@@ -18,7 +18,7 @@ __device__ float square_2(float x)
     return -x*x;
 }
 
-__device__ const func_t<float,float> p_func=square_1;
+__device__ const adaboost::cuda::core::func_t<float,float> p_func=square_1;
 
 TEST(Cuda, Argmax)
 {
@@ -34,7 +34,8 @@ TEST(Cuda, Argmax)
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     float result_gpu;
-    adaboost::cuda::core::Argmax(p_func, vec_i, result_gpu, 2);
+
+    adaboost::cuda::core::Argmax(p_func, vec_i, result_gpu, block_size);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     EXPECT_EQ(3, result_gpu)<<"The arg max value is at 3.";

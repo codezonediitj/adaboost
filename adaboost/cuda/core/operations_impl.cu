@@ -330,10 +330,9 @@ namespace adaboost
                     cudaMemset(d_max, p_func(vec.at(0)), sizeof(data_type_vec));
                     cudaMemset(d_mutex, 0, sizeof(int));
                     
-                    p_func=(func_t<data_type_vec, data_type_vec>)(p_func);
-                    func_t<data_type_vec, data_type_vec> h_func;
-                    // auto h_func= p_func;
-                    cudaMemcpyFromSymbol(h_func, p_func, sizeof(func_t<data_type_vec, data_type_ret>));
+                    p_func=(func_t<data_type_vec, data_type_ret>)(p_func);
+                    func_t<data_type_vec, data_type_ret> h_func;
+                    cudaMemcpyFromSymbol(&h_func, p_func, sizeof(adaboost::cuda::core::func_t<data_type_vec, data_type_ret>));
                     cudaError_t err = cudaGetLastError();        // Get error code
 
                     if ( err != cudaSuccess )

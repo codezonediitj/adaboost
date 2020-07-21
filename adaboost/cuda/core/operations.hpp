@@ -4,16 +4,14 @@
 #include<adaboost/cuda/core/cuda_data_structures.hpp>
 using namespace adaboost::cuda::core;
 
-
-template <typename data_type_vec, typename data_type_ret>
-using func_t = data_type_ret(*)(data_type_vec);
-
 namespace adaboost
 {
     namespace cuda
     {
         namespace core
         {
+            template <typename data_type_vec, typename data_type_ret>   
+            using func_t = data_type_ret(*)(data_type_vec);
 
             /*
             * This function fills the vector with a given value.

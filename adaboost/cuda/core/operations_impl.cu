@@ -318,7 +318,7 @@ namespace adaboost
             { 
                 bool gpu=true;
                 if (block_size==0){
-                    adaboost::core::Argmax(p_func, vec, result);
+                    throw "Block size cannot be 0";
                 }
                 else{
                     data_type_vec * d_max;

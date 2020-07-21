@@ -58,11 +58,11 @@ namespace adaboost
             const MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
          
-            template <class data_type_1, class data_type_2>
+            template <class data_type_vec, class data_type_ret>
             void Argmax(
-            data_type_2 (*func_ptr)(data_type_1),
-            const VectorGPU<data_type_1>& vec,
-            data_type_1& result,
+            func_t<data_type_vec,data_type_ret> p_func,
+            const VectorGPU<data_type_vec>& vec,
+            data_type_vec& result,
             unsigned int block_size);
 
 

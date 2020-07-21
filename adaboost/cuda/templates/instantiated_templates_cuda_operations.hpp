@@ -74,7 +74,7 @@ template void fill<float>(float, adaboost::cuda::core::VectorGPU<float> const&, 
 template void fill<float>(float, adaboost::cuda::core::MatrixGPU<float> const&, unsigned int, unsigned int);
 template void Argmax
 <float, float>(
-float (*func_ptr)(float),
+func_t<float,float> p_func,
 const VectorGPU<float>& vec,
 float& result,
 unsigned int block_size);

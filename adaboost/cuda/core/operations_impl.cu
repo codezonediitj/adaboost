@@ -74,7 +74,77 @@ namespace adaboost
                 }
             }
 
-        template <class data_type_vector>
+    
+            template <class data_type_matrix>
+            __global__
+            void thread_multi(data_type_matrix *t1){
+                unsigned i = blockDim.x * blockIdx.x + threadIdx.x;
+                unsigned j = threadIdx.x;
+                t1[i] = j;
+            }
+
+            template <class data_type_matrix>
+            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
+            {
+                data_type_matrix *d_t1, *h_t1;
+                int i = 0;
+                unsigned N=32;
+                unsigned NCHUNK=4;
+                
+                //array of stream objects
+                cudaStream_t stream[NCHUNK];
+                size_t size = N*NCHUNK*sizeof(int);
+
+                cudaMalloc((void **)&d_t1, size);
+                cudaMallocHost(&h_t1, size);
+
+                for (i = 0; i < N*NCHUNK; i++) {
+                        h_t1[i] = 0;
+                }
+
+                //create 4 streams
+                for (i = 0; i < NCHUNK; i++) {
+                        cudaStreamCreate(&stream[i]);
+                }
+
+                for (i = 0; i < NCHUNK; i++) {
+                        cudaMemcpyAsync(d_t1 + i*N, h_t1 + i*N, N*sizeof(int), cudaMemcpyHostToDevice, stream[i]);
+                }
+
+                for(i = 0; i < NCHUNK; i++) {
+                        cudaStreamSynchronize(stream[i]);
+                }
+
+                for(i = 0; i < NCHUNK; i++) {
+                        thread_multi<<<1, N, 0, stream[i]>>>(d_t1 + i*N);
+                }
+
+                for(i = 0;i < NCHUNK; i++) {
+                        cudaStreamSynchronize(stream[i]);
+                }
+
+                for(i = 0; i < NCHUNK; i++) {
+                        cudaMemcpyAsync(h_t1 + i*N, d_t1 + i*N, N*sizeof(int), cudaMemcpyDeviceToHost, stream[i]);
+                }
+
+                for(i = 0; i < NCHUNK; i++) {
+                        cudaStreamSynchronize(stream[i]);
+                }
+
+                for (i = 0; i < NCHUNK; i++) {
+                        cudaStreamDestroy(stream[i]);
+                }
+
+                for(i = 0;i < N*NCHUNK; i++) {
+                        printf("%d: %d\n",i, h_t1[i]);
+                }
+
+                cudaFree(d_t1);
+                cudaFree(h_t1);
+                return 0;
+            }
+
+            template <class data_type_vector>
             __global__
             void product_kernel
             (data_type_vector* v1, data_type_vector* v2, data_type_vector* v3,
@@ -259,7 +329,7 @@ namespace adaboost
             }
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 
-        } //namespace cuda
-    } //namespace core
+        } //namespace core
+    } //namespace cuda
 } //namespace adaboost
 #endif

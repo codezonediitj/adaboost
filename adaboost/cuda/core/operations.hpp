@@ -35,6 +35,18 @@ namespace adaboost
 
             template <class data_type_matrix>
             void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>&mat, unsigned block_size_x, unsigned block_size_y);
+            
+            /*
+            * This function fills the matrix with a given value.
+            *
+            * If block size x and block size y is passed 0 and 0, values are filled on CPU otherwise they are filled on GPU.
+            *
+            * @param value The value with which the matrix is to be populated.
+            * @param vec The Matrix.
+            */
+
+            template <class data_type_matrix>
+            void fill_streams(const data_type_matrix value, const MatrixGPU<data_type_matrix>&mat, unsigned block_size_x, unsigned block_size_y);
 
 
             /*

@@ -38,7 +38,4 @@ TEST(Cuda, Argmax)
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     EXPECT_EQ(3, result_gpu)<<"The arg max value is at 3.";
-    vec_i.copy_to_host();
-    adaboost::utils::cuda::cuda_event_record(has_happened);
-    adaboost::utils::cuda::cuda_event_synchronize(has_happened);
 }

@@ -9,7 +9,6 @@
 #include<iostream>
 #include<cmath>
 
-
 namespace adaboost
 {
     namespace cuda
@@ -75,7 +74,7 @@ namespace adaboost
                 }
             }
 
-            template <class data_type_vector>
+        template <class data_type_vector>
             __global__
             void product_kernel
             (data_type_vector* v1, data_type_vector* v2, data_type_vector* v3,

@@ -18,7 +18,7 @@ __device__ float square_2(float x)
     return -x*x;
 }
 
-__device__ const func_t p_func= (func_t)(square_1);
+__device__ const func_t<float,float> p_func=square_1;
 
 TEST(Cuda, Argmax)
 {
@@ -34,15 +34,6 @@ TEST(Cuda, Argmax)
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     float result_gpu;
-    // func_t h_func;
-    // cudaMemcpyFromSymbol(h_func, p_func, sizeof(func_t));
-    // cudaError_t err = cudaGetLastError();        // Get error code
-
-    // if ( err != cudaSuccess )
-    // {
-    //    printf("CUDA Error: %s\n", cudaGetErrorString(err));
-    //    exit(-1);
-    // }
     adaboost::cuda::core::Argmax(p_func, vec_i, result_gpu, 2);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);

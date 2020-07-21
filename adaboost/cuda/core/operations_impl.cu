@@ -9,6 +9,7 @@
 #include<iostream>
 #include<cmath>
 
+
 namespace adaboost
 {
     namespace cuda
@@ -258,8 +259,6 @@ namespace adaboost
 				 result.get_rows());
             }
             
-              
-            
             template <class data_type_vec, class data_type_ret>
             __global__ 
             void find_maximum_kernel(
@@ -308,12 +307,12 @@ namespace adaboost
                 // * max = 2;
             }
 
-            template <class data_type_vec, class data_type_ret>
-            using func_t = data_type_ret (*)(data_type_vec);
+            // template <class data_type_vec, class data_type_ret>
+            // using func_t = data_type_ret (*)(data_type_vec);
             
             template <class data_type_vec, class data_type_ret>
             void Argmax(
-                data_type_ret (*p_func)(data_type_vec),
+                const func_t<data_type_vec,data_type_ret> p_func,
                 const VectorGPU<data_type_vec>& vec,
                 data_type_vec& result,
                 unsigned block_size)
@@ -326,14 +325,16 @@ namespace adaboost
                     data_type_vec * d_max;
                     int * d_mutex;
 
-                    cudaMalloc((void**)&d_max, sizeof(data_type_vec));
+                    adaboost::utils::cuda::cuda_malloc((void**)&d_max, sizeof(data_type_vec));
                     cudaMalloc((void**)&d_mutex, sizeof(int));
 
                     cudaMemset(d_max, p_func(vec.at(0)), sizeof(data_type_vec));
                     cudaMemset(d_mutex, 0, sizeof(int));
                     
+                    p_func=(func_t<data_type_vec, data_type_vec>)(p_func);
                     func_t<data_type_vec, data_type_vec> h_func;
-                    cudaMemcpyFromSymbol(h_func, p_func, sizeof(func_t<data_type_vec,data_type_ret>));
+                    // auto h_func= p_func;
+                    cudaMemcpyFromSymbol(h_func, p_func, sizeof(func_t<data_type_vec, data_type_ret>));
                     cudaError_t err = cudaGetLastError();        // Get error code
 
                     if ( err != cudaSuccess )

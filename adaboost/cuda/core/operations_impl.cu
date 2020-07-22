@@ -55,7 +55,7 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
-            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
+            void fill_streams(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
             {
                 bool gpu=true;
                 if(block_size_x == 0 || block_size_y == 0)
@@ -77,71 +77,71 @@ namespace adaboost
     
             template <class data_type_matrix>
             __global__
-            void thread_multi(data_type_matrix *t1){
+            void thread_multi(data_type_matrix *t1, data_type_matrix value){
                 unsigned i = blockDim.x * blockIdx.x + threadIdx.x;
-                unsigned j = threadIdx.x;
-                t1[i] = j;
+                t1[i] = value;
             }
 
             template <class data_type_matrix>
             void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
             {
-                data_type_matrix *d_t1, *h_t1;
+                bool gpu=true;
+                // data_type_matrix *d_t1;
                 int i = 0;
-                unsigned N=32;
-                unsigned NCHUNK=4;
+                unsigned N=3;
+                unsigned NCHUNK=3;
                 
                 //array of stream objects
                 cudaStream_t stream[NCHUNK];
-                size_t size = N*NCHUNK*sizeof(int);
+                // size_t size = N*NCHUNK*sizeof(data_type_matrix);
 
-                cudaMalloc((void **)&d_t1, size);
-                cudaMallocHost(&h_t1, size);
+                // cudaMalloc((void **)&d_t1, size);
+                // cudaMallocHost(&h_t1, size);
 
-                for (i = 0; i < N*NCHUNK; i++) {
-                        h_t1[i] = 0;
-                }
+                // for (i = 0; i < N*NCHUNK; i++) {
+                //         h_t1[i] = 0;
+                // }
 
                 //create 4 streams
                 for (i = 0; i < NCHUNK; i++) {
                         cudaStreamCreate(&stream[i]);
                 }
 
-                for (i = 0; i < NCHUNK; i++) {
-                        cudaMemcpyAsync(d_t1 + i*N, h_t1 + i*N, N*sizeof(int), cudaMemcpyHostToDevice, stream[i]);
-                }
+                // for (i = 0; i < NCHUNK; i++) {
+                //         cudaMemcpyAsync(d_t1 + i*N, h_t1 + i*N, N*sizeof(int), cudaMemcpyHostToDevice, stream[i]);
+                // }
 
                 for(i = 0; i < NCHUNK; i++) {
                         cudaStreamSynchronize(stream[i]);
                 }
 
                 for(i = 0; i < NCHUNK; i++) {
-                        thread_multi<<<1, N, 0, stream[i]>>>(d_t1 + i*N);
+                        thread_multi<<<1, N, 0, stream[i]>>>(mat.get_data_pointer(gpu) + i*N, value);
                 }
 
                 for(i = 0;i < NCHUNK; i++) {
                         cudaStreamSynchronize(stream[i]);
                 }
 
-                for(i = 0; i < NCHUNK; i++) {
-                        cudaMemcpyAsync(h_t1 + i*N, d_t1 + i*N, N*sizeof(int), cudaMemcpyDeviceToHost, stream[i]);
-                }
+                // for(i = 0; i < NCHUNK; i++) {
+                //         cudaMemcpyAsync(h_t1 + i*N, d_t1 + i*N, N*sizeof(int), cudaMemcpyDeviceToHost, stream[i]);
+                // }
 
-                for(i = 0; i < NCHUNK; i++) {
-                        cudaStreamSynchronize(stream[i]);
-                }
+                // for(i = 0; i < NCHUNK; i++) {
+                //         cudaStreamSynchronize(stream[i]);
+                // }
 
                 for (i = 0; i < NCHUNK; i++) {
                         cudaStreamDestroy(stream[i]);
                 }
 
-                for(i = 0;i < N*NCHUNK; i++) {
-                        printf("%d: %d\n",i, h_t1[i]);
-                }
+                // for(i = 0;i < N*NCHUNK; i++) {
+                //         printf("%d: %d\n",i, h_t1[i]);
+                // }
 
-                cudaFree(d_t1);
-                cudaFree(h_t1);
-                return 0;
+                // cudaFree(d_t1);
+                // cudaFree(h_t1);
+                return;
             }
 
             template <class data_type_vector>

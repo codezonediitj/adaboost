@@ -71,4 +71,4 @@ template void multiply_gpu
 const MatrixGPU<long double>& mat2,
 MatrixGPU<long double>& result);
 template void fill<float>(float, adaboost::cuda::core::VectorGPU<float> const&, unsigned int);
-template void fill<float>(float, adaboost::cuda::core::MatrixGPU<float> const&, unsigned int, unsigned int);
+template void fill<float>(float, adaboost::cuda::core::MatrixGPU<float> const&, unsigned int);

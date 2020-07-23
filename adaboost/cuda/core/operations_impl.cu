@@ -62,20 +62,20 @@ namespace adaboost
                 if (num_streams > mat.get_rows()){
                     num_streams = mat.get_rows();
                 }
-                
+
                 bool gpu = true;
                 unsigned N=mat.get_cols();
                 unsigned total_elements=mat.get_cols()*mat.get_rows();
                 
                 //array of stream objects
-                cudaStream_t stream[num_streams];
+                adaboost::utils::cuda::cuda_stream_t stream[num_streams];
 
                 for(int i = 0; i < num_streams; i++) {
-                    cudaStreamCreate(&stream[i]);
+                    adaboost::utils::cuda::cuda_stream_create(&stream[i]);
                 }
 
                 for(int i = 0; i < num_streams; i++) {
-                    cudaStreamSynchronize(stream[i]);
+                    adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
                 }
 
                 for(unsigned row = 0; row < mat.get_rows(); row++) {
@@ -84,11 +84,11 @@ namespace adaboost
                 }
 
                 for(int i = 0;i < num_streams; i++) {
-                    cudaStreamSynchronize(stream[i]);
+                    adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
                 }
 
                 for (int i = 0; i < num_streams; i++) {
-                    cudaStreamDestroy(stream[i]);
+                    adaboost::utils::cuda::cuda_stream_destroy(stream[i]);
                 }
 
             }

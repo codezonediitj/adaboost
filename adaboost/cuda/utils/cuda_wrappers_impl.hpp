@@ -47,6 +47,21 @@ namespace adaboost
                 cudaFree(ptr);
             }
 
+            void cuda_stream_create(cuda_stream_t * stream)
+            {
+                cudaStreamCreate(stream);    
+            }
+
+            void cuda_stream_synchronize(cuda_stream_t stream)
+            {
+                cudaStreamSynchronize(stream);
+            }
+
+           void cuda_stream_destroy(cuda_stream_t stream)
+           {
+               cudaStreamDestroy(stream);
+           }
+
         } // namespace cuda
     } // namespace utils
 } // namespace adaboost

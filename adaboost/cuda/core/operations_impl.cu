@@ -44,7 +44,6 @@ namespace adaboost
                     (vec.get_data_pointer(gpu), vec.get_size(gpu), value);
                 }
             }
-    
             template <class data_type_matrix>
             __global__
             void thread_multi(data_type_matrix *t1, data_type_matrix value, unsigned total_elements){

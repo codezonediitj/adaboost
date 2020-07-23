@@ -55,6 +55,14 @@ namespace adaboost
             template <class data_type_matrix>
             void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned num_streams)
             {
+                if (num_streams <= 0){
+                    throw "Need positive number of streams";
+                }
+
+                if (num_streams > mat.get_rows()){
+                    num_streams = mat.get_rows();
+                }
+                
                 bool gpu = true;
                 unsigned N=mat.get_cols();
                 unsigned total_elements=mat.get_cols()*mat.get_rows();

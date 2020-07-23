@@ -27,10 +27,9 @@ namespace adaboost
             /*
             * This function fills the matrix with a given value.
             *
-            * If block size x and block size y is passed 0 and 0, values are filled on CPU otherwise they are filled on GPU.
-            *
             * @param value The value with which the matrix is to be populated.
-            * @param vec The Matrix.
+            * @param mat The Matrix.
+            * @num_streams Number of streams being used to fill the matrix
             */
 
             template <class data_type_matrix>
@@ -40,6 +39,11 @@ namespace adaboost
             * This function computes
             * dot product of two vectors on
             * GPU.
+            * 
+            * @param vec1 First vector whose product is to be calculated
+            * @param vec2 Second vector whose product is to be calculated
+            * @param result Location to store answer
+            * @param block_size  Number of threads to be launched per block on GPU.
             */
 
             template <class data_type_vector>
@@ -48,6 +52,15 @@ namespace adaboost
             data_type_vector& result,
             unsigned block_size=0);
 
+            /*
+            * This function computes
+            * dot product of two matrices on
+            * GPU.
+            * 
+            * @param mat1 First matrix whose product is to be calculated
+            * @param vec2 Second matrix whose product is to be calculated
+            * @param result Location to store answer
+            */
             template <class data_type_matrix>
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
             const MatrixGPU<data_type_matrix>& mat2,

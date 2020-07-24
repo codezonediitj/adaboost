@@ -72,9 +72,3 @@ const MatrixGPU<long double>& mat2,
 MatrixGPU<long double>& result);
 template void fill<float>(float, adaboost::cuda::core::VectorGPU<float> const&, unsigned int);
 template void fill<float>(float, adaboost::cuda::core::MatrixGPU<float> const&, unsigned int, unsigned int);
-template void Argmax
-<float, float>(
-func_t<float,float> p_func,
-const VectorGPU<float>& vec,
-float& result,
-unsigned int block_size);

@@ -1,5 +1,5 @@
-#ifndef CUDA_ADABOOST_CORE_OPERATIONS_HPP
-#define CUDA_ADABOOST_CORE_OPERATIONS_HPP
+#ifndef ADABOOST_CUDA_CORE_OPERATIONS_HPP
+#define ADABOOST_CUDA_CORE_OPERATIONS_HPP
 
 #include<adaboost/cuda/core/cuda_data_structures.hpp>
 using namespace adaboost::cuda::core;
@@ -10,8 +10,6 @@ namespace adaboost
     {
         namespace core
         {
-            template <typename data_type_vec, typename data_type_ret>   
-            using func_t = data_type_ret(*)(data_type_vec);
 
             /*
             * This function fills the vector with a given value.
@@ -55,14 +53,6 @@ namespace adaboost
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
             const MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
-         
-            template <class data_type_vec, class data_type_ret>
-            void Argmax(
-            func_t<data_type_vec,data_type_ret> p_func,
-            const VectorGPU<data_type_vec>& vec,
-            data_type_vec& result,
-            unsigned int block_size);
-
 
         }// namespace core
     } // namespace cuda

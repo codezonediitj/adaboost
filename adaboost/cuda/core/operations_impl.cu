@@ -1,13 +1,16 @@
-#ifndef CUDA_ADABOOST_CORE_OPERATIONS_IMPL_HPP
-#define CUDA_ADABOOST_CORE_OPERATIONS_IMPL_HPP
+#ifndef CUDA_ADABOOST_CORE_OPERATIONS_IMPL_CU
+#define CUDA_ADABOOST_CORE_OPERATIONS_IMPL_CU
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/cuda/core/operations.hpp>
+#include<adaboost/cuda/core/operations.cu>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
-#include<adaboost/cuda/core/cuda_data_structures_impl.hpp>
-#include<adaboost/core/operations_impl.cpp>
+#include<adaboost/core/operations.hpp>
 #include<iostream>
 #include<cmath>
+
+#define MAX_BLOCK_SIZE 1024
+#define BLOCK_SIZE 16
 
 namespace adaboost
 {
@@ -74,7 +77,7 @@ namespace adaboost
                 }
             }
 
-        template <class data_type_vector>
+            template <class data_type_vector>
             __global__
             void product_kernel
             (data_type_vector* v1, data_type_vector* v2, data_type_vector* v3,
@@ -139,7 +142,7 @@ namespace adaboost
                     }
                 }
             }
-            
+
             template <class data_type_matrix>
             __device__
             data_type_matrix get_element(
@@ -184,11 +187,11 @@ namespace adaboost
             data_type_matrix* mat2,
             data_type_matrix* result,
             unsigned mat1_cols,
-			unsigned mat1_rows,
+            unsigned mat1_rows,
             unsigned mat2_cols,
-			unsigned mat2_rows,
+            unsigned mat2_rows,
             unsigned result_cols,
-			unsigned result_rows)
+            unsigned result_rows)
             {
                 unsigned block_row = blockIdx.y;
                 unsigned block_col = blockIdx.x;
@@ -197,8 +200,8 @@ namespace adaboost
 
                 unsigned row = threadIdx.y;
                 unsigned col = threadIdx.x;
-               
-				__shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
+
+                __shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
                 __shared__ data_type_matrix mat2_shared[BLOCK_SIZE][BLOCK_SIZE];
                 data_type_matrix cvalue = 0.0;
 
@@ -209,16 +212,16 @@ namespace adaboost
                     data_type_matrix* mat2_sub = get_sub_matrix(mat2, m,
                                                                 block_col, mat2_cols);
 
-                    
-					if (m*BLOCK_SIZE + col < mat1_cols && (block_row*BLOCK_SIZE+ row) < mat1_rows)
-	                    mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
-					else
-						mat1_shared[row][col]=0;
-					
-					if (m*BLOCK_SIZE + row < mat2_rows && (block_col*BLOCK_SIZE+col) < mat2_cols)
-    	                mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
-					else
-						mat2_shared[row][col]=0;
+
+                    if (m*BLOCK_SIZE + col < mat1_cols && (block_row*BLOCK_SIZE+ row) < mat1_rows)
+                        mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
+                    else
+                        mat1_shared[row][col]=0;
+
+                    if (m*BLOCK_SIZE + row < mat2_rows && (block_col*BLOCK_SIZE+col) < mat2_cols)
+                        mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
+                    else
+                        mat2_shared[row][col]=0;
 
                     __syncthreads();
 
@@ -230,7 +233,7 @@ namespace adaboost
                     __syncthreads();
 
                 }
-				if(block_row*BLOCK_SIZE+ row<result_rows && block_col*BLOCK_SIZE+col<result_cols)
+                if(block_row*BLOCK_SIZE+ row<result_rows && block_col*BLOCK_SIZE+col<result_cols)
                     set_element(result_sub, row, col, cvalue, result_cols);
 
             }
@@ -251,108 +254,103 @@ namespace adaboost
                  mat2.get_data_pointer(),
                  result.get_data_pointer(),
                  mat1.get_cols(),
-				 mat1.get_rows(),
+                 mat1.get_rows(),
                  mat2.get_cols(),
-				 mat2.get_rows(),
+                 mat2.get_rows(),
                  result.get_cols(),
-				 result.get_rows());
+                 result.get_rows());
             }
-            
+
             template <class data_type_vec, class data_type_ret>
-            __global__ 
+            __global__
             void find_maximum_kernel(
             data_type_ret (*func_ptr)(data_type_vec),
-            data_type_vec *vec, 
-            data_type_vec *max, 
-            int *mutex, 
+            data_type_vec* vec,
+            unsigned* max,
+            int* mutex,
             unsigned int size)
             {
-                // unsigned int index = threadIdx.x + blockIdx.x*blockDim.x;
-                // unsigned int stride = gridDim.x*blockDim.x;
-                // unsigned int offset = 0;
-            
-                // __shared__ float cache[MAX_BLOCK_SIZE];
-            
-            
-                // float temp = func_ptr(vec[index + offset]);
-                // while(index + offset < size){
-                //     temp = fmaxf(temp, func_ptr(vec[index + offset]));
-            
-                //     offset += stride;
-                // }
-            
-                // cache[threadIdx.x] = temp;
-            
-                // __syncthreads();
-            
-            
-                // // reduction
-                // unsigned int i = blockDim.x/2;
-                // while(i != 0){
-                //     if(threadIdx.x < i){
-                //         cache[threadIdx.x] = fmaxf(cache[threadIdx.x], cache[threadIdx.x + i]);
-                //     }
-            
-                //     __syncthreads();
-                //     i /= 2;
-                // }
-            
-                // if(threadIdx.x == 0){
-                //     while(atomicCAS(mutex,0,1) != 0);  //lock
-                //     *max = fmaxf(*max, cache[0]);
-                //     atomicExch(mutex, 0);  //unlock
-                // }
-                * max = func_ptr(1);
-                // * max = 2;
-            }
+                *mutex = 0;
+                unsigned int index = threadIdx.x + blockIdx.x*blockDim.x;
+                unsigned int stride = gridDim.x*blockDim.x;
+                unsigned int offset = 0;
 
-            // template <class data_type_vec, class data_type_ret>
-            // using func_t = data_type_ret (*)(data_type_vec);
-            
-            template <class data_type_vec, class data_type_ret>
-            void Argmax(
-                func_t<data_type_vec,data_type_ret> p_func,
-                const VectorGPU<data_type_vec>& vec,
-                data_type_vec& result,
-                unsigned block_size)
-            { 
-                bool gpu=true;
-                if (block_size==0){
-                    throw "Block size cannot be 0";
-                }
-                else{
-                    data_type_vec * d_max;
-                    int * d_mutex;
+                __shared__ data_type_ret val_cache[MAX_BLOCK_SIZE];
+                __shared__ unsigned idx_cache[MAX_BLOCK_SIZE];
 
-                    adaboost::utils::cuda::cuda_malloc((void**)&d_max, sizeof(data_type_vec));
-                    cudaMalloc((void**)&d_mutex, sizeof(int));
-
-                    cudaMemset(d_max, p_func(vec.at(0)), sizeof(data_type_vec));
-                    cudaMemset(d_mutex, 0, sizeof(int));
-                    
-                    p_func=(func_t<data_type_vec, data_type_ret>)(p_func);
-                    func_t<data_type_vec, data_type_ret> h_func;
-                    cudaMemcpyFromSymbol(&h_func, p_func, sizeof(adaboost::cuda::core::func_t<data_type_vec, data_type_ret>));
-                    cudaError_t err = cudaGetLastError();        // Get error code
-
-                    if ( err != cudaSuccess )
+                data_type_ret temp = func_ptr(vec[index + offset]);
+                unsigned temp_index = index + offset;
+                while(index + offset < size)
+                {
+                    if(temp > func_ptr(vec[index + offset]))
                     {
-                       printf("CUDA Error: %s\n", cudaGetErrorString(err));
-                       exit(-1);
+                        temp = func_ptr(vec[index + offset]);
+                        temp_index = index + offset;
+                    }
+                    offset += stride;
+                }
+
+                val_cache[threadIdx.x] = temp;
+                idx_cache[threadIdx.x] = temp_index;
+
+                __syncthreads();
+
+                unsigned int i = blockDim.x/2;
+                while(i > 0)
+                {
+                    if(threadIdx.x < i)
+                    {
+                        if(val_cache[threadIdx.x] < val_cache[threadIdx.x + i])
+                        {
+                            val_cache[threadIdx.x] = val_cache[threadIdx.x + i];
+                            idx_cache[threadIdx.x] = idx_cache[threadIdx.x + i];
+                        }
                     }
 
-                    dim3 grid_dim=vec.get_size(gpu) + block_size - 1;
-                    dim3 block_dim=block_size;
+                    __syncthreads();
+                    i /= 2;
+                }
 
-                    find_maximum_kernel<data_type_vec, data_type_ret>
-                    <<<grid_dim,block_dim>>>
-                    (h_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(gpu));
-                    
-                    data_type_vec * h_max= (data_type_vec *)malloc(sizeof(data_type_vec));
-                    cudaMemcpy(h_max, d_max, sizeof(data_type_vec), cudaMemcpyDeviceToHost);
-                    result= *h_max;
+                if(threadIdx.x == 0)
+                {
+                    while(atomicCAS(mutex, 0, 1) != 0);
+                    if(val_cache[*max] < val_cache[idx_cache[0]])
+                    {
+                        *max = idx_cache[0];
+                    }
+                    atomicExch(mutex, 0);
                 }
             }
+
+            template <class data_type_vec, class data_type_ret>
+            void Argmax(
+            func_t<data_type_vec, data_type_ret> p_func,
+            const VectorGPU<data_type_vec>& vec,
+            unsigned& result,
+            unsigned block_size)
+            {
+                adaboost::utils::check(block_size != 0, "Block size should be a positive number.");
+
+                unsigned* d_max;
+                int* d_mutex;
+                adaboost::utils::cuda::cuda_malloc((void**)&d_max, sizeof(unsigned));
+                adaboost::utils::cuda::cuda_malloc((void**)&d_mutex, sizeof(int));
+
+                dim3 grid_dim = vec.get_size(true) + block_size - 1, block_dim = block_size;
+
+                find_maximum_kernel<data_type_vec, data_type_ret>
+                <<<grid_dim, block_dim>>>
+                (p_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(true));
+
+                data_type_vec* h_max = (data_type_vec*)malloc(sizeof(data_type_vec));
+                adaboost::utils::cuda::cuda_memcpy(
+                h_max, d_max,
+                sizeof(data_type_vec),
+                adaboost::utils::cuda::DeviceToHost);
+                result = *h_max;
+            }
+
+            #include "../templates/instantiated_templates_cuda_operations.cu"
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 
         } //namespace core

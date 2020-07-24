@@ -1,5 +1,5 @@
-#ifndef CUDA_ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
-#define CUDA_ADABOOST_CORE_DATA_STRUCTURES_IMPL_HPP
+#ifndef ADABOOST_CUDA_CORE_DATA_STRUCTURES_IMPL_HPP
+#define ADABOOST_CUDA_CORE_DATA_STRUCTURES_IMPL_HPP
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>

@@ -6,8 +6,10 @@
 #include<adaboost/cuda/core/operations.cu>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/core/operations.hpp>
+#include<adaboost/cuda/core/function_params.cu>
 #include<iostream>
 #include<cmath>
+#include<stdio.h>
 
 #define MAX_BLOCK_SIZE 1024
 #define BLOCK_SIZE 16
@@ -270,6 +272,7 @@ namespace adaboost
             int* mutex,
             unsigned int size)
             {
+                *max = 0;
                 *mutex = 0;
                 unsigned int index = threadIdx.x + blockIdx.x*blockDim.x;
                 unsigned int stride = gridDim.x*blockDim.x;
@@ -330,22 +333,36 @@ namespace adaboost
             unsigned block_size)
             {
                 adaboost::utils::check(block_size != 0, "Block size should be a positive number.");
-
                 unsigned* d_max;
                 int* d_mutex;
                 adaboost::utils::cuda::cuda_malloc((void**)&d_max, sizeof(unsigned));
                 adaboost::utils::cuda::cuda_malloc((void**)&d_mutex, sizeof(int));
+                
+                unsigned* h_max = (unsigned*)malloc(sizeof(unsigned));
+                *h_max=0;   //initializing
+                adaboost::utils::cuda::cuda_memcpy(
+                d_max, h_max,
+                sizeof(unsigned),
+                adaboost::utils::cuda::HostToDevice);
+
+                func_t <data_type_vec, data_type_ret> h_func;
+                cudaMemcpyFromSymbol(&h_func, p_func_here, sizeof(func_t <data_type_vec, data_type_ret>));
+                cudaError_t err = cudaGetLastError();        // Get error code
+                if ( err != cudaSuccess ){
+                    printf("CUDA Error: %s\n", cudaGetErrorString(err));
+                       exit(-1);
+                }
 
                 dim3 grid_dim = vec.get_size(true) + block_size - 1, block_dim = block_size;
 
                 find_maximum_kernel<data_type_vec, data_type_ret>
                 <<<grid_dim, block_dim>>>
-                (p_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(true));
+                (h_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(true));
+               
 
-                data_type_vec* h_max = (data_type_vec*)malloc(sizeof(data_type_vec));
                 adaboost::utils::cuda::cuda_memcpy(
                 h_max, d_max,
-                sizeof(data_type_vec),
+                sizeof(unsigned),
                 adaboost::utils::cuda::DeviceToHost);
                 result = *h_max;
             }

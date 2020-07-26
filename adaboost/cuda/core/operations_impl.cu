@@ -278,14 +278,15 @@ namespace adaboost
                 unsigned int stride = gridDim.x*blockDim.x;
                 unsigned int offset = 0;
 
-                __shared__ data_type_ret val_cache[MAX_BLOCK_SIZE];
-                __shared__ unsigned idx_cache[MAX_BLOCK_SIZE];
+                extern __shared__ data_type_ret s[];
+                data_type_ret* val_cache = s;
+                unsigned* idx_cache=(unsigned *)&val_cache[blockDim.x];
 
                 data_type_ret temp = func_ptr(vec[index + offset]);
                 unsigned temp_index = index + offset;
                 while(index + offset < size)
                 {
-                    if(temp > func_ptr(vec[index + offset]))
+                    if(temp < func_ptr(vec[index + offset]))
                     {
                         temp = func_ptr(vec[index + offset]);
                         temp_index = index + offset;
@@ -295,7 +296,6 @@ namespace adaboost
 
                 val_cache[threadIdx.x] = temp;
                 idx_cache[threadIdx.x] = temp_index;
-
                 __syncthreads();
 
                 unsigned int i = blockDim.x/2;
@@ -317,7 +317,7 @@ namespace adaboost
                 if(threadIdx.x == 0)
                 {
                     while(atomicCAS(mutex, 0, 1) != 0);
-                    if(val_cache[*max] < val_cache[idx_cache[0]])
+                    if(func_ptr(vec[*max]) < val_cache[0])
                     {
                         *max = idx_cache[0];
                     }
@@ -330,6 +330,7 @@ namespace adaboost
             func_t<data_type_vec, data_type_ret> p_func,
             const VectorGPU<data_type_vec>& vec,
             unsigned& result,
+            unsigned grid_size,
             unsigned block_size)
             {
                 adaboost::utils::check(block_size != 0, "Block size should be a positive number.");
@@ -353,10 +354,10 @@ namespace adaboost
                        exit(-1);
                 }
 
-                dim3 grid_dim = vec.get_size(true) + block_size - 1, block_dim = block_size;
+                dim3 grid_dim =grid_size, block_dim = block_size;
 
                 find_maximum_kernel<data_type_vec, data_type_ret>
-                <<<grid_dim, block_dim>>>
+                <<<grid_dim, block_dim, block_size*sizeof(data_type_ret) + block_size*sizeof(unsigned)>>>
                 (h_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(true));
                
 

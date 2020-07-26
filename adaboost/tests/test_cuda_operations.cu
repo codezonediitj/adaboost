@@ -19,30 +19,26 @@ TEST(Cuda, Argmax)
 {
     adaboost::utils::cuda::cuda_event_t has_happened;
     adaboost::utils::cuda::cuda_event_create(&has_happened);
-    adaboost::cuda::core::VectorGPU<float> vec_i(5);
+    adaboost::cuda::core::VectorGPU<float> vec_i(10);
     vec_i.set(0, (float)-1.0);
     vec_i.set(1, (float)0.);
     vec_i.set(2, (float)1.);
     vec_i.set(3, (float)2.);
     vec_i.set(4, (float)3.);
-    unsigned int block_size = 2;
+    vec_i.set(5, (float)4.);
+    vec_i.set(6, (float)9.);
+    vec_i.set(7, (float)12.);
+    vec_i.set(8, (float)8.);
+    vec_i.set(9, (float)6.);
+    unsigned int block_size = 3;
+    unsigned int grid_size = 2;
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     unsigned result_gpu;
-
-    adaboost::cuda::core::func_t <float, float> h_func;
-    // adaboost::utils::cuda::cuda_malloc((void**)&h_func, sizeof(func_t <data_type_vec, data_type_ret>));
-    
-    // cudaMemcpyToSymbol(h_func, &p_func, sizeof(func_t <data_type_vec, data_type_ret>), 0, cudaMemcpyHostToDevice);
-    // cudaMemcpyFromSymbol(&h_func, p_func_here, sizeof(adaboost::cuda::core::func_t <float, float>));
-    // cudaError_t err = cudaGetLastError();        // Get error code
-    // if ( err != cudaSuccess ){
-    //     printf("CUDA Error: %s\n", cudaGetErrorString(err));
-    //         exit(-1);
-    // }
-    adaboost::cuda::core::Argmax(square_1_in, vec_i, result_gpu, block_size);
+    vec_i.copy_to_device();
+    adaboost::cuda::core::Argmax(square_1_in, vec_i, result_gpu, grid_size, block_size);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
-    EXPECT_EQ(4, result_gpu)<<"The arg max value is at 4.";
+    EXPECT_EQ(7, result_gpu)<<"The arg max value is at 7.";
 }
 #endif

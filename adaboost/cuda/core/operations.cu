@@ -18,6 +18,7 @@ namespace adaboost
             func_t<data_type_vec,data_type_ret> p_func,
             const VectorGPU<data_type_vec>& vec,
             unsigned& result,
+            unsigned int grid_size,
             unsigned int block_size);
 
         }// namespace core

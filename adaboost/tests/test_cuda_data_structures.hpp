@@ -96,10 +96,10 @@ TEST(Cuda, MatricesGPU)
     EXPECT_EQ(0, mat_f.get_cols())<<"Number of columns should be 0";
     EXPECT_EQ(0, mat_f.get_rows())<<"Number of rows should be 0.";
     adaboost::cuda::core::MatrixGPU<float> mat1(3, 3), mat2(3, 3), mat3(2, 1);
+    adaboost::cuda::core::fill(float(4.0), mat1, 0, 0);
+    adaboost::cuda::core::fill(float(5.0), mat2, 0, 0);
     mat1.copy_to_device();
     mat2.copy_to_device();
-    adaboost::cuda::core::fill(float(4.0), mat1, 2);
-    adaboost::cuda::core::fill(float(5.0), mat2, 2);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     adaboost::cuda::core::MatrixGPU<float> result1(3, 3);

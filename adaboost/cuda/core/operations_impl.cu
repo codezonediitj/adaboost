@@ -44,6 +44,36 @@ namespace adaboost
                     (vec.get_data_pointer(gpu), vec.get_size(gpu), value);
                 }
             }
+            
+            template <class data_type_matrix>
+            __global__ void fill_matrix_kernel
+            (data_type_matrix* data, unsigned cols, data_type_matrix value)
+            {
+                unsigned row = blockDim.y*blockIdx.y + threadIdx.y;
+                unsigned col = blockDim.x*blockIdx.x + threadIdx.x;
+                data[row*cols + col] = value;
+            }
+
+            template <class data_type_matrix>
+            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
+            {
+                bool gpu=true;
+                if(block_size_x == 0 || block_size_y == 0)
+                {
+                    adaboost::core::fill(value, mat);
+                }
+                else
+                {
+                    dim3 gridDim((mat.get_cols(gpu) + block_size_x - 1)/block_size_x, (mat.get_rows(gpu) + block_size_y - 1)/block_size_y);
+                    dim3 blockDim(block_size_x, block_size_y);
+                    fill_matrix_kernel<data_type_matrix>
+                    <<<
+                    gridDim, blockDim
+                    >>>
+                    (mat.get_data_pointer(gpu), mat.get_rows(gpu), value);
+                }
+            }
+            
             template <class data_type_matrix>
             __global__
             void thread_multi(data_type_matrix *t1, data_type_matrix value, unsigned total_elements){

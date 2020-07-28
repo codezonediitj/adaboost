@@ -347,7 +347,7 @@ namespace adaboost
                 adaboost::utils::cuda::HostToDevice);
 
                 func_t <data_type_vec, data_type_ret> h_func;
-                cudaMemcpyFromSymbol(&h_func, p_func_here, sizeof(func_t <data_type_vec, data_type_ret>));
+                cudaMemcpyFromSymbol(&h_func, p_func_here<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
                 cudaError_t err = cudaGetLastError();        // Get error code
                 if ( err != cudaSuccess ){
                     printf("CUDA Error: %s\n", cudaGetErrorString(err));

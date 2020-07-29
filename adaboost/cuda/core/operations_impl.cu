@@ -28,7 +28,7 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            void fill(const data_type_vector value, const VectorGPU<data_type_vector>& vec, unsigned block_size)
+            void fill(data_type_vector value, VectorGPU<data_type_vector>& vec, unsigned block_size)
             {
                 bool gpu=true;
                 if(block_size == 0)
@@ -44,7 +44,7 @@ namespace adaboost
                     (vec.get_data_pointer(gpu), vec.get_size(gpu), value);
                 }
             }
-            
+
             template <class data_type_matrix>
             __global__ void fill_matrix_kernel
             (data_type_matrix* data, unsigned cols, data_type_matrix value)
@@ -55,7 +55,7 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
-            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
             {
                 bool gpu=true;
                 if(block_size_x == 0 || block_size_y == 0)
@@ -73,54 +73,56 @@ namespace adaboost
                     (mat.get_data_pointer(gpu), mat.get_rows(gpu), value);
                 }
             }
-            
+
             template <class data_type_matrix>
             __global__
-            void thread_multi(data_type_matrix *t1, data_type_matrix value, unsigned total_elements){
+            void thread_multi(data_type_matrix *t1, data_type_matrix value, unsigned total_elements)
+            {
                 unsigned i = blockDim.x * blockIdx.x + threadIdx.x;
                 if(i < total_elements)
+                {
                     t1[i] = value;
+                }
             }
 
             template <class data_type_matrix>
-            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned num_streams)
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned num_streams)
             {
-                if (num_streams <= 0){
-                    throw "Need positive number of streams";
-                }
+                adaboost::utils::check(num_streams != 0, "Need positive number of streams");
 
-                if (num_streams > mat.get_rows()){
+                if(num_streams > mat.get_rows())
+                {
                     num_streams = mat.get_rows();
                 }
 
                 bool gpu = true;
-                unsigned N=mat.get_cols();
-                unsigned total_elements=mat.get_cols()*mat.get_rows();
-                
-                //array of stream objects
+                unsigned N = mat.get_cols(), total_elements = mat.get_cols()*mat.get_rows();
+
                 adaboost::utils::cuda::cuda_stream_t stream[num_streams];
 
-                for(int i = 0; i < num_streams; i++) {
+                for(int i = 0; i < num_streams; i++)
+                {
                     adaboost::utils::cuda::cuda_stream_create(&stream[i]);
                 }
-
-                for(int i = 0; i < num_streams; i++) {
+                for(int i = 0; i < num_streams; i++)
+                {
                     adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
                 }
 
-                for(unsigned row = 0; row < mat.get_rows(); row++) {
+                for(unsigned row = 0; row < mat.get_rows(); row++)
+                {
                     int curr_stream = row % num_streams;
                     thread_multi<<<1, N, 0, stream[curr_stream]>>>(mat.get_data_pointer(gpu) + row*N, value, total_elements);
                 }
 
-                for(int i = 0;i < num_streams; i++) {
+                for(int i = 0;i < num_streams; i++)
+                {
                     adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
                 }
-
-                for (int i = 0; i < num_streams; i++) {
+                for (int i = 0; i < num_streams; i++)
+                {
                     adaboost::utils::cuda::cuda_stream_destroy(stream[i]);
                 }
-
             }
 
             template <class data_type_vector>
@@ -157,8 +159,8 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            void product_gpu(const VectorGPU<data_type_vector>& vec1,
-                             const VectorGPU<data_type_vector>& vec2,
+            void product_gpu(VectorGPU<data_type_vector>& vec1,
+                             VectorGPU<data_type_vector>& vec2,
                              data_type_vector& result,
                              unsigned block_size)
             {
@@ -188,7 +190,7 @@ namespace adaboost
                     }
                 }
             }
-            
+
             template <class data_type_matrix>
             __device__
             data_type_matrix get_element(
@@ -233,11 +235,11 @@ namespace adaboost
             data_type_matrix* mat2,
             data_type_matrix* result,
             unsigned mat1_cols,
-			unsigned mat1_rows,
+            unsigned mat1_rows,
             unsigned mat2_cols,
-			unsigned mat2_rows,
+            unsigned mat2_rows,
             unsigned result_cols,
-			unsigned result_rows)
+            unsigned result_rows)
             {
                 unsigned block_row = blockIdx.y;
                 unsigned block_col = blockIdx.x;
@@ -246,8 +248,8 @@ namespace adaboost
 
                 unsigned row = threadIdx.y;
                 unsigned col = threadIdx.x;
-               
-				__shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
+
+                __shared__ data_type_matrix mat1_shared[BLOCK_SIZE][BLOCK_SIZE];
                 __shared__ data_type_matrix mat2_shared[BLOCK_SIZE][BLOCK_SIZE];
                 data_type_matrix cvalue = 0.0;
 
@@ -258,16 +260,16 @@ namespace adaboost
                     data_type_matrix* mat2_sub = get_sub_matrix(mat2, m,
                                                                 block_col, mat2_cols);
 
-                    
-					if (m*BLOCK_SIZE + col < mat1_cols && (block_row*BLOCK_SIZE+ row) < mat1_rows)
-	                    mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
-					else
-						mat1_shared[row][col]=0;
-					
-					if (m*BLOCK_SIZE + row < mat2_rows && (block_col*BLOCK_SIZE+col) < mat2_cols)
-    	                mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
-					else
-						mat2_shared[row][col]=0;
+
+                    if (m*BLOCK_SIZE + col < mat1_cols && (block_row*BLOCK_SIZE+ row) < mat1_rows)
+                        mat1_shared[row][col] = get_element(mat1_sub, row, col, mat1_cols);
+                    else
+                        mat1_shared[row][col]=0;
+
+                    if (m*BLOCK_SIZE + row < mat2_rows && (block_col*BLOCK_SIZE+col) < mat2_cols)
+                        mat2_shared[row][col] = get_element(mat2_sub, row, col, mat2_cols);
+                    else
+                        mat2_shared[row][col]=0;
 
                     __syncthreads();
 
@@ -279,14 +281,14 @@ namespace adaboost
                     __syncthreads();
 
                 }
-				if(block_row*BLOCK_SIZE+ row<result_rows && block_col*BLOCK_SIZE+col<result_cols)
+                if(block_row*BLOCK_SIZE+ row<result_rows && block_col*BLOCK_SIZE+col<result_cols)
                     set_element(result_sub, row, col, cvalue, result_cols);
 
             }
 
             template <class data_type_matrix>
-            void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
-                              const MatrixGPU<data_type_matrix>& mat2,
+            void multiply_gpu(MatrixGPU<data_type_matrix>& mat1,
+                              MatrixGPU<data_type_matrix>& mat2,
                               MatrixGPU<data_type_matrix>& result)
             {
                 adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),
@@ -300,12 +302,13 @@ namespace adaboost
                  mat2.get_data_pointer(),
                  result.get_data_pointer(),
                  mat1.get_cols(),
-				 mat1.get_rows(),
+                 mat1.get_rows(),
                  mat2.get_cols(),
-				 mat2.get_rows(),
+                 mat2.get_rows(),
                  result.get_cols(),
-				 result.get_rows());
+                 result.get_rows());
             }
+
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 
         } //namespace core

@@ -20,7 +20,7 @@ TEST(Core, Vector)
         EXPECT_EQ(4.0, vec1.at(i))<<msg2;
     }
     vec1.set(2, 6.1);
-    fill(3.0F,vec2);
+    fill(3.0F, vec2);
     vec2.set(2, 0);
     float result;
     adaboost::core::product(vec1, vec2, result);
@@ -45,8 +45,8 @@ TEST(Core, Matrices)
     EXPECT_EQ(0, mat_f.get_cols())<<"Number of columns should be 0";
     EXPECT_EQ(0, mat_f.get_rows())<<"Number of rows should be 0.";
     adaboost::core::Matrix<float> mat1(3, 3), mat2(3, 3), mat3(2, 1);
-    fill(4.0F,mat1);
-    fill(5.0F,mat2);
+    fill(4.0F, mat1);
+    fill(5.0F, mat2);
     adaboost::core::Matrix<float> result1(3, 3);
     adaboost::core::multiply(mat1, mat2, result1);
     for(unsigned int i = 0; i < 3; i++)

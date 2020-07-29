@@ -64,24 +64,24 @@ namespace adaboost
 
             /*
             * Creates an asynchronous stream.
-            * 
+            *
             * @param stream The stream to be created
             */
             void cuda_stream_create(cuda_stream_t * stream);
 
             /*
             * Waits for stream tasks to complete.
-            * 
+            *
             * @param stream The stream whose tasks are to be completed
             */
             void cuda_stream_synchronize(cuda_stream_t stream);
 
             /*
             * Destroys and cleans up the asynchronous stream specified.
-            * 
-            * @param stream The stream to destroy 
+            *
+            * @param stream The stream to destroy
             */
-           void cuda_stream_destroy(cuda_stream_t stream);
+            void cuda_stream_destroy(cuda_stream_t stream);
 
         } // namspace cuda
     } // namespace utils

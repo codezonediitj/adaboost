@@ -14,8 +14,7 @@ namespace adaboost
                 cudaMalloc(ptr, num_bytes);
             }
 
-            void cuda_memcpy
-            (void* ptr_1, void* ptr_2, unsigned num_bytes, direction d)
+            void cuda_memcpy(void* ptr_1, void* ptr_2, unsigned num_bytes, direction d)
             {
                 if(d == HostToDevice)
                 {
@@ -49,7 +48,7 @@ namespace adaboost
 
             void cuda_stream_create(cuda_stream_t * stream)
             {
-                cudaStreamCreate(stream);    
+                cudaStreamCreate(stream);
             }
 
             void cuda_stream_synchronize(cuda_stream_t stream)

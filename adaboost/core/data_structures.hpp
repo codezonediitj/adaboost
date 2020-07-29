@@ -176,8 +176,8 @@ namespace adaboost
         * @param result For storing the result.
         */
         template <class data_type_vector>
-        void product(const Vector<data_type_vector>& vec1,
-                     const Vector<data_type_vector>& vec2,
+        void product(Vector<data_type_vector>& vec1,
+                     Vector<data_type_vector>& vec2,
                      data_type_vector& result);
 
         /* @overload
@@ -189,8 +189,8 @@ namespace adaboost
         * @param result A vector for storing the result.
         */
         template <class data_type_vector, class data_type_matrix>
-        void multiply(const Vector<data_type_vector>& vec,
-                     const Matrix<data_type_matrix>& mat,
+        void multiply(Vector<data_type_vector>& vec,
+                     Matrix<data_type_matrix>& mat,
                      Vector<data_type_vector>& result);
 
         /* @overload
@@ -201,8 +201,8 @@ namespace adaboost
         * @param result A matrix for storing the result.
         */
         template <class data_type_matrix>
-        void multiply(const Matrix<data_type_matrix>& mat1,
-                      const Matrix<data_type_matrix>& mat2,
+        void multiply(Matrix<data_type_matrix>& mat1,
+                      Matrix<data_type_matrix>& mat2,
                       Matrix<data_type_matrix>& result);
 
     } // namespace core

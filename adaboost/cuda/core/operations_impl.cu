@@ -332,7 +332,7 @@ namespace adaboost
             unsigned& result,
             unsigned grid_size,
             unsigned block_size,
-            data_type_ret val)
+            data_type_ret* val)
             {
                 adaboost::utils::check(block_size != 0, "Block size should be a positive number.");
                 unsigned* d_max;

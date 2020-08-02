@@ -20,7 +20,7 @@ namespace adaboost
             unsigned& result,
             unsigned int grid_size,
             unsigned int block_size,
-            data_type_ret val);
+            data_type_ret* val);
 
         }// namespace core
     } // namespace cuda

@@ -26,12 +26,13 @@ TEST(Cuda, Argmax)
     unsigned int block_size = 3;
     unsigned int grid_size = 2;
     unsigned int option = 1;
-    float val;
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     unsigned result_gpu;
     vec_i.copy_to_device();
+    float *val=(float *)(malloc)(sizeof(float));
     adaboost::cuda::core::Argmax(option, vec_i, result_gpu, grid_size, block_size, val);
+    free(val);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     EXPECT_EQ(7, result_gpu)<<"The arg max value is at 7.";

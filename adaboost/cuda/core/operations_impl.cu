@@ -327,6 +327,7 @@ namespace adaboost
 
             template <class data_type_vec, class data_type_ret>
             void Argmax(
+            unsigned option,
             func_t<data_type_vec, data_type_ret> p_func,
             const VectorGPU<data_type_vec>& vec,
             unsigned& result,

@@ -8,13 +8,6 @@
 #include<stdexcept>
 
 
-__device__ float square_1_in(float x)
-{
-    return -x*x;
-}
-
-__device__  adaboost::cuda::core::func_t<float,float> p_func_here = square_1_in;
-
 TEST(Cuda, Argmax)
 {
     adaboost::utils::cuda::cuda_event_t has_happened;
@@ -32,12 +25,13 @@ TEST(Cuda, Argmax)
     vec_i.set(9, (float)6.);
     unsigned int block_size = 3;
     unsigned int grid_size = 2;
-    unsigned int option = 0;
+    unsigned int option = 1;
+    float val;
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     unsigned result_gpu;
     vec_i.copy_to_device();
-    adaboost::cuda::core::Argmax(option, square_1_in, vec_i, result_gpu, grid_size, block_size);
+    adaboost::cuda::core::Argmax(option, vec_i, result_gpu, grid_size, block_size, val);
     adaboost::utils::cuda::cuda_event_record(has_happened);
     adaboost::utils::cuda::cuda_event_synchronize(has_happened);
     EXPECT_EQ(7, result_gpu)<<"The arg max value is at 7.";

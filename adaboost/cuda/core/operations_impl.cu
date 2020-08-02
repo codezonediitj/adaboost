@@ -328,11 +328,11 @@ namespace adaboost
             template <class data_type_vec, class data_type_ret>
             void Argmax(
             unsigned option,
-            func_t<data_type_vec, data_type_ret> p_func,
             const VectorGPU<data_type_vec>& vec,
             unsigned& result,
             unsigned grid_size,
-            unsigned block_size)
+            unsigned block_size,
+            data_type_ret val)
             {
                 adaboost::utils::check(block_size != 0, "Block size should be a positive number.");
                 unsigned* d_max;
@@ -348,13 +348,11 @@ namespace adaboost
                 adaboost::utils::cuda::HostToDevice);
 
                 func_t <data_type_vec, data_type_ret> h_func;
-                cudaMemcpyFromSymbol(&h_func, p_func_here<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
-                cudaError_t err = cudaGetLastError();        // Get error code
-                if ( err != cudaSuccess ){
-                    printf("CUDA Error: %s\n", cudaGetErrorString(err));
-                       exit(-1);
-                }
 
+                if (option == 1)
+                    cudaMemcpyFromSymbol(&h_func, p_1<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
+                else if (option == 2)
+                    cudaMemcpyFromSymbol(&h_func, p_2<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
                 dim3 grid_dim =grid_size, block_dim = block_size;
 
                 find_maximum_kernel<data_type_vec, data_type_ret>

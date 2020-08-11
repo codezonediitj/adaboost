@@ -168,43 +168,6 @@ namespace adaboost
                 ~Matrix();
         };
 
-        /* @overload
-        * Used for taking dot product of two vectors.
-        *
-        * @param vec1 First vector in dot product.
-        * @param vec2 Second vector in dot product.
-        * @param result For storing the result.
-        */
-        template <class data_type_vector>
-        void product(Vector<data_type_vector>& vec1,
-                     Vector<data_type_vector>& vec2,
-                     data_type_vector& result);
-
-        /* @overload
-        * Used for multiplying a vector
-        * and a matrix.
-        *
-        * @param vec The vector.
-        * @param mat The matrix.
-        * @param result A vector for storing the result.
-        */
-        template <class data_type_vector, class data_type_matrix>
-        void multiply(Vector<data_type_vector>& vec,
-                     Matrix<data_type_matrix>& mat,
-                     Vector<data_type_vector>& result);
-
-        /* @overload
-        * Used for multiplyng two matrices.
-        *
-        * @param vec1 First matrix.
-        * @param vec2 Second matrix.
-        * @param result A matrix for storing the result.
-        */
-        template <class data_type_matrix>
-        void multiply(Matrix<data_type_matrix>& mat1,
-                      Matrix<data_type_matrix>& mat2,
-                      Matrix<data_type_matrix>& result);
-
     } // namespace core
 } // namespace adaboost
 

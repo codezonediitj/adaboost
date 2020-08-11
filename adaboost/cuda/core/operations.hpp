@@ -1,7 +1,7 @@
 #ifndef ADABOOST_CUDA_CORE_OPERATIONS_HPP
 #define ADABOOST_CUDA_CORE_OPERATIONS_HPP
 
-#include<adaboost/cuda/core/cuda_data_structures.hpp>
+#include<adaboost/cuda/core/data_structures.hpp>
 using namespace adaboost::cuda::core;
 
 namespace adaboost
@@ -30,6 +30,8 @@ namespace adaboost
             *
             * @param value The value with which the matrix is to be populated.
             * @param mat The Matrix.
+            * @param block_size_x Number of threads to be launched per block on GPU.
+            * @param block_size_y Number of threads to be launched per block on GPU.
             */
             template <class data_type_matrix>
             void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y);
@@ -39,7 +41,7 @@ namespace adaboost
             *
             * @param value The value with which the matrix is to be populated.
             * @param mat The Matrix.
-            * @num_streams Number of streams being used to fill the matrix
+            * @num_streams Number of streams being used to fill the matrix.
             */
             template <class data_type_matrix>
             void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned num_streams);
@@ -74,9 +76,23 @@ namespace adaboost
             MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
 
+            /*
+            * Stores the pointer to the function for Argmax.
+            */
             template <typename data_type_vec, typename data_type_ret>
             using func_t = data_type_ret(*)(data_type_vec);
 
+            /*
+            * This function computes argmax of a vector
+            * after applying the selected function
+            * on its elements.
+            *
+            * @param option unsigned int The function to be selected. See vector_functions.cu.
+            * @param vec VectorGPU<data_type_vec> The vector under consideration.
+            * @param result unsigned The variable where the result is to be stored.
+            * @param grid_size unsigned int The number of blocks per grid.
+            * @param block_size unsigned int The number of threads per block.
+            */
             template <class data_type_vec, class data_type_ret>
             void Argmax(
             unsigned int option,

@@ -1,6 +1,6 @@
 #include<gtest/gtest.h>
 #include<string>
-#include<adaboost/cuda/core/cuda_data_structures.hpp>
+#include<adaboost/cuda/core/data_structures.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/core/operations.hpp>
 #include<adaboost/cuda/core/operations.hpp>
@@ -47,8 +47,8 @@ TEST(Cuda, MatrixGPU)
     adaboost::cuda::core::MatrixGPU<float> mat1(75, 75), mat2(75, 75), mat3(50, 25);
     mat1.copy_to_device();
     mat2.copy_to_device();
-    fill(float(4.0), mat1, 10);
-    fill(float(5.0), mat2, 16, 8);
+    adaboost::cuda::core::fill(float(4.0), mat1, 10);
+    adaboost::cuda::core::fill(float(5.0), mat2, 16, 8);
     mat2.copy_to_host();
     for(unsigned int i = 0; i < 75; i++)
     {
@@ -73,7 +73,7 @@ TEST(Cuda, MatrixGPU)
             EXPECT_EQ(1500.0, result1.at(i, j));
         }
     }
-    fill(float(4.0), mat3, 50);
+    adaboost::cuda::core::fill(float(4.0), mat3, 50);
     mat3.set(0, 0, 6.0);
     mat3.set(1, 0, 6.0);
     EXPECT_THROW({

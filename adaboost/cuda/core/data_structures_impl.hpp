@@ -3,7 +3,7 @@
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
-#include<adaboost/cuda/core/cuda_data_structures.hpp>
+#include<adaboost/cuda/core/data_structures.hpp>
 #include<cmath>
 #include<iostream>
 
@@ -215,7 +215,7 @@ namespace adaboost
 
 
 
-            #include "../templates/instantiated_templates_cuda_data_structures.hpp"
+            #include "../templates/instantiated_templates_data_structures.hpp"
 
         } // namespace core
     } // namespace cuda

@@ -1,5 +1,5 @@
-#ifndef ADABOOST_UTILS_FUNCTION_PARAMS_CU
-#define ADABOOST_UTILS_FUNCTION_PARAMS_CU
+#ifndef ADABOOST_CUDA_CORE_VECTOR_FUNCTIONS_CU
+#define ADABOOST_CUDA_CORE_VECTOR_FUNCTIONS_CU
 
 namespace adaboost
 {
@@ -7,6 +7,9 @@ namespace adaboost
     {
         namespace core
         {
+            /*
+            * Option 1.
+            */
             template <class data_type_vec, class data_type_ret>
             __device__ data_type_ret identity(data_type_vec x)
             {

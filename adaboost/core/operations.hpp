@@ -16,7 +16,7 @@ namespace adaboost
         */
 
         template <class data_type_vector>
-        void fill(data_type_vector value, Vector<data_type_vector>&vec);
+        void fill(data_type_vector value, Vector<data_type_vector>& vec);
 
 
         /*
@@ -27,8 +27,7 @@ namespace adaboost
         */
 
         template <class data_type_matrix>
-        void fill(data_type_matrix value, Matrix<data_type_matrix>&mat);
-
+        void fill(data_type_matrix value, Matrix<data_type_matrix>& mat);
 
         /*
         * This function computes the sum of
@@ -75,6 +74,43 @@ namespace adaboost
         data_type_2 (*func_ptr)(data_type_1),
         Vector<data_type_1>& vec,
         data_type_1& result);
+
+        /* @overload
+        * Used for taking dot product of two vectors.
+        *
+        * @param vec1 First vector in dot product.
+        * @param vec2 Second vector in dot product.
+        * @param result For storing the result.
+        */
+        template <class data_type_vector>
+        void product(Vector<data_type_vector>& vec1,
+                     Vector<data_type_vector>& vec2,
+                     data_type_vector& result);
+
+        /* @overload
+        * Used for multiplying a vector
+        * and a matrix.
+        *
+        * @param vec The vector.
+        * @param mat The matrix.
+        * @param result A vector for storing the result.
+        */
+        template <class data_type_vector, class data_type_matrix>
+        void multiply(Vector<data_type_vector>& vec,
+                     Matrix<data_type_matrix>& mat,
+                     Vector<data_type_vector>& result);
+
+        /* @overload
+        * Used for multiplyng two matrices.
+        *
+        * @param vec1 First matrix.
+        * @param vec2 Second matrix.
+        * @param result A matrix for storing the result.
+        */
+        template <class data_type_matrix>
+        void multiply(Matrix<data_type_matrix>& mat1,
+                      Matrix<data_type_matrix>& mat2,
+                      Matrix<data_type_matrix>& result);
 
     } // namespace core
 } // namespace adaboost

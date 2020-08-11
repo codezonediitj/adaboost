@@ -1,3 +1,6 @@
+#ifndef ADABOOST_CUDA_TEMPLATES_INSTANTIATED_TEMPLATES_DATA_STRUCTURES_HPP
+#define ADABOOST_CUDA_TEMPLATES_INSTANTIATED_TEMPLATES_DATA_STRUCTURES_HPP
+
 template class VectorGPU<bool>;
 template class VectorGPU<short>;
 template class VectorGPU<unsigned short>;
@@ -22,3 +25,5 @@ template class MatrixGPU<unsigned long long>;
 template class MatrixGPU<float>;
 template class MatrixGPU<double>;
 template class MatrixGPU<long double>;
+
+#endif

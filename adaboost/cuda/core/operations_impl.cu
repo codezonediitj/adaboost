@@ -1,11 +1,11 @@
-#ifndef CUDA_ADABOOST_CORE_OPERATIONS_IMPL_CU
-#define CUDA_ADABOOST_CORE_OPERATIONS_IMPL_CU
+#ifndef ADABOOST_CUDA_CORE_OPERATIONS_IMPL_CU
+#define ADABOOST_CUDA_CORE_OPERATIONS_IMPL_CU
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/cuda/core/operations.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/core/operations.hpp>
-#include<adaboost/cuda/core/function_params.cu>
+#include<adaboost/cuda/core/vector_functions.cu>
 #include<cmath>
 
 #define MAX_BLOCK_SIZE 1024
@@ -326,7 +326,7 @@ namespace adaboost
                 unsigned int stride = gridDim.x*blockDim.x;
                 unsigned int offset = 0;
 
-                extern __shared__ data_type_ret s[];
+                __shared__ data_type_ret s[BLOCK_SIZE];
                 data_type_ret* val_cache = s;
                 unsigned* idx_cache=(unsigned *)&val_cache[blockDim.x];
 
@@ -365,7 +365,8 @@ namespace adaboost
                 if(threadIdx.x == 0)
                 {
                     while(atomicCAS(mutex, 0, 1) != 0);
-                    if(func_ptr(vec[*max]) < val_cache[0])
+                    if(func_ptr(vec[*max]) < val_cache[0] ||
+                       (*max > idx_cache[0] && func_ptr(vec[*max]) == val_cache[0]))
                     {
                         *max = idx_cache[0];
                     }
@@ -420,7 +421,7 @@ namespace adaboost
                 result = *h_max;
             }
 
-            #include "../templates/instantiated_templates_cuda_operations.hpp"
+            #include "../templates/instantiated_templates_operations.hpp"
 
         } //namespace core
     } //namespace cuda

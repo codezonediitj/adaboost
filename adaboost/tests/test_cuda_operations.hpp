@@ -2,7 +2,7 @@
 #define TEST_CUDA_ADABOOST_CORE_OPERATIONS_IMPL_CU
 
 #include<gtest/gtest.h>
-#include<adaboost/cuda/core/cuda_data_structures.hpp>
+#include<adaboost/cuda/core/data_structures.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>

@@ -1,5 +1,5 @@
-#ifndef CUDA_ADABOOST_CORE_DATA_STRUCTURES_HPP
-#define CUDA_ADABOOST_CORE_DATA_STRUCTURES_HPP
+#ifndef ADABOOST_CUDA_CORE_DATA_STRUCTURES_HPP
+#define ADABOOST_CUDA_CORE_DATA_STRUCTURES_HPP
 
 #include<adaboost/core/data_structures.hpp>
 
@@ -124,7 +124,7 @@ namespace adaboost
                     *Parameterized constructor.
                     */
                     MatrixGPU(unsigned _rows, unsigned _cols);
-                              
+
 
                     /*
                     * Copies the data from GPU to CPU.
@@ -152,7 +152,7 @@ namespace adaboost
                     ~MatrixGPU();
             };
 
-            
+
 
         } // namespace core
     } // namespace cuda

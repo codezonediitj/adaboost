@@ -5,11 +5,12 @@ add_library(adaboost_core SHARED
             core/data_structures_impl.cpp
             core/operations_impl.cpp
             utils/utils_impl.cpp)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-arch=sm_20)
 if(BUILD_CUDA)
     add_library(adaboost_cuda_wrappers SHARED
                 cuda/utils/cuda_wrappers_impl.cu)
     add_library(adaboost_cuda SHARED
-                cuda/core/cuda_data_structures_impl.cu
+                cuda/core/data_structures_impl.cu
                 cuda/core/operations_impl.cu
                 cuda/utils/cuda_wrappers_impl.cu)
 endif()

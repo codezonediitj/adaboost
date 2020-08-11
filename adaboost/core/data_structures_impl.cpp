@@ -3,7 +3,6 @@
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>
-#include<iostream>
 
 namespace adaboost
 {
@@ -150,60 +149,6 @@ namespace adaboost
             if(this->data != NULL)
             {
                 delete [] this->data;
-            }
-        }
-
-        template <class data_type_vector>
-        void product(Vector<data_type_vector>& vec1,
-                     Vector<data_type_vector>& vec2,
-                     data_type_vector& result)
-        {
-            adaboost::utils::check(vec1.get_size() == vec2.get_size(),
-                                   "Size of vectors don't match.");
-            result = 0;
-            for(unsigned int i = 0; i < vec1.get_size(); i++)
-            {
-                result += (vec1.at(i)*vec2.at(i));
-            }
-        }
-
-        template <class data_type_vector, class data_type_matrix>
-        void multiply(Vector<data_type_vector>& vec,
-                     Matrix<data_type_matrix>& mat,
-                     Vector<data_type_vector>& result)
-        {
-            adaboost::utils::check(vec.get_size() == mat.get_rows(),
-                                  "Orders mismatch in the inputs.");
-            for(unsigned int j = 0; j < mat.get_cols(); j++)
-            {
-                data_type_vector _result = 0;
-                for(unsigned int i = 0; i < mat.get_rows(); i++)
-                {
-                    _result += (vec.at(i)*mat.at(i, j));
-                }
-                result.set(j, _result);
-            }
-        }
-
-        template <class data_type_matrix>
-        void multiply(Matrix<data_type_matrix>& mat1,
-                     Matrix<data_type_matrix>& mat2,
-                     Matrix<data_type_matrix>& result)
-        {
-            adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),
-                                    "Order of matrices don't match.");
-            unsigned int common_cols = mat1.get_cols();
-            for(unsigned int i = 0; i < result.get_rows(); i++)
-            {
-                for(unsigned int j = 0; j < result.get_cols(); j++)
-                {
-                    data_type_matrix _result = 0;
-                    for(unsigned int k = 0; k < common_cols; k++)
-                    {
-                        _result += (mat1.at(i, k)*mat2.at(k, j));
-                    }
-                    result.set(i, j, _result);
-                }
             }
         }
 

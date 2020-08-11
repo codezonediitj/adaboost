@@ -3,7 +3,6 @@
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/core/operations.hpp>
-#include<iostream>
 #include<cmath>
 
 namespace adaboost
@@ -12,7 +11,7 @@ namespace adaboost
     {
 
         template <class data_type_vector>
-        void fill(const data_type_vector value, const Vector<data_type_vector>&vec)
+        void fill(data_type_vector value, Vector<data_type_vector>&vec)
         {
             data_type_vector* vecPtr = vec.get_data_pointer();
             std::fill(vecPtr, vecPtr + vec.get_size(), value);
@@ -20,7 +19,7 @@ namespace adaboost
 
 
         template <class data_type_matrix>
-        void fill(data_type_matrix value, const Matrix<data_type_matrix>&mat)
+        void fill(data_type_matrix value, Matrix<data_type_matrix>&mat)
         {
             data_type_matrix* matPtr = mat.get_data_pointer();
             std::fill(matPtr, matPtr + mat.get_rows()*mat.get_cols(), value);
@@ -30,7 +29,7 @@ namespace adaboost
         template <class data_type>
         void Sum(
         data_type (*func_ptr)(data_type),
-        const Vector<data_type>& vec,
+        Vector<data_type>& vec,
         unsigned start,
         unsigned end,
         data_type& result)
@@ -49,7 +48,7 @@ namespace adaboost
         template <class data_type_1, class data_type_2>
         void Argmax(
         data_type_2 (*func_ptr)(data_type_1),
-        const Vector<data_type_1>& vec,
+        Vector<data_type_1>& vec,
         data_type_1& result)
         {
             data_type_2 max_val = func_ptr(vec.at(0));

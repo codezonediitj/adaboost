@@ -30,7 +30,7 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            void fill(const data_type_vector value, const VectorGPU<data_type_vector>& vec, unsigned block_size)
+            void fill(data_type_vector value, VectorGPU<data_type_vector>& vec, unsigned block_size)
             {
                 bool gpu=true;
                 if(block_size == 0)
@@ -57,7 +57,7 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
-            void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y)
             {
                 bool gpu=true;
                 if(block_size_x == 0 || block_size_y == 0)
@@ -73,6 +73,57 @@ namespace adaboost
                     gridDim, blockDim
                     >>>
                     (mat.get_data_pointer(gpu), mat.get_rows(gpu), value);
+                }
+            }
+
+            template <class data_type_matrix>
+            __global__
+            void thread_multi(data_type_matrix *t1, data_type_matrix value, unsigned total_elements)
+            {
+                unsigned i = blockDim.x * blockIdx.x + threadIdx.x;
+                if(i < total_elements)
+                {
+                    t1[i] = value;
+                }
+            }
+
+            template <class data_type_matrix>
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned num_streams)
+            {
+                adaboost::utils::check(num_streams != 0, "Need positive number of streams");
+
+                if(num_streams > mat.get_rows())
+                {
+                    num_streams = mat.get_rows();
+                }
+
+                bool gpu = true;
+                unsigned N = mat.get_cols(), total_elements = mat.get_cols()*mat.get_rows();
+
+                adaboost::utils::cuda::cuda_stream_t stream[num_streams];
+
+                for(int i = 0; i < num_streams; i++)
+                {
+                    adaboost::utils::cuda::cuda_stream_create(&stream[i]);
+                }
+                for(int i = 0; i < num_streams; i++)
+                {
+                    adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
+                }
+
+                for(unsigned row = 0; row < mat.get_rows(); row++)
+                {
+                    int curr_stream = row % num_streams;
+                    thread_multi<<<1, N, 0, stream[curr_stream]>>>(mat.get_data_pointer(gpu) + row*N, value, total_elements);
+                }
+
+                for(int i = 0;i < num_streams; i++)
+                {
+                    adaboost::utils::cuda::cuda_stream_synchronize(stream[i]);
+                }
+                for (int i = 0; i < num_streams; i++)
+                {
+                    adaboost::utils::cuda::cuda_stream_destroy(stream[i]);
                 }
             }
 
@@ -110,8 +161,8 @@ namespace adaboost
             }
 
             template <class data_type_vector>
-            void product_gpu(const VectorGPU<data_type_vector>& vec1,
-                             const VectorGPU<data_type_vector>& vec2,
+            void product_gpu(VectorGPU<data_type_vector>& vec1,
+                             VectorGPU<data_type_vector>& vec2,
                              data_type_vector& result,
                              unsigned block_size)
             {
@@ -238,8 +289,8 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
-            void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
-                              const MatrixGPU<data_type_matrix>& mat2,
+            void multiply_gpu(MatrixGPU<data_type_matrix>& mat1,
+                              MatrixGPU<data_type_matrix>& mat2,
                               MatrixGPU<data_type_matrix>& result)
             {
                 adaboost::utils::check(mat1.get_cols() == mat2.get_rows(),

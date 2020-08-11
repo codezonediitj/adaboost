@@ -12,6 +12,7 @@ namespace adaboost
         {
             enum direction {HostToDevice, DeviceToHost};
             typedef cudaEvent_t cuda_event_t;
+            typedef cudaStream_t cuda_stream_t;
 
             /*
             * Used for allocating memory on the device.
@@ -60,6 +61,27 @@ namespace adaboost
             * @param ptr Device pointer to memory to free
             */
             void cuda_free(void* ptr);
+
+            /*
+            * Creates an asynchronous stream.
+            *
+            * @param stream The stream to be created
+            */
+            void cuda_stream_create(cuda_stream_t * stream);
+
+            /*
+            * Waits for stream tasks to complete.
+            *
+            * @param stream The stream whose tasks are to be completed
+            */
+            void cuda_stream_synchronize(cuda_stream_t stream);
+
+            /*
+            * Destroys and cleans up the asynchronous stream specified.
+            *
+            * @param stream The stream to destroy
+            */
+            void cuda_stream_destroy(cuda_stream_t stream);
 
         } // namspace cuda
     } // namespace utils

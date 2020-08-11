@@ -3,13 +3,10 @@
 
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/cuda/core/operations.hpp>
-#include<adaboost/cuda/core/operations.cu>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/core/operations.hpp>
 #include<adaboost/cuda/core/function_params.cu>
-#include<iostream>
 #include<cmath>
-#include<stdio.h>
 
 #define MAX_BLOCK_SIZE 1024
 #define BLOCK_SIZE 16
@@ -339,7 +336,7 @@ namespace adaboost
                 int* d_mutex;
                 adaboost::utils::cuda::cuda_malloc((void**)&d_max, sizeof(unsigned));
                 adaboost::utils::cuda::cuda_malloc((void**)&d_mutex, sizeof(int));
-                
+
                 unsigned* h_max = (unsigned*)malloc(sizeof(unsigned));
                 *h_max=0;   //initializing
                 adaboost::utils::cuda::cuda_memcpy(
@@ -350,15 +347,20 @@ namespace adaboost
                 func_t <data_type_vec, data_type_ret> h_func;
 
                 if (option == 1)
+                {
                     cudaMemcpyFromSymbol(&h_func, p_1<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
-                else if (option == 2)
-                    cudaMemcpyFromSymbol(&h_func, p_2<data_type_vec, data_type_ret>, sizeof(func_t <data_type_vec, data_type_ret>));
+                }
+                else
+                {
+                    adaboost::utils::check(false, "Function not defined");
+                }
+
                 dim3 grid_dim =grid_size, block_dim = block_size;
 
                 find_maximum_kernel<data_type_vec, data_type_ret>
                 <<<grid_dim, block_dim, block_size*sizeof(data_type_ret) + block_size*sizeof(unsigned)>>>
                 (h_func, vec.get_data_pointer(), d_max, d_mutex, vec.get_size(true));
-               
+
 
                 adaboost::utils::cuda::cuda_memcpy(
                 h_max, d_max,
@@ -367,7 +369,6 @@ namespace adaboost
                 result = *h_max;
             }
 
-            #include "../templates/instantiated_templates_cuda_operations.cu"
             #include "../templates/instantiated_templates_cuda_operations.hpp"
 
         } //namespace core

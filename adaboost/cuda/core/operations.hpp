@@ -20,7 +20,6 @@ namespace adaboost
             * @param vec The Vector.
             * @param block_size Number of threads to be launched per block on GPU.
             */
-
             template <class data_type_vector>
             void fill(const data_type_vector value, const VectorGPU<data_type_vector>&vec, unsigned block_size);
 
@@ -32,7 +31,6 @@ namespace adaboost
             * @param value The value with which the matrix is to be populated.
             * @param vec The Matrix.
             */
-
             template <class data_type_matrix>
             void fill(const data_type_matrix value, const MatrixGPU<data_type_matrix>&mat, unsigned block_size_x, unsigned block_size_y);
 
@@ -42,7 +40,6 @@ namespace adaboost
             * dot product of two vectors on
             * GPU.
             */
-
             template <class data_type_vector>
             void product_gpu(const VectorGPU<data_type_vector>& vec1,
             const VectorGPU<data_type_vector>& vec2,
@@ -53,6 +50,18 @@ namespace adaboost
             void multiply_gpu(const MatrixGPU<data_type_matrix>& mat1,
             const MatrixGPU<data_type_matrix>& mat2,
             MatrixGPU<data_type_matrix>& result);
+
+            template <typename data_type_vec, typename data_type_ret>
+            using func_t = data_type_ret(*)(data_type_vec);
+
+            template <class data_type_vec, class data_type_ret>
+            void Argmax(
+            unsigned int option,
+            const VectorGPU<data_type_vec>& vec,
+            unsigned& result,
+            unsigned int grid_size,
+            unsigned int block_size,
+            data_type_ret* val);
 
         }// namespace core
     } // namespace cuda

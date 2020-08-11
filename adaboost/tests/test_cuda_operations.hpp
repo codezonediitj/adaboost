@@ -4,7 +4,7 @@
 #include<gtest/gtest.h>
 #include<adaboost/cuda/core/cuda_data_structures.hpp>
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
-#include<adaboost/cuda/core/operations.cu>
+#include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
 
 

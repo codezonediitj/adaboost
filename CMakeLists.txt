@@ -24,7 +24,7 @@ if(INSTALL_GOOGLETEST AND BUILD_TESTS)
     include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
     ExternalProject_Add(googletest
     GIT_REPOSITORY https://github.com/google/googletest
-    GIT_TAG master
+    GIT_TAG release-1.10.0
     SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest-src"
     BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest-build"
     TEST_COMMAND "")

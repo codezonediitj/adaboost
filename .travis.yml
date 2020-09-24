@@ -10,7 +10,6 @@ before_scirpt:
   - tar -zxvf cmake-3.10.2-Linux-x86_64.tar.gz
   - wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz
   - tar -zxvf release-1.10.0.tar.gz
-  - ls -a
   - mkdir googletest-build
   - cd googletest-build
   - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake ../googletest-release-1.10.0
@@ -19,7 +18,7 @@ before_scirpt:
   - cd ../
   - mkdir build-adaboost
   - cd build-adaboost
-  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake -DBUILD_TESTS=ON -DINSTALL_GOOGLETEST=OFF -DCMAKE_PREFIX_PATH=/usr/local/include ../adaboost
+  - sudo ../cmake-3.10.2-Linux-x86_64/bin/cmake -DBUILD_TESTS=ON -DINSTALL_GOOGLETEST=OFF ../adaboost
   - sudo make -j5
 
 script:

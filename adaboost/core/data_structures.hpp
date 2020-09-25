@@ -1,6 +1,8 @@
 #ifndef ADABOOST_CORE_DATA_STRUCTURES_HPP
 #define ADABOOST_CORE_DATA_STRUCTURES_HPP
 
+#include<adaboost/memory_manager.hpp>
+
 namespace adaboost
 {
     namespace core
@@ -13,7 +15,7 @@ namespace adaboost
         *     supported by C++.
         */
         template <class data_type_vector>
-        class Vector
+        class Vector: public Base
         {
             private:
 
@@ -33,8 +35,6 @@ namespace adaboost
                 static data_type_vector*
                 _reserve_space(unsigned int _size);
 
-            public:
-
                 /*
                 * Default constructor.
                 * Sets Vector::data to NULL and size to 0.
@@ -48,6 +48,12 @@ namespace adaboost
                 *    Must be positive.
                 */
                 Vector(unsigned int _size);
+
+            public:
+
+                static Vector* create_Vector();
+
+                static Vector* create_Vector(unsigned int _size);
 
                 /*
                 * Used for accessing the element of the Vector
@@ -76,7 +82,7 @@ namespace adaboost
                 /*
                 * Used for freeing memory.
                 */
-                ~Vector();
+                virtual ~Vector();
 
         };
 
@@ -88,7 +94,7 @@ namespace adaboost
         *     supported by C++.
         */
         template <class data_type_matrix>
-        class Matrix
+        class Matrix: public Base
         {
             private:
 
@@ -110,7 +116,6 @@ namespace adaboost
                 _reserve_space(unsigned int _rows,
                                unsigned int _cols);
 
-            public:
                 /*
                 * Default constructor.
                 * Sets Matrix::data to NULL, rows to 0
@@ -127,7 +132,14 @@ namespace adaboost
                 *    Must be positive.
                 */
                 Matrix(unsigned int _rows,
-                        unsigned int _cols);
+                       unsigned int _cols);
+
+            public:
+
+                static Matrix* create_Matrix();
+
+                static Matrix* create_Matrix(unsigned int _rows,
+                                             unsigned int _cols);
 
                 /*
                 * Used for accessing the element of the Matrix
@@ -165,7 +177,8 @@ namespace adaboost
                 /*
                 * Used for freeing memory.
                 */
-                ~Matrix();
+                virtual ~Matrix();
+
         };
 
     } // namespace core

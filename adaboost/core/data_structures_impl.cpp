@@ -3,6 +3,7 @@
 
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/utils/utils.hpp>
+#include<adaboost/memory_manager.hpp>
 
 namespace adaboost
 {
@@ -30,6 +31,24 @@ namespace adaboost
         data(_reserve_space(_size)),
         size(_size)
         {
+        }
+
+        template <class data_type_vector>
+        Vector<data_type_vector>* Vector<data_type_vector>::
+        create_Vector()
+        {
+            Vector<data_type_vector>* vec = new Vector<data_type_vector>();
+            memory_manager->register_object(vec);
+            return vec;
+        }
+
+        template <class data_type_vector>
+        Vector<data_type_vector>* Vector<data_type_vector>::
+        create_Vector(unsigned int _size)
+        {
+            Vector<data_type_vector>* vec = new Vector<data_type_vector>(_size);
+            memory_manager->register_object(vec);
+            return vec;
         }
 
         template <class data_type_vector>
@@ -96,6 +115,24 @@ namespace adaboost
         rows(_rows),
         cols(_cols)
         {
+        }
+
+        template <class data_type_matrix>
+        Matrix<data_type_matrix>*  Matrix<data_type_matrix>::
+        create_Matrix()
+        {
+            Matrix<data_type_matrix>* mat = new Matrix<data_type_matrix>();
+            memory_manager->register_object(mat);
+            return mat;
+        }
+
+        template <class data_type_matrix>
+        Matrix<data_type_matrix>*  Matrix<data_type_matrix>::
+        create_Matrix(unsigned int _rows, unsigned int _cols)
+        {
+            Matrix<data_type_matrix>* mat = new Matrix<data_type_matrix>(_rows, _cols);
+            memory_manager->register_object(mat);
+            return mat;
         }
 
         template <class data_type_matrix>

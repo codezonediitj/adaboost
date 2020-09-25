@@ -9,7 +9,7 @@ namespace adaboost
 {
     namespace utils
     {
-        void check(bool exp, std::string msg)
+        void check(bool exp, const std::string& msg)
         {
             if(!exp)
                 throw std::logic_error(msg);

@@ -40,19 +40,9 @@ namespace adaboost
 
                 public:
 
-                    /*
-                    * Default constructor.
-                    * Sets VectorGPU::data_gpu to NULL and size_gpu to 0.
-                    */
-                    VectorGPU();
+                    static VectorGPU* create_VectorGPU();
 
-                    /*
-                    * Prameterized constructor.
-                    *
-                    * @param _size The size of the vector on GPU.
-                    *    Must be positive.
-                    */
-                    VectorGPU(unsigned _size);
+                    static VectorGPU* create_VectorGPU(unsigned _size);
 
                     /*
                     * Copies the data from GPU to CPU.
@@ -88,7 +78,23 @@ namespace adaboost
                     /*
                     * Frees the memory from both CPU and GPU.
                     */
-                    ~VectorGPU();
+                    virtual ~VectorGPU();
+
+                protected:
+
+                    /*
+                    * Default constructor.
+                    * Sets VectorGPU::data_gpu to NULL and size_gpu to 0.
+                    */
+                    VectorGPU();
+
+                    /*
+                    * Prameterized constructor.
+                    *
+                    * @param _size The size of the vector on GPU.
+                    *    Must be positive.
+                    */
+                    VectorGPU(unsigned _size);
             };
 
 
@@ -112,19 +118,9 @@ namespace adaboost
 
                 public:
 
-                /*
-                * Default constructor.
-                * Sets Matrix::data to NULL, rows to 0
-                * and cols to 0.
-                * It set size_gpu to 0 and data_gpu to NULL.
-                */
-                    MatrixGPU();
+                    static MatrixGPU* create_MatrixGPU();
 
-                    /*
-                    *Parameterized constructor.
-                    */
-                    MatrixGPU(unsigned _rows, unsigned _cols);
-
+                    static MatrixGPU* create_MatrixGPU(unsigned _rows, unsigned _cols);
 
                     /*
                     * Copies the data from GPU to CPU.
@@ -149,10 +145,23 @@ namespace adaboost
                      /*
                     * Frees the memory from both CPU and GPU.
                     */
-                    ~MatrixGPU();
+                    virtual ~MatrixGPU();
+
+                protected:
+
+                    /*
+                    * Default constructor.
+                    * Sets Matrix::data to NULL, rows to 0
+                    * and cols to 0.
+                    * It set size_gpu to 0 and data_gpu to NULL.
+                    */
+                    MatrixGPU();
+
+                    /*
+                    *Parameterized constructor.
+                    */
+                    MatrixGPU(unsigned _rows, unsigned _cols);
             };
-
-
 
         } // namespace core
     } // namespace cuda

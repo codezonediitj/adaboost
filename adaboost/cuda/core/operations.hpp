@@ -21,7 +21,7 @@ namespace adaboost
             * @param block_size Number of threads to be launched per block on GPU.
             */
             template <class data_type_vector>
-            void fill(data_type_vector value, VectorGPU<data_type_vector>& vec, unsigned block_size);
+            void fill(data_type_vector value, VectorGPU<data_type_vector>* vec, unsigned block_size);
 
             /*
             * This function fills the matrix with a given value.
@@ -34,7 +34,7 @@ namespace adaboost
             * @param block_size_y Number of threads to be launched per block on GPU.
             */
             template <class data_type_matrix>
-            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned block_size_x, unsigned block_size_y);
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>* mat, unsigned block_size_x, unsigned block_size_y);
 
             /*
             * This function fills the matrix with a given value.
@@ -44,7 +44,7 @@ namespace adaboost
             * @num_streams Number of streams being used to fill the matrix.
             */
             template <class data_type_matrix>
-            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>& mat, unsigned num_streams);
+            void fill(data_type_matrix value, MatrixGPU<data_type_matrix>* mat, unsigned num_streams);
 
             /*
             * This function computes
@@ -57,8 +57,8 @@ namespace adaboost
             * @param block_size  Number of threads to be launched per block on GPU.
             */
             template <class data_type_vector>
-            void product_gpu(VectorGPU<data_type_vector>& vec1,
-            VectorGPU<data_type_vector>& vec2,
+            void product_gpu(VectorGPU<data_type_vector>* vec1,
+            VectorGPU<data_type_vector>* vec2,
             data_type_vector& result,
             unsigned block_size=0);
 
@@ -72,9 +72,9 @@ namespace adaboost
             * @param result Location to store answer
             */
             template <class data_type_matrix>
-            void multiply_gpu(MatrixGPU<data_type_matrix>& mat1,
-            MatrixGPU<data_type_matrix>& mat2,
-            MatrixGPU<data_type_matrix>& result);
+            void multiply_gpu(MatrixGPU<data_type_matrix>* mat1,
+            MatrixGPU<data_type_matrix>* mat2,
+            MatrixGPU<data_type_matrix>* result);
 
             /*
             * Stores the pointer to the function for Argmax.
@@ -96,7 +96,7 @@ namespace adaboost
             template <class data_type_vec, class data_type_ret>
             void Argmax(
             unsigned int option,
-            const VectorGPU<data_type_vec>& vec,
+            const VectorGPU<data_type_vec>* vec,
             unsigned& result,
             unsigned int grid_size,
             unsigned int block_size,

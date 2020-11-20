@@ -35,20 +35,6 @@ namespace adaboost
                 static data_type_vector*
                 _reserve_space(unsigned int _size);
 
-                /*
-                * Default constructor.
-                * Sets Vector::data to NULL and size to 0.
-                */
-                Vector();
-
-                /*
-                * Prameterized constructor.
-                *
-                * @param _size The size of the vector.
-                *    Must be positive.
-                */
-                Vector(unsigned int _size);
-
             public:
 
                 static Vector* create_Vector();
@@ -84,6 +70,22 @@ namespace adaboost
                 */
                 virtual ~Vector();
 
+            protected:
+
+                /*
+                * Default constructor.
+                * Sets Vector::data to NULL and size to 0.
+                */
+                Vector();
+
+                /*
+                * Prameterized constructor.
+                *
+                * @param _size The size of the vector.
+                *    Must be positive.
+                */
+                Vector(unsigned int _size);
+
         };
 
         /*
@@ -115,24 +117,6 @@ namespace adaboost
                 static data_type_matrix*
                 _reserve_space(unsigned int _rows,
                                unsigned int _cols);
-
-                /*
-                * Default constructor.
-                * Sets Matrix::data to NULL, rows to 0
-                * and cols to 0.
-                */
-                Matrix();
-
-                /*
-                * Prameterized constructor.
-                *
-                * @param _rows Number of rows in matrix.
-                *    Must be positive.
-                * @param _cols Number of columns in matrix.
-                *    Must be positive.
-                */
-                Matrix(unsigned int _rows,
-                       unsigned int _cols);
 
             public:
 
@@ -179,6 +163,25 @@ namespace adaboost
                 */
                 virtual ~Matrix();
 
+            protected:
+
+                /*
+                * Default constructor.
+                * Sets Matrix::data to NULL, rows to 0
+                * and cols to 0.
+                */
+                Matrix();
+
+                /*
+                * Prameterized constructor.
+                *
+                * @param _rows Number of rows in matrix.
+                *    Must be positive.
+                * @param _cols Number of columns in matrix.
+                *    Must be positive.
+                */
+                Matrix(unsigned int _rows,
+                       unsigned int _cols);
         };
 
     } // namespace core

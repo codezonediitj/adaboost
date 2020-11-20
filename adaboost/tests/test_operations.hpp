@@ -4,6 +4,7 @@
 #include<adaboost/core/operations.hpp>
 #include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
+#include<adaboost/memory_manager.hpp>
 
 float square_1(float x)
 {
@@ -18,6 +19,7 @@ TEST(Core, Sum)
     float result;
     Sum(&square_1, vec_f, 0, 9, result);
     EXPECT_EQ(20, result)<<"The sum should be 20.";
+    adaboost::memory_manager->clear_all();
 }
 
 float square_2(int x)
@@ -37,4 +39,5 @@ TEST(Core, Argmax)
     int result;
     Argmax(&square_2, vec_i, result);
     EXPECT_EQ(0, result)<<"The arg max value is 0.";
+    adaboost::memory_manager->clear_all();
 }

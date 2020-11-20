@@ -3,6 +3,7 @@
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/core/operations.hpp>
 #include<adaboost/cuda/core/operations.hpp>
+#include<adaboost/memory_manager.hpp>
 #include<stdexcept>
 
 TEST(Core, Vector)
@@ -40,6 +41,7 @@ TEST(Core, Vector)
             throw;
         }
     }, std::logic_error);
+    adaboost::memory_manager->clear_all();
 }
 
 TEST(Core, Matrices)
@@ -93,4 +95,5 @@ TEST(Core, Matrices)
             throw;
         }
     }, std::logic_error);
+    adaboost::memory_manager->clear_all();
 }

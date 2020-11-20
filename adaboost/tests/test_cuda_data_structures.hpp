@@ -5,6 +5,7 @@
 #include<adaboost/core/operations.hpp>
 #include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
+#include<adaboost/memory_manager.hpp>
 
 using namespace adaboost::utils::cuda;
 using namespace adaboost::cuda::core;
@@ -39,6 +40,7 @@ TEST(Cuda, VectorGPU)
     float result;
     product_gpu(vec1, vec2, result);
     EXPECT_EQ(result, 1000.0)<<"Result from product on CPU should be 1000.0";
+    adaboost::memory_manager->clear_all();
 }
 
 TEST(Cuda, MatrixGPU)
@@ -93,6 +95,7 @@ TEST(Cuda, MatrixGPU)
             throw;
         }
     }, std::logic_error);
+    adaboost::memory_manager->clear_all();
 }
 
 TEST(Cuda, MatricesGPU)
@@ -168,4 +171,5 @@ TEST(Cuda, MatricesGPU)
     EXPECT_EQ(63.0, r1->at(0, 1));
     EXPECT_EQ(37.0, r1->at(0, 2));
     EXPECT_EQ(75.0, r1->at(0, 3));
+    adaboost::memory_manager->clear_all();
 }

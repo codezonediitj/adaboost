@@ -6,6 +6,7 @@
 #include<climits>
 #include<adaboost/utils/utils.hpp>
 #include<adaboost/memory_manager.hpp>
+#include<iostream>
 
 namespace adaboost
 {

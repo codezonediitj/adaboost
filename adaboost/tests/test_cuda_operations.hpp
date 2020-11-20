@@ -6,6 +6,7 @@
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/cuda/core/operations.hpp>
 #include<stdexcept>
+#include<adaboost/memory_manager.hpp>
 
 using namespace adaboost::utils::cuda;
 using namespace adaboost::cuda::core;
@@ -38,5 +39,6 @@ TEST(Cuda, Argmax)
     cuda_event_record(has_happened);
     cuda_event_synchronize(has_happened);
     EXPECT_EQ(7, result_gpu)<<"The arg max value is at 7.";
+    adaboost::memory_manager->clear_all();
 }
 #endif

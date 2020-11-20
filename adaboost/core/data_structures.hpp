@@ -1,6 +1,8 @@
 #ifndef ADABOOST_CORE_DATA_STRUCTURES_HPP
 #define ADABOOST_CORE_DATA_STRUCTURES_HPP
 
+#include<adaboost/memory_manager.hpp>
+
 namespace adaboost
 {
     namespace core
@@ -13,7 +15,7 @@ namespace adaboost
         *     supported by C++.
         */
         template <class data_type_vector>
-        class Vector
+        class Vector: public Base
         {
             private:
 
@@ -35,19 +37,9 @@ namespace adaboost
 
             public:
 
-                /*
-                * Default constructor.
-                * Sets Vector::data to NULL and size to 0.
-                */
-                Vector();
+                static Vector* create_Vector();
 
-                /*
-                * Prameterized constructor.
-                *
-                * @param _size The size of the vector.
-                *    Must be positive.
-                */
-                Vector(unsigned int _size);
+                static Vector* create_Vector(unsigned int _size);
 
                 /*
                 * Used for accessing the element of the Vector
@@ -76,7 +68,23 @@ namespace adaboost
                 /*
                 * Used for freeing memory.
                 */
-                ~Vector();
+                virtual ~Vector();
+
+            protected:
+
+                /*
+                * Default constructor.
+                * Sets Vector::data to NULL and size to 0.
+                */
+                Vector();
+
+                /*
+                * Prameterized constructor.
+                *
+                * @param _size The size of the vector.
+                *    Must be positive.
+                */
+                Vector(unsigned int _size);
 
         };
 
@@ -88,7 +96,7 @@ namespace adaboost
         *     supported by C++.
         */
         template <class data_type_matrix>
-        class Matrix
+        class Matrix: public Base
         {
             private:
 
@@ -111,23 +119,11 @@ namespace adaboost
                                unsigned int _cols);
 
             public:
-                /*
-                * Default constructor.
-                * Sets Matrix::data to NULL, rows to 0
-                * and cols to 0.
-                */
-                Matrix();
 
-                /*
-                * Prameterized constructor.
-                *
-                * @param _rows Number of rows in matrix.
-                *    Must be positive.
-                * @param _cols Number of columns in matrix.
-                *    Must be positive.
-                */
-                Matrix(unsigned int _rows,
-                        unsigned int _cols);
+                static Matrix* create_Matrix();
+
+                static Matrix* create_Matrix(unsigned int _rows,
+                                             unsigned int _cols);
 
                 /*
                 * Used for accessing the element of the Matrix
@@ -165,7 +161,27 @@ namespace adaboost
                 /*
                 * Used for freeing memory.
                 */
-                ~Matrix();
+                virtual ~Matrix();
+
+            protected:
+
+                /*
+                * Default constructor.
+                * Sets Matrix::data to NULL, rows to 0
+                * and cols to 0.
+                */
+                Matrix();
+
+                /*
+                * Prameterized constructor.
+                *
+                * @param _rows Number of rows in matrix.
+                *    Must be positive.
+                * @param _cols Number of columns in matrix.
+                *    Must be positive.
+                */
+                Matrix(unsigned int _rows,
+                       unsigned int _cols);
         };
 
     } // namespace core

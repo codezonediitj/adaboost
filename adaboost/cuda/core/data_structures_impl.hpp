@@ -5,7 +5,6 @@
 #include<adaboost/cuda/utils/cuda_wrappers.hpp>
 #include<adaboost/cuda/core/data_structures.hpp>
 #include<cmath>
-#include<iostream>
 
 #define MAX_BLOCK_SIZE 1024
 #define BLOCK_SIZE 16
@@ -45,6 +44,24 @@ namespace adaboost
             data_gpu(_reserve_space_gpu(_size)),
             size_gpu(_size)
             {
+            }
+
+            template <class data_type_vector>
+            VectorGPU<data_type_vector>* VectorGPU<data_type_vector>::
+            create_VectorGPU()
+            {
+                VectorGPU<data_type_vector>* vec = new VectorGPU<data_type_vector>();
+                memory_manager->register_object(vec);
+                return vec;
+            }
+
+            template <class data_type_vector>
+            VectorGPU<data_type_vector>* VectorGPU<data_type_vector>::
+            create_VectorGPU(unsigned int _size)
+            {
+                VectorGPU<data_type_vector>* vec = new VectorGPU<data_type_vector>(_size);
+                memory_manager->register_object(vec);
+                return vec;
             }
 
             template <class data_type_vector>
@@ -141,6 +158,24 @@ namespace adaboost
             }
 
             template <class data_type_matrix>
+            MatrixGPU<data_type_matrix>*  MatrixGPU<data_type_matrix>::
+            create_MatrixGPU()
+            {
+                MatrixGPU<data_type_matrix>* mat = new MatrixGPU<data_type_matrix>();
+                memory_manager->register_object(mat);
+                return mat;
+            }
+
+            template <class data_type_matrix>
+            MatrixGPU<data_type_matrix>*  MatrixGPU<data_type_matrix>::
+            create_MatrixGPU(unsigned int _rows, unsigned int _cols)
+            {
+                MatrixGPU<data_type_matrix>* mat = new MatrixGPU<data_type_matrix>(_rows, _cols);
+                memory_manager->register_object(mat);
+                return mat;
+            }
+
+            template <class data_type_matrix>
             void MatrixGPU<data_type_matrix>::
             copy_to_host()
             {
@@ -212,8 +247,6 @@ namespace adaboost
             {
                 adaboost::utils::cuda::cuda_free(this->data_gpu);
             }
-
-
 
             #include "../templates/instantiated_templates_data_structures.hpp"
 

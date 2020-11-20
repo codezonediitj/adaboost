@@ -8,7 +8,7 @@ namespace adaboost
 {
     namespace utils
     {
-        void check(bool exp, std::string msg);
+        void check(bool exp, const std::string& msg);
     } // namespace utils
 } // namspace adaboost
 

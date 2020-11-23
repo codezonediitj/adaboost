@@ -66,8 +66,7 @@ namespace adaboost
                            0, example_weights->get_size() - 1,
                            example_weight_sum);
 
-            bool is_complete = false;
-            for( int idx = 0; idx < num_thresholds && !is_complete; idx++ )
+            for( int idx = 0; idx < num_thresholds; idx++ )
             {
                 data_type val;
                 data_type thresholds[2];
@@ -76,21 +75,26 @@ namespace adaboost
                 thresholds[1] = val + (data_type) pow(10.0, -(precision + 1));
                 for( int th = 0; th < 2; th++ )
                 {
+                    data_type curr_threshold = this->classifier_information->threshold;
                     this->classifier_information->threshold = thresholds[th];
                     Vector<data_type>* result = this->predict(data);
                     Vector<data_type>* equals = Vector<data_type>::create_Vector(result->get_size());
                     is_equal<data_type, data_type>(classes, result, equals);
-                    product(equals, example_weights, train_score);
+                    data_type new_train_score;
+                    product(equals, example_weights, new_train_score);
                     memory_manager->clear_object(equals);
-                    if( train_score > 0.5 * example_weight_sum )
+                    if( new_train_score > train_score )
                     {
-                        is_complete = true;
-                        break;
+                        train_score = new_train_score;
+                    }
+                    else
+                    {
+                        this->classifier_information->threshold = curr_threshold;
                     }
                 }
             }
 
-            return train_score/example_weight_sum;
+            return (example_weight_sum - train_score)/example_weight_sum;
         }
 
         template <class data_type>

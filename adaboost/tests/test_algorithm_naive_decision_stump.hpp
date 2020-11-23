@@ -21,7 +21,7 @@ TEST(Algorithm, NaiveDecisionStump)
     X->set(0, 3, 1.0); X->set(1, 3, 1.0); Y->set(3, 1.0);
     X->set(0, 4, 3.0); X->set(1, 4, 1.0); Y->set(4, 1.0);
     NaiveDecisionStump<double>* weak_classifier = NaiveDecisionStump<double>::create_NaiveDecisionStump();
-    double best_score = weak_classifier->train(X, Y, W, 3);
-    EXPECT_EQ(0.8, best_score)<<"Training score of NaiveDecisionStump should be 0.8 for the given testing data";
+    double best_error = weak_classifier->train(X, Y, W, 3);
+    EXPECT_EQ(0.2, best_error)<<"Best training error of NaiveDecisionStump should be 0.2 for the given testing data";
     adaboost::memory_manager->clear_all();
 }

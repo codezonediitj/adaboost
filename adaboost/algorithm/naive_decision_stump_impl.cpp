@@ -15,33 +15,33 @@ namespace adaboost
         using namespace adaboost::core;
 
         template <class data_type>
-        NaiveDecisionStumpProperties<data_type>::
-        NaiveDecisionStumpProperties():
+        BinaryNaiveDecisionStumpProperties<data_type>::
+        BinaryNaiveDecisionStumpProperties():
         feature_index(0),
         threshold(0)
         {
         }
 
         template <class data_type>
-        NaiveDecisionStump<data_type>*
-        NaiveDecisionStump<data_type>::
-        create_NaiveDecisionStump
-        (NaiveDecisionStumpProperties<data_type>* _classifier_information)
+        BinaryNaiveDecisionStump<data_type>*
+        BinaryNaiveDecisionStump<data_type>::
+        create_BinaryNaiveDecisionStump
+        (BinaryNaiveDecisionStumpProperties<data_type>* _classifier_information)
         {
-            NaiveDecisionStump<data_type>* naive_decision_stump =
-            new NaiveDecisionStump<data_type>(_classifier_information);
+            BinaryNaiveDecisionStump<data_type>* naive_decision_stump =
+            new BinaryNaiveDecisionStump<data_type>(_classifier_information);
             memory_manager->register_object(naive_decision_stump);
             return naive_decision_stump;
         }
 
         template <class data_type>
-        NaiveDecisionStumpProperties<data_type>*
-        NaiveDecisionStump<data_type>::
+        BinaryNaiveDecisionStumpProperties<data_type>*
+        BinaryNaiveDecisionStump<data_type>::
         generate_properties
-        (NaiveDecisionStumpProperties<data_type>* prev_classifier_information)
+        (BinaryNaiveDecisionStumpProperties<data_type>* prev_classifier_information)
         {
-            NaiveDecisionStumpProperties<data_type>* properties =
-            new NaiveDecisionStumpProperties<data_type>();
+            BinaryNaiveDecisionStumpProperties<data_type>* properties =
+            new BinaryNaiveDecisionStumpProperties<data_type>();
             if(prev_classifier_information != NULL)
             {
                 properties->feature_index = prev_classifier_information->feature_index + 1;
@@ -50,7 +50,7 @@ namespace adaboost
         }
 
         template <class data_type>
-        data_type NaiveDecisionStump<data_type>::train
+        data_type BinaryNaiveDecisionStump<data_type>::train
         (Matrix<data_type>* data,
          Vector<data_type>* classes,
          Vector<data_type>* example_weights,
@@ -98,7 +98,7 @@ namespace adaboost
         }
 
         template <class data_type>
-        data_type NaiveDecisionStump<data_type>::predict
+        data_type BinaryNaiveDecisionStump<data_type>::predict
         (Vector<data_type>* input)
         {
             unsigned feature_length = input->get_size();
@@ -109,7 +109,7 @@ namespace adaboost
         }
 
         template <class data_type>
-        Vector<data_type>* NaiveDecisionStump<data_type>::predict
+        Vector<data_type>* BinaryNaiveDecisionStump<data_type>::predict
         (Matrix<data_type>* input)
         {
             unsigned num_inputs = input->get_cols();
@@ -129,16 +129,16 @@ namespace adaboost
         }
 
         template <class data_type>
-        NaiveDecisionStump<data_type>::
-        NaiveDecisionStump
-        (NaiveDecisionStumpProperties<data_type>* _classifier_information):
+        BinaryNaiveDecisionStump<data_type>::
+        BinaryNaiveDecisionStump
+        (BinaryNaiveDecisionStumpProperties<data_type>* _classifier_information):
         classifier_information(generate_properties(_classifier_information))
         {
         }
 
         template <class data_type>
-        NaiveDecisionStump<data_type>::
-        ~NaiveDecisionStump()
+        BinaryNaiveDecisionStump<data_type>::
+        ~BinaryNaiveDecisionStump()
         {
         }
 

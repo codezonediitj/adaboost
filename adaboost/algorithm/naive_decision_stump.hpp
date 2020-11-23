@@ -8,35 +8,57 @@ namespace adaboost
     namespace algorithm
     {
 
+        /*
+        * Properties of the naive decision stump classifier.
+        *
+        * @tparam data_type_vector Data type supported by C++.
+        */
         template <class data_type>
-        struct NaiveDecisionStumpProperties
+        struct BinaryNaiveDecisionStumpProperties
         {
 
+            //! Index of the feature which should be used to classify the input.
             unsigned feature_index;
 
+            //! The threshold to be used for classification.
             data_type threshold;
 
-            data_type prediction_weight;
-
-            NaiveDecisionStumpProperties();
+            /*
+            * Intialises the data attributes to default values.
+            */
+            BinaryNaiveDecisionStumpProperties();
 
         };
 
+        /*
+        * Decision stump classifier which use the brute force
+        * method in it's training algorithm.
+        *
+        * @tparam data_type_vector Data type supported by C++.
+        */
         template <class data_type>
-        class NaiveDecisionStump: public WeakClassifier<data_type>
+        class BinaryNaiveDecisionStump: public BinaryWeakClassifier <data_type>
         {
 
             private:
 
-                static NaiveDecisionStumpProperties<data_type>* generate_properties
-                (NaiveDecisionStumpProperties<data_type>* prev_classifier_information);
+                /*
+                * Calculates the feature index to be used for classification
+                * using the properties of the naive decision stump used in the
+                * last step of adaboost algorithm.
+                *
+                * @param prev_classifier_information BinaryNaiveDecisionStumpProperties<data_type>*
+                */
+                static BinaryNaiveDecisionStumpProperties<data_type>* generate_properties
+                (BinaryNaiveDecisionStumpProperties<data_type>* prev_classifier_information);
 
-                NaiveDecisionStumpProperties<data_type>* classifier_information;
+                //! The properties of the current naive decision stump classifier.
+                BinaryNaiveDecisionStumpProperties<data_type>* classifier_information;
 
             public:
 
-                static NaiveDecisionStump* create_NaiveDecisionStump
-                (NaiveDecisionStumpProperties<data_type>* _classifier_information=NULL);
+                static BinaryNaiveDecisionStump* create_BinaryNaiveDecisionStump
+                (BinaryNaiveDecisionStumpProperties<data_type>* _classifier_information=NULL);
 
                 virtual data_type train(Matrix<data_type>* data,
                                         Vector<data_type>* classes,
@@ -47,12 +69,22 @@ namespace adaboost
 
                 virtual Vector<data_type>* predict(Matrix<data_type>* input);
 
-                virtual ~NaiveDecisionStump();
+                /*
+                * Frees memory acquired by the current object.
+                */
+                virtual ~BinaryNaiveDecisionStump();
 
             protected:
 
-                NaiveDecisionStump
-                (NaiveDecisionStumpProperties<data_type>* _classifier_information);
+                /*
+                * Initiaises the properties of the given classifier using
+                * the properties of the naive decision stump used in the last
+                * step of adaboost algorithm.
+                *
+                * @param _classifier_information BinaryNaiveDecisionStumpProperties<data_type>*
+                */
+                BinaryNaiveDecisionStump
+                (BinaryNaiveDecisionStumpProperties<data_type>* _classifier_information);
 
         };
 

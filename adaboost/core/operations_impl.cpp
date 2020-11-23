@@ -41,7 +41,7 @@ namespace adaboost
             result = 0;
             for(unsigned i = start; i <= end; i++)
             {
-                result += func_ptr(vec->at(i));
+                result += func_ptr == NULL ? vec->at(i) : func_ptr(vec->at(i));
             }
         }
 
@@ -98,8 +98,8 @@ namespace adaboost
 
         template <class data_type_matrix>
         void multiply(Matrix<data_type_matrix>* mat1,
-                     Matrix<data_type_matrix>* mat2,
-                     Matrix<data_type_matrix>* result)
+                      Matrix<data_type_matrix>* mat2,
+                      Matrix<data_type_matrix>* result)
         {
             adaboost::utils::check(mat1->get_cols() == mat2->get_rows(),
                                     "Order of matrices don't match.");
@@ -115,6 +115,17 @@ namespace adaboost
                     }
                     result->set(i, j, _result);
                 }
+            }
+        }
+
+        template <class data_type_1, class data_type_2>
+        void is_equal(Vector<data_type_1>* vec1,
+                      Vector<data_type_1>* vec2,
+                      Vector<data_type_2>* result)
+        {
+            for( unsigned idx = 0; idx < vec1->get_size(); idx++ )
+            {
+                result->set(idx, (data_type_2) (vec1->at(idx) == vec2->at(idx)));
             }
         }
 

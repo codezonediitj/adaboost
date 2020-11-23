@@ -112,6 +112,16 @@ namespace adaboost
                       Matrix<data_type_matrix>* mat2,
                       Matrix<data_type_matrix>* result);
 
+        /*
+        * Performs element wise equality check on
+        * two given vectors.
+        *
+        * @tparam data_type_1 The data type for the input vectors.
+        * @tparam data_type_2 The data_type for the result vector.
+        * @param vec1 Vector<data_type_1>* The first vector.
+        * @param vec2 Vector<data_type_2>* The second vector.
+        * @param result Vector<data_type_2>* Element wise equality results.
+        */
         template <class data_type_1, class data_type_2>
         void is_equal(Vector<data_type_1>* vec1,
                       Vector<data_type_1>* vec2,

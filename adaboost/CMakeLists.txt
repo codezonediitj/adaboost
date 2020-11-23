@@ -9,6 +9,12 @@ add_library(adaboost_core SHARED
             core/operations_impl.cpp
             utils/utils_impl.cpp
             memory_manager_impl.cpp)
+add_library(adaboost_algorithm SHARED
+            algorithm/naive_decision_stump_impl.cpp
+            core/data_structures_impl.cpp
+            core/operations_impl.cpp
+            utils/utils_impl.cpp
+            memory_manager_impl.cpp)
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-arch=sm_20)
 if(BUILD_CUDA)
     add_library(adaboost_cuda_wrappers SHARED
@@ -23,6 +29,8 @@ if(BUILD_TESTS)
     set(LINK_LIBRARIES gtest gtest_main pthread adaboost_core memory_manager)
     add_executable(test_core tests/test_core.cpp)
     target_link_libraries(test_core ${LINK_LIBRARIES})
+    add_executable(test_algorithm tests/test_algorithm.cpp)
+    target_link_libraries(test_algorithm ${LINK_LIBRARIES} adaboost_algorithm)
     if(BUILD_CUDA)
         add_executable(test_cuda tests/test_cuda.cpp)
         target_link_libraries(test_cuda ${LINK_LIBRARIES} adaboost_cuda)

@@ -112,6 +112,11 @@ namespace adaboost
                       Matrix<data_type_matrix>* mat2,
                       Matrix<data_type_matrix>* result);
 
+        template <class data_type_1, class data_type_2>
+        void is_equal(Vector<data_type_1>* vec1,
+                      Vector<data_type_1>* vec2,
+                      Vector<data_type_2>* result);
+
     } // namespace core
 } // namespace adaboost
 

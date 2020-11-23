@@ -54,4 +54,5 @@ endif()
 install(FILES
     ${CMAKE_BINARY_DIR}/libs/libadaboost_core.so
     ${CMAKE_BINARY_DIR}/libs/libadaboost_utils.so
+    ${CMAKE_BINARY_DIR}/libs/libadaboost_algorithm.so
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

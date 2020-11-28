@@ -10,6 +10,10 @@ namespace adaboost
 
         using namespace adaboost::core;
 
+        struct Properties
+        {
+        };
+
         /*
         * Interface for all the binary weak classifiers.
         *
@@ -18,6 +22,11 @@ namespace adaboost
         template <class data_type>
         class BinaryWeakClassifier : public Base
         {
+
+            private:
+
+                virtual Properties* get_classifier_information() = 0;
+
             public:
 
                 /*

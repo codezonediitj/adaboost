@@ -35,6 +35,13 @@ namespace adaboost
         }
 
         template <class data_type>
+        Properties* BinaryNaiveDecisionStump<data_type>::
+        get_properties()
+        {
+            return this->classifier_information;
+        }
+
+        template <class data_type>
         BinaryNaiveDecisionStumpProperties<data_type>*
         BinaryNaiveDecisionStump<data_type>::
         generate_properties

@@ -2,6 +2,7 @@
 #define ADABOOST_ALGORITHM_NAIVE_DECISION_STUMP_HPP
 
 #include<adaboost/algorithm/weak_classifier.hpp>
+#include<adaboost/algorithm/discrete_adaboost.hpp>
 
 namespace adaboost
 {
@@ -14,7 +15,7 @@ namespace adaboost
         * @tparam data_type_vector Data type supported by C++.
         */
         template <class data_type>
-        struct BinaryNaiveDecisionStumpProperties
+        struct BinaryNaiveDecisionStumpProperties: public Properties
         {
 
             //! Index of the feature which should be used to classify the input.
@@ -37,7 +38,7 @@ namespace adaboost
         * @tparam data_type_vector Data type supported by C++.
         */
         template <class data_type>
-        class BinaryNaiveDecisionStump: public BinaryWeakClassifier <data_type>
+        class BinaryNaiveDecisionStump: public BinaryWeakClassifier<data_type>
         {
 
             private:
@@ -54,6 +55,10 @@ namespace adaboost
 
                 //! The properties of the current naive decision stump classifier.
                 BinaryNaiveDecisionStumpProperties<data_type>* classifier_information;
+
+                virtual Properties* get_properties();
+
+                friend class BinaryDiscreteAdaBoost<data_type>;
 
             public:
 

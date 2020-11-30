@@ -2,6 +2,7 @@
 #define ADABOOST_ALGORITHM_WEAK_CLASSIFIER_HPP
 
 #include<adaboost/core/data_structures.hpp>
+#include<string>
 
 namespace adaboost
 {
@@ -64,6 +65,18 @@ namespace adaboost
                 *                                 should be the i-th feature vector.
                 */
                 virtual Vector<data_type>* predict(Matrix<data_type>* input) = 0;
+
+        };
+
+        template <class data_type>
+        class BinaryWeakClassifierFactory
+        {
+
+            public:
+
+                virtual BinaryWeakClassifier<data_type>* create_BinaryWeakClassifier
+                (Properties* classifier_information,
+                 std::string classifier_type);
 
         };
 

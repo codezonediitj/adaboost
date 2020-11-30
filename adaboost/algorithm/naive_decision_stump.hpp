@@ -56,7 +56,7 @@ namespace adaboost
                 //! The properties of the current naive decision stump classifier.
                 BinaryNaiveDecisionStumpProperties<data_type>* classifier_information;
 
-                virtual Properties* get_properties();
+                virtual Properties* get_classifier_information();
 
                 friend class BinaryDiscreteAdaBoost<data_type>;
 

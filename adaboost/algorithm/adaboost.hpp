@@ -3,6 +3,7 @@
 
 #include<data_structures.hpp>
 #include<adaboost/memory_manager.hpp>
+#include<string>
 
 namespace adaboost
 {
@@ -21,7 +22,9 @@ namespace adaboost
                                         Vector<data_type>* classes,
                                         unsigned num_itrs,
                                         data_type precision,
-                                        WeakClassifierFactory<data_type>* classifierCreator=NULL) = 0;
+                                        std::string classifier_type="BinaryNaiveDecisionStump",
+                                        bool record_training_history=true,
+                                        BinaryWeakClassifierFactory<data_type>* classifier_creator=NULL) = 0;
 
                 virtual data_type predict(Vector<data_type>* input) = 0;
 

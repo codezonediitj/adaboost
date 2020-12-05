@@ -1,4 +1,4 @@
-include_directories(utils core)
+include_directories(utils core algorithm)
 add_library(memory_manager SHARED
             memory_manager_impl.cpp
             utils/utils_impl.cpp)
@@ -10,7 +10,9 @@ add_library(adaboost_core SHARED
             utils/utils_impl.cpp
             memory_manager_impl.cpp)
 add_library(adaboost_algorithm SHARED
+            algorithm/weak_classifier_impl.cpp
             algorithm/naive_decision_stump_impl.cpp
+            algorithm/discrete_adaboost_impl.cpp
             core/data_structures_impl.cpp
             core/operations_impl.cpp
             utils/utils_impl.cpp

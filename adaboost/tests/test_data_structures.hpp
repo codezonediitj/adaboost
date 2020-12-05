@@ -37,7 +37,7 @@ TEST(Core, Vector)
         }
         catch(const std::logic_error& e)
         {
-            EXPECT_STREQ("Size of vectors don't match.", e.what());
+            EXPECT_STREQ("Sizes of vectors don't match.", e.what());
             throw;
         }
     }, std::logic_error);

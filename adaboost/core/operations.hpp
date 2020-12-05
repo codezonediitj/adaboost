@@ -87,6 +87,33 @@ namespace adaboost
                      Vector<data_type_vector>* vec2,
                      data_type_vector& result);
 
+         /* @overload
+        * Used for element wise addition of two vectors.
+        *
+        * @param vec1 First vector.
+        * @param vec2 Second vector.
+        * @param result For storing the result.
+        */
+        template <class data_type_vector>
+        void add(Vector<data_type_vector>* vec1,
+                 Vector<data_type_vector>* vec2,
+                 Vector<data_type_vector>* result);
+
+        /* @overload
+        * Used for multiplying the elements of the
+        * given vector with the given scalar.
+        *
+        * @param vec1 First vector in dot product.
+        * @param scalar The scalar with which all the
+        *               elements of the given vector
+        *               should be multiplied.
+        * @param result Vector for storing the result.
+        */
+        template <class data_type_vector>
+        void multiply(Vector<data_type_vector>* vec,
+                      data_type_vector scalar,
+                      Vector<data_type_vector>* result);
+
         /* @overload
         * Used for multiplying a vector
         * and a matrix.

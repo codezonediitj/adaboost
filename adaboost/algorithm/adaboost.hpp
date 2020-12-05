@@ -1,7 +1,8 @@
 #ifndef ADABOOST_ALGORITHM_ADABOOST_HPP
 #define ADABOOST_ALGORITHM_ADABOOST_HPP
 
-#include<data_structures.hpp>
+#include<adaboost/algorithm/weak_classifier.hpp>
+#include<adaboost/core/data_structures.hpp>
 #include<adaboost/memory_manager.hpp>
 #include<string>
 
@@ -21,7 +22,7 @@ namespace adaboost
                 virtual data_type train(Matrix<data_type>* data,
                                         Vector<data_type>* classes,
                                         unsigned num_itrs,
-                                        data_type precision,
+                                        unsigned precision,
                                         std::string classifier_type="BinaryNaiveDecisionStump",
                                         bool record_training_history=true,
                                         BinaryWeakClassifierFactory<data_type>* classifier_creator=NULL) = 0;

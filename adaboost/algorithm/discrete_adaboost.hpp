@@ -3,7 +3,7 @@
 
 #include<adaboost/algorithm/weak_classifier.hpp>
 #include<adaboost/algorithm/adaboost.hpp>
-#include<data_structures.hpp>
+#include<adaboost/algorithm/discrete_adaboost.hpp>
 #include<string>
 
 namespace adaboost
@@ -19,7 +19,7 @@ namespace adaboost
 
             private:
 
-                Vector<BinaryWeakClassifier<data_type>*>* classifiers;
+                BinaryWeakClassifier<data_type>** classifiers;
 
                 Vector<data_type>* pred_weights;
 
@@ -28,13 +28,13 @@ namespace adaboost
             public:
 
                 static BinaryDiscreteAdaBoost* create_BinaryDiscreteAdaBoost
-                (Vector<BinaryWeakClassifier<data_type>*>* _classifiers=NULL,
+                (BinaryWeakClassifier<data_type>** _classifiers=NULL,
                  Vector<data_type>* _pred_weights=NULL);
 
                 virtual data_type train(Matrix<data_type>* data,
                                         Vector<data_type>* classes,
                                         unsigned num_itrs,
-                                        data_type precision,
+                                        unsigned precision,
                                         std::string classifier_type="BinaryNaiveDecisionStump",
                                         bool record_training_history=true,
                                         BinaryWeakClassifierFactory<data_type>* classifier_creator=NULL);
@@ -48,8 +48,13 @@ namespace adaboost
             protected:
 
                 BinaryDiscreteAdaBoost
-                (Vector<BinaryWeakClassifier<data_type>*>* _classifiers,
+                (BinaryWeakClassifier<data_type>** _classifiers,
                  Vector<data_type>* _pred_weights);
+
+                void update_example_weights(Vector<data_type>* weights,
+                                            Vector<data_type>* results,
+                                            data_type alpha,
+                                            Vector<data_type>* classes);
 
         };
 

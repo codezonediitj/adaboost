@@ -13,6 +13,9 @@ namespace adaboost
 
         struct Properties
         {
+
+            virtual ~Properties();
+
         };
 
         /*
@@ -23,10 +26,6 @@ namespace adaboost
         template <class data_type>
         class BinaryWeakClassifier : public Base
         {
-
-            private:
-
-                virtual Properties* get_classifier_information() = 0;
 
             public:
 
@@ -66,17 +65,28 @@ namespace adaboost
                 */
                 virtual Vector<data_type>* predict(Matrix<data_type>* input) = 0;
 
+                virtual Properties* get_classifier_information() = 0;
+
         };
 
         template <class data_type>
-        class BinaryWeakClassifierFactory
+        class BinaryWeakClassifierFactory: public Base
         {
 
             public:
 
+                static BinaryWeakClassifierFactory*
+                create_BinaryWeakClassifierFactory();
+
                 virtual BinaryWeakClassifier<data_type>* create_BinaryWeakClassifier
                 (Properties* classifier_information,
                  std::string classifier_type);
+
+                virtual ~BinaryWeakClassifierFactory();
+
+            protected:
+
+                BinaryWeakClassifierFactory();
 
         };
 

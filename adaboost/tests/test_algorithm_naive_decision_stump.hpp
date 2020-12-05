@@ -5,7 +5,6 @@
 #include<adaboost/algorithm/naive_decision_stump.hpp>
 #include<adaboost/memory_manager.hpp>
 #include<stdexcept>
-#include<iostream>
 
 TEST(Algorithm, BinaryNaiveDecisionStump)
 {

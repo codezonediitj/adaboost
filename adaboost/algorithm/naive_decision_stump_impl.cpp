@@ -6,6 +6,7 @@
 #include<adaboost/core/data_structures.hpp>
 #include<adaboost/core/operations.hpp>
 #include<cmath>
+#include<iostream>
 
 namespace adaboost
 {
@@ -18,7 +19,8 @@ namespace adaboost
         BinaryNaiveDecisionStumpProperties<data_type>::
         BinaryNaiveDecisionStumpProperties():
         feature_index(0),
-        threshold(0)
+        threshold(0),
+        direction(true)
         {
         }
 
@@ -63,7 +65,7 @@ namespace adaboost
          Vector<data_type>* example_weights,
          data_type precision)
         {
-            data_type example_weight_sum, train_score;
+            data_type example_weight_sum, train_score = 0.0;
             unsigned feature_length = data->get_rows();
             unsigned& feature_index = this->classifier_information->feature_index;
             feature_index %= feature_length;
@@ -80,23 +82,32 @@ namespace adaboost
                 val = data->at(feature_index, idx);
                 thresholds[0] = val - (data_type) pow(10.0, -(precision + 1));
                 thresholds[1] = val + (data_type) pow(10.0, -(precision + 1));
-                for( int th = 0; th < 2; th++ )
+                bool directions[2] = {true, false};
+                for( unsigned th = 0; th < 2; th++ )
                 {
-                    data_type curr_threshold = this->classifier_information->threshold;
-                    this->classifier_information->threshold = thresholds[th];
-                    Vector<data_type>* result = this->predict(data);
-                    Vector<data_type>* equals = Vector<data_type>::create_Vector(result->get_size());
-                    is_equal<data_type, data_type>(classes, result, equals);
-                    data_type new_train_score;
-                    product(equals, example_weights, new_train_score);
-                    memory_manager->clear_object(equals);
-                    if( new_train_score > train_score )
+                    for( unsigned dir = 0; dir < 2; dir++ )
                     {
-                        train_score = new_train_score;
-                    }
-                    else
-                    {
-                        this->classifier_information->threshold = curr_threshold;
+                        data_type curr_threshold = this->classifier_information->threshold;
+                        bool curr_dir = this->classifier_information->direction;
+                        this->classifier_information->threshold = thresholds[th];
+                        this->classifier_information->direction = directions[th];
+                        Vector<data_type>* result = this->predict(data);
+                        Vector<data_type>* equals = Vector<data_type>::create_Vector(result->get_size());
+                        is_equal<data_type, data_type>(classes, result, equals);
+                        data_type new_train_score;
+                        product(equals, example_weights, new_train_score);
+                        memory_manager->clear_object(equals);
+                        if( new_train_score > train_score &&
+                            new_train_score < example_weight_sum &&
+                            new_train_score > example_weight_sum*0.5 )
+                        {
+                            train_score = new_train_score;
+                        }
+                        else
+                        {
+                            this->classifier_information->threshold = curr_threshold;
+                            this->classifier_information->direction = curr_dir;
+                        }
                     }
                 }
             }
@@ -112,7 +123,9 @@ namespace adaboost
             unsigned& feature_index = this->classifier_information->feature_index;
             feature_index %= feature_length;
 
-            return input->at(feature_index) > this->classifier_information->threshold;
+            return this->classifier_information->direction ?
+                   (input->at(feature_index) > this->classifier_information->threshold ? 1.0 : -1.0):
+                   (input->at(feature_index) < this->classifier_information->threshold ? 1.0 : -1.0);
         }
 
         template <class data_type>
@@ -127,9 +140,10 @@ namespace adaboost
 
             for(int idx = 0; idx < num_inputs; idx++ )
             {
-                result->set(idx, (data_type) (input->at(feature_index, idx) >
-                                             this->classifier_information->threshold));
-
+                data_type curr_pred = this->classifier_information->direction ?
+                                      (input->at(feature_index, idx) > this->classifier_information->threshold ? 1.0 : -1.0):
+                                      (input->at(feature_index, idx) < this->classifier_information->threshold ? 1.0 : -1.0);
+                result->set(idx, curr_pred);
             }
 
             return result;

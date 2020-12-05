@@ -24,6 +24,8 @@ namespace adaboost
             //! The threshold to be used for classification.
             data_type threshold;
 
+            bool direction;
+
             /*
             * Intialises the data attributes to default values.
             */
@@ -56,10 +58,6 @@ namespace adaboost
                 //! The properties of the current naive decision stump classifier.
                 BinaryNaiveDecisionStumpProperties<data_type>* classifier_information;
 
-                virtual Properties* get_classifier_information();
-
-                friend class BinaryDiscreteAdaBoost<data_type>;
-
             public:
 
                 static BinaryNaiveDecisionStump* create_BinaryNaiveDecisionStump
@@ -73,6 +71,8 @@ namespace adaboost
                 virtual data_type predict(Vector<data_type>* input);
 
                 virtual Vector<data_type>* predict(Matrix<data_type>* input);
+
+                virtual Properties* get_classifier_information();
 
                 /*
                 * Frees memory acquired by the current object.

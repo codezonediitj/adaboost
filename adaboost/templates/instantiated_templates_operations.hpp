@@ -1308,5 +1308,29 @@ template void is_equal(Vector<long double>*,Vector<long double>*,Vector<unsigned
 template void is_equal(Vector<long double>*,Vector<long double>*,Vector<float>*);
 template void is_equal(Vector<long double>*,Vector<long double>*,Vector<double>*);
 template void is_equal(Vector<long double>*,Vector<long double>*,Vector<long double>*);
+template void add(Vector<bool>* vec1, Vector<bool>* vec2, Vector<bool>* result);
+template void add(Vector<short>* vec1, Vector<short>* vec2, Vector<short>* result);
+template void add(Vector<unsigned short>* vec1, Vector<unsigned short>* vec2, Vector<unsigned short>* result);
+template void add(Vector<int>* vec1, Vector<int>* vec2, Vector<int>* result);
+template void add(Vector<unsigned int>* vec1, Vector<unsigned int>* vec2, Vector<unsigned int>* result);
+template void add(Vector<long>* vec1, Vector<long>* vec2, Vector<long>* result);
+template void add(Vector<unsigned long>* vec1, Vector<unsigned long>* vec2, Vector<unsigned long>* result);
+template void add(Vector<long long>* vec1, Vector<long long>* vec2, Vector<long long>* result);
+template void add(Vector<unsigned long long>* vec1, Vector<unsigned long long>* vec2, Vector<unsigned long long>* result);
+template void add(Vector<float>* vec1, Vector<float>* vec2, Vector<float>* result);
+template void add(Vector<double>* vec1, Vector<double>* vec2, Vector<double>* result);
+template void add(Vector<long double>* vec1, Vector<long double>* vec2, Vector<long double>* result);
+template void multiply(Vector<bool>* vec, bool scalar, Vector<bool>* result);
+template void multiply(Vector<short>* vec, short scalar, Vector<short>* result);
+template void multiply(Vector<unsigned short>* vec, unsigned short scalar, Vector<unsigned short>* result);
+template void multiply(Vector<int>* vec, int scalar, Vector<int>* result);
+template void multiply(Vector<unsigned int>* vec, unsigned int scalar, Vector<unsigned int>* result);
+template void multiply(Vector<long>* vec, long scalar, Vector<long>* result);
+template void multiply(Vector<unsigned long>* vec, unsigned long scalar, Vector<unsigned long>* result);
+template void multiply(Vector<long long>* vec, long long scalar, Vector<long long>* result);
+template void multiply(Vector<unsigned long long>* vec, unsigned long long scalar, Vector<unsigned long long>* result);
+template void multiply(Vector<float>* vec, float scalar, Vector<float>* result);
+template void multiply(Vector<double>* vec, double scalar, Vector<double>* result);
+template void multiply(Vector<long double>* vec, long double scalar, Vector<long double>* result);
 
 #endif

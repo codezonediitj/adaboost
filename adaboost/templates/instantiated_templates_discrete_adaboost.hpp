@@ -1,6 +1,8 @@
 #ifndef ADABOOST_TEMPLATES_INSTANTIATED_TEMPLATES_DISCRETE_ADABOOST_HPP
 #define ADABOOST_TEMPLATES_INSTANTIATED_TEMPLATES_DISCRETE_ADABOOST_HPP
 
+#include<adaboost/core/data_structures.hpp>
+
 template class BinaryDiscreteAdaBoost<bool>;
 template class BinaryDiscreteAdaBoost<short>;
 template class BinaryDiscreteAdaBoost<unsigned short>;

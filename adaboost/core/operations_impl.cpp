@@ -70,11 +70,39 @@ namespace adaboost
                      data_type_vector& result)
         {
             adaboost::utils::check(vec1->get_size() == vec2->get_size(),
-                                   "Size of vectors don't match.");
+                                   "Sizes of vectors don't match.");
             result = 0;
-            for(unsigned int i = 0; i < vec1->get_size(); i++)
+            for( unsigned i = 0; i < vec1->get_size(); i++ )
             {
                 result += (vec1->at(i)*vec2->at(i));
+            }
+        }
+
+        template <class data_type_vector>
+        void add(Vector<data_type_vector>* vec1,
+                 Vector<data_type_vector>* vec2,
+                 Vector<data_type_vector>* result)
+        {
+            adaboost::utils::check(vec1->get_size() == vec2->get_size(),
+                                   "Sizes of vectors don't match.");
+            adaboost::utils::check(vec1->get_size() == result->get_size(),
+                                   "Sizes of vectors don't match.");
+            for( unsigned i = 0; i < vec1->get_size(); i++ )
+            {
+                result->set(i, vec1->at(i) + vec2->at(i));
+            }
+        }
+
+        template <class data_type_vector>
+        void multiply(Vector<data_type_vector>* vec,
+                      data_type_vector scalar,
+                      Vector<data_type_vector>* result)
+        {
+            adaboost::utils::check(vec->get_size() == result->get_size(),
+                                   "Sizes of vectors don't match.");
+            for( unsigned i = 0; i < vec->get_size(); i++ )
+            {
+                result->set(i, vec->at(i) * scalar);
             }
         }
 
